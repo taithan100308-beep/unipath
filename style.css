@@ -262,7 +262,8 @@ header {
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.2rem;
+  margin-right: 60px; /* 🔧 dịch nguyên nhóm sang trái khoảng 60px */
 }
 
 .nav-right a {
@@ -280,7 +281,7 @@ header {
   background: rgba(255, 255, 255, 0.25);
   border: 1px solid white;
   color: white;
-  padding: 0.4rem 0.9rem;
+  padding: 0.4rem 0.8rem; /* 🔧 giảm chút để không tràn */
   border-radius: 1.2rem;
   cursor: pointer;
   font-size: 0.95rem;
