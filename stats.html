@@ -1,0 +1,34 @@
+<!-- 🌟 FILE MỚI: stats.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thống kê học tập - Study Time Manager</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="stats.js" defer></script>
+</head>
+<body class="test-body">
+  <nav class="navbar">
+    <div class="nav-left">
+      <h2 class="nav-logo">Study Time Manager</h2>
+    </div>
+    <div class="nav-right">
+      <a href="homepage.html">Trang chủ</a>
+      <a href="study.html">Quản lý thời gian</a>
+      <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+    </div>
+  </nav>
+
+  <div class="test-container">
+    <h1>📊 Thống kê thời gian học tập</h1>
+
+    <canvas id="barChart"></canvas>
+    <h2 style="margin-top:2rem;">🥧 Tỉ lệ giữa các môn</h2>
+    <canvas id="pieChart"></canvas>
+
+    <button onclick="window.location.href='study.html'" class="back-btn">⬅ Quay lại</button>
+  </div>
+</body>
+</html>
