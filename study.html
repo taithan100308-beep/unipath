@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý thời gian học - Study Time Manager</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="study.js" defer></script>
+</head>
+<body>
+  <nav class="navbar">
+  <div class="nav-left">
+    <h2 class="nav-logo">Study Time Manager</h2>
+  </div>
+  <div class="nav-right">
+    <a href="homepage.html">Trang chủ</a>
+    <a href="universities.html">Thông tin tuyển sinh</a>
+    <a href="documents.html">Công văn</a>
+    <a href="contact.html">Liên hệ</a>
+    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+  </div>
+</nav>
+  <div class="dashboard">
+    <header>
+      <div class="user-info">
+        <img id="userPhoto" class="avatar" alt="Ảnh đại diện">
+        <span id="userName"></span>
+      </div>
+      <button id="logoutBtn" class="logout-btn">Đăng xuất</button>
+    </header>
+
+    <main>
+      <h2>Theo dõi thời gian học</h2>
+      <div class="timer-container">
+        <h3 id="timerDisplay">0 giờ 0 phút 0 giây</h3>
+        <button id="startBtn" class="start-btn">Bắt đầu học</button>
+        <button id="stopBtn" class="stop-btn" disabled>Dừng học</button>
+      </div>
+
+      <h3>Thống kê giờ học trong tháng</h3>
+      <canvas id="studyChart"></canvas>
+    </main>
+  </div>
+</body>
+</html>

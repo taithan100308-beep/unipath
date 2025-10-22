@@ -1,0 +1,38 @@
+<!-- 🌟 HOMEPAGE MỚI - Study Time Manager -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trang chủ - Study Time Manager</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="home.js" defer></script>
+</head>
+<body class="homepage-body">
+  <nav class="navbar">
+  <div class="nav-left">
+    <h2 class="nav-logo">Study Time Manager</h2>
+  </div>
+  <div class="nav-right">
+    <a href="homepage.html">Trang chủ</a>
+    <a href="universities.html">Thông tin tuyển sinh</a>
+    <a href="documents.html">Công văn</a>
+    <a href="contact.html">Liên hệ</a>
+    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+  </div>
+</nav>
+  <div class="homepage-container">
+    <div class="user-profile">
+      <img id="userPhoto" alt="Ảnh đại diện" class="avatar-large" />
+      <h2 id="userName"></h2>
+      <p>Chào mừng bạn quay lại với Study Time Manager 🌟</p>
+    </div>
+
+    <div class="home-buttons">
+      <button id="toolBtn" class="home-btn blue">📚 Vào công cụ học tập</button>
+      <button id="uniBtn" class="home-btn green">🎓 Thông tin tuyển sinh</button>
+      <button id="logoutBtn" class="home-btn red">🚪 Đăng xuất</button>
+    </div>
+  </div>
+</body>
+</html>
