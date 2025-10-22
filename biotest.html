@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chọn bài kiểm tra sinh trắc học</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="uni-body">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <h2 class="nav-logo">Study Time Manager</h2>
+    </div>
+    <div class="nav-right">
+      <a href="homepage.html">Trang chủ</a>
+      <a href="universities.html">Tuyển sinh</a>
+      <a href="documents.html">Công văn</a>
+      <a href="contact.html">Liên hệ</a>
+      <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+    </div>
+  </nav>
+
+  <div class="uni-page">
+    <h1>🧬 Bài kiểm tra sinh trắc học</h1>
+    <p class="desc">Chọn bài test mà bạn muốn thực hiện để khám phá tính cách và định hướng nghề nghiệp của bạn.</p>
+
+    <div class="test-choice-grid">
+      <div class="test-card">
+        <h3>🎯 Holland Test (RIASEC)</h3>
+        <p>Khám phá 6 nhóm tính cách nghề nghiệp: Thực tế, Nghiên cứu, Nghệ thuật, Xã hội, Doanh nhân và Công vụ. 
+        Bài test giúp bạn hiểu rõ xu hướng nghề nghiệp phù hợp nhất với bản thân.</p>
+        <button onclick="window.location.href='holland-intro.html'" class="test-btn blue">Bắt đầu</button>
+      </div>
+
+      <div class="test-card">
+        <h3>🧠 MBTI Test</h3>
+        <p>Đo lường 4 nhóm tính cách chính để hiểu cách bạn tương tác, làm việc và ra quyết định. 
+        (Phần này đang được phát triển...)</p>
+        <button disabled class="test-btn gray">Sắp ra mắt</button>
+      </div>
+    </div>
+
+    <button onclick="window.location.href='homepage.html'" class="back-btn">⬅ Quay lại trang chủ</button>
+  </div>
+
+</body>
+</html>

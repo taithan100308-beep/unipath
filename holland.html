@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bài test Holland (RIASEC) - Study Time Manager</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="holland.js"></script>
+</head>
+<body class="test-body">
+
+  <!-- 🔹 Thanh điều hướng -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <h2 class="nav-logo">Study Time Manager</h2>
+    </div>
+    <div class="nav-right">
+      <a href="homepage.html">Trang chủ</a>
+      <a href="universities.html">Thông tin tuyển sinh</a>
+      <a href="documents.html">Công văn</a>
+      <a href="contact.html">Liên hệ</a>
+      <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+    </div>
+  </nav>
+
+  <!-- 🔹 Phần nội dung test -->
+  <div class="test-container">
+    <h1>🎯 Bài Test Sinh Trắc Học - Holland (RIASEC)</h1>
+    <p class="desc">Chọn <b>Đồng ý</b> nếu mô tả phù hợp với bạn, hoặc <b>Không đồng ý</b> nếu không đúng.</p>
+
+    <form id="hollandForm" class="test-form">
+      <!-- Các câu hỏi sẽ được thêm động bằng JavaScript -->
+    </form>
+
+    <div class="test-actions">
+      <button type="button" id="submitTest" class="test-btn blue">Hoàn thành bài test</button>
+      <button type="button" class="test-btn gray" onclick="window.location.href='homepage.html'">⬅ Quay lại trang chủ</button>
+    </div>
+  </div>
+
+</body>
+</html>
