@@ -21,26 +21,30 @@
     <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
   </div>
 </nav>
-  <div class="dashboard">
-    <header>
-      <div class="user-info">
-        <img id="userPhoto" class="avatar" alt="Ảnh đại diện">
-        <span id="userName"></span>
-      </div>
-      <button id="logoutBtn" class="logout-btn">Đăng xuất</button>
-    </header>
+<!-- 🌟 PHẦN MỚI TRONG study.html -->
+<div class="study-container">
+  <h1>⏱️ Quản lý thời gian học tập</h1>
 
-    <main>
-      <h2>Theo dõi thời gian học</h2>
-      <div class="timer-container">
-        <h3 id="timerDisplay">0 giờ 0 phút 0 giây</h3>
-        <button id="startBtn" class="start-btn">Bắt đầu học</button>
-        <button id="stopBtn" class="stop-btn" disabled>Dừng học</button>
-      </div>
-
-      <h3>Thống kê giờ học trong tháng</h3>
-      <canvas id="studyChart"></canvas>
-    </main>
+  <!-- Tạo mục học -->
+  <div class="task-create">
+    <input type="text" id="taskInput" placeholder="Nhập tên môn học hoặc công việc..." />
+    <button id="addTaskBtn">➕ Thêm mục học</button>
   </div>
+
+  <!-- Danh sách các mục học -->
+  <div id="taskList" class="task-list"></div>
+
+<div class="chart-section">
+    <h2>📊 Thống kê thời gian học trong tháng</h2>
+    <canvas id="barChart"></canvas>
+
+    <h2>🥧 Tỉ lệ thời gian giữa các mục học</h2>
+    <canvas id="pieChart"></canvas>
+  </div>
+</div>
+
+<!-- ✅ CHỈNH LẠI PHẦN SCRIPT NẰM NGOÀI CÁC <div> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module" src="study.js"></script>
 </body>
 </html>
