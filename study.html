@@ -22,6 +22,7 @@
   </div>
 </nav>
 <!-- 🌟 PHẦN MỚI TRONG study.html -->
+<!-- 🌟 study.html -->
 <div class="study-container">
   <h1>⏱️ Quản lý thời gian học tập</h1>
 
@@ -34,12 +35,13 @@
   <!-- Danh sách các mục học -->
   <div id="taskList" class="task-list"></div>
 
-<div class="chart-section">
-    <h2>📊 Thống kê thời gian học trong tháng</h2>
-    <canvas id="barChart"></canvas>
+  <!-- Tổng thời gian -->
+  <div class="total-time">
+    <h2>📅 Tổng thời gian đã học: <span id="totalTime">0 giờ 0 phút 0 giây</span></h2>
+  </div>
 
-    <h2>🥧 Tỉ lệ thời gian giữa các mục học</h2>
-    <canvas id="pieChart"></canvas>
+  <div class="view-stats">
+    <button onclick="window.location.href='stats.html'" class="test-btn blue">📊 Xem thống kê</button>
   </div>
 </div>
 
