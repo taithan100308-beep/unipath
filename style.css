@@ -298,3 +298,133 @@ header {
 body {
   padding-top: 70px; /* tuỳ chỉnh theo chiều cao navbar */
 }
+.test-body {
+  background: linear-gradient(135deg, #66a6ff, #89f7fe);
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding-top: 80px;
+}
+
+.test-container {
+  background: #fff;
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.test-container h1 {
+  text-align: center;
+  color: #004aad;
+}
+
+.test-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.question-card {
+  background: #f8fbff;
+  border-radius: 1rem;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.options {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.options label {
+  background: #eaf4ff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.options label:hover {
+  background: #cfe8ff;
+}
+
+.test-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.test-btn {
+  border: none;
+  border-radius: 2rem;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.test-btn.blue {
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+}
+
+.test-btn.gray {
+  background: #ccc;
+  color: #333;
+}
+
+.test-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+.home-btn.purple {
+  background: linear-gradient(90deg, #a18cd1, #fbc2eb);
+  color: white;
+}
+.test-choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.test-card {
+  background: #f8fbff;
+  border-radius: 1.2rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.test-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.test-card h3 {
+  color: #004aad;
+  margin-bottom: 0.6rem;
+}
+
+.test-card p {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.4rem;
+  margin-bottom: 1.2rem;
+}
+.intro-list {
+  background: #f0f8ff;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  list-style: none;
+  margin: 1rem 0 2rem;
+}
+
+.intro-list li {
+  margin-bottom: 0.6rem;
+  color: #333;
+}
