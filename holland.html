@@ -24,19 +24,40 @@
   </nav>
 
   <!-- 🔹 Phần nội dung test -->
-  <div class="test-container">
-    <h1>🎯 Bài Test Sinh Trắc Học - Holland (RIASEC)</h1>
-    <p class="desc">Chọn <b>Đồng ý</b> nếu mô tả phù hợp với bạn, hoặc <b>Không đồng ý</b> nếu không đúng.</p>
+ <div class="test-container">
+  <h1>🎯 Bài Test Sinh Trắc Học - Holland (RIASEC)</h1>
+  <p class="desc">
+    Chọn <b>Đồng ý</b> nếu mô tả phù hợp với bạn, hoặc <b>Không đồng ý</b> nếu không đúng.
+  </p>
 
-    <form id="hollandForm" class="test-form">
-      <!-- Các câu hỏi sẽ được thêm động bằng JavaScript -->
-    </form>
+  <!-- 🔹 Form làm bài test -->
+  <form id="hollandForm" class="test-form">
+    <!-- Các câu hỏi sẽ được thêm động bằng JavaScript -->
 
+    <!-- 🔹 Nút hành động -->
     <div class="test-actions">
-      <button type="button" id="submitTest" class="test-btn blue">Hoàn thành bài test</button>
-      <button type="button" class="test-btn gray" onclick="window.location.href='homepage.html'">⬅ Quay lại trang chủ</button>
+      <button type="submit" class="test-btn blue">Hoàn thành bài test</button>
+      <button type="button" class="test-btn gray"
+        onclick="window.location.href='homepage.html'">⬅ Quay lại trang chủ</button>
+    </div>
+  </form>
+
+  <!-- 📊 Phần kết quả hiển thị sau khi nộp -->
+  <div id="resultSection" style="display:none; margin-top:2rem;">
+    <h2 style="text-align:center;">
+      Kết quả của bạn:
+      <span id="typeCode" style="color:#004aad;"></span>
+    </h2>
+    <ul id="details" style="margin-top:1.5rem;"></ul>
+
+    <h3 style="margin-top:2rem;">🔎 Gợi ý nhóm ngành phù hợp:</h3>
+    <p id="suggestion" style="color:#004aad;font-weight:500;"></p>
+
+    <div style="text-align:center;margin-top:2rem;">
+      <button id="redoBtn" class="back-btn" onclick="location.reload()">🔁 Làm lại bài test</button>
     </div>
   </div>
+</div>
 
 </body>
 </html>
