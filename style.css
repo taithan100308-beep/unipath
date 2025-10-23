@@ -514,3 +514,10 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
   justify-content: center;
   margin-top: 1.5rem;
 }
+
+#resultSection {
+  background: #f8fbff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
