@@ -4,14 +4,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trang chủ - Study Time Manager</title>
+  <title>Trang chủ - Unipath</title>
   <link rel="stylesheet" href="style.css" />
   <script type="module" src="home.js" defer></script>
 </head>
 <body class="homepage-body">
-  <nav class="navbar">
+<nav class="navbar">
   <div class="nav-left">
-    <h2 class="nav-logo">Study Time Manager</h2>
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">Unipath</h2>
   </div>
   <div class="nav-right">
     <a href="homepage.html">Trang chủ</a>
@@ -21,19 +22,173 @@
     <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
   </div>
 </nav>
-  <div class="homepage-container">
-    <div class="user-profile">
-      <img id="userPhoto" alt="Ảnh đại diện" class="avatar-large" />
-      <h2 id="userName"></h2>
-      <p>Chào mừng bạn quay lại với Study Time Manager 🌟</p>
-    </div>
+<div class="hero-image">
+  <img src="background.jpg" alt="Background" class="hero-img">
+</div>
+
+<div class="loading-container">
+  <img src="loading.png" alt="Loading" class="loading-img">
+</div>
+
+<div class="homepage-container">
+  <div class="user-profile">
+    <img id="userPhoto" alt="Ảnh đại diện" class="avatar-large" />
+    <h2 id="userName"></h2>
+    <p>Chào mừng bạn quay lại với UNIPATH 🌟</p>
+  </div>
 
     <div class="home-buttons">
       <button id="toolBtn" class="home-btn blue">📚 Vào công cụ học tập</button>
       <button id="uniBtn" class="home-btn green">🎓 Thông tin tuyển sinh</button>
       <button onclick="window.location.href='biotest.html'" class="home-btn purple">🧬 Bài kiểm tra sinh trắc học</button>
-      <button id="logoutBtn" class="home-btn red">🚪 Đăng xuất</button>
+    </div>
+</div>
+
+<div class="loading-container">
+  <img src="loading.png" alt="Loading" class="loading-img">
+</div>
+
+<div id="stats-section" class="stats-section">
+  <h2>NHỮNG CON SỐ THỐNG KÊ</h2>
+  <div class="stats-grid">
+    <div class="stat-box">
+      <h3 id="student-count">0</h3>
+      <p>Số lượng người đã truy cập</p>
+    </div>
+    <div class="stat-box">
+      <h3 id="postgraduate-count">0</h3>
+      <p>Số lượng người đã truy cập trong tháng</p>
+    </div>
+    <div class="stat-box">
+      <h3 id="professor-count">0</h3>
+      <p>Số lượng người đang truy cập</p>
     </div>
   </div>
+</div>
+
+<div id="ai-chat-box" class="chat-box">
+  <div class="chat-header" id="toggle-chat">
+    <h3>AI Assistant</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" class="chat-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </div>
+
+  <div id="chat-content" class="chat-content">
+    <!-- Chat messages will appear here -->
+  </div>
+
+  <div id="chat-input" class="chat-input">
+    <form id="chat-form" class="chat-form">
+      <input type="text" id="user-input" class="chat-text" placeholder="Type your message...">
+      <button type="submit" class="chat-send">Send</button>
+    </form>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-container">
+    <!-- Logo và thông tin -->
+    <div class="footer-content">
+      <!-- Cột 1: Logo và liên hệ -->
+      <div class="footer-column">
+        <div class="footer-header">
+          <div class="footer-logo-group">
+            <div class="footer-logo">
+              <img src="logo.png" alt="Logo">
+            </div>
+            <div class="footer-title">Unipath</div>
+          </div>
+          <p class="footer-slogan">
+            Đổi mới sáng tạo, nâng cao chất lượng, đoàn kết kỳ cương
+          </p>
+        </div>
+
+        <div class="footer-info">
+          <p>THPT chuyên Lý Tự Trọng - Phường Hưng Thạnh, Quận Cái Răng, TP. Cần Thơ</p>
+          <p>Điện thoại: 0292.3821.428</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+
+const toggleChat = document.getElementById('toggle-chat');
+const chatContent = document.getElementById('chat-content');
+const chatInput = document.getElementById('chat-input');
+
+// Mặc định hiển thị
+chatContent.style.display = 'block';
+chatInput.style.display = 'flex';
+
+toggleChat.addEventListener('click', () => {
+  const isVisible = chatContent.style.display !== 'none';
+  chatContent.style.display = isVisible ? 'none' : 'block';
+  chatInput.style.display = isVisible ? 'none' : 'flex';
+});
+
+// ✅ Hàm thêm tin nhắn
+function appendMessage(sender, text) {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = sender === 'user' ? 'chat-message user' : 'chat-message ai';
+  messageDiv.innerHTML = `<span>${text}</span>`;
+  chatContent.appendChild(messageDiv);
+  chatContent.scrollTop = chatContent.scrollHeight;
+}
+
+// ✅ Hàm thêm lựa chọn
+function appendOption(text, response) {
+  const button = document.createElement('button');
+  button.className = 'chat-option';
+  button.textContent = text;
+  button.onclick = () => {
+    appendMessage('user', text);
+    appendMessage('ai', response);
+  };
+  chatContent.appendChild(button);
+}
+
+// ✅ Tự động chào và thêm lựa chọn
+window.onload = function () {
+  appendMessage('ai', 'Chào! Chúng tôi có thể giúp gì cho bạn?');
+  appendOption('Chúng tôi là ai?', 'Chúng tôi là một tổ chức giáo dục.');
+  appendOption('Vì sao chúng tôi lại ở đây?', 'Chúng tôi ở đây để hỗ trợ bạn.');
+};
+
+      function animateNumber(elementId, targetNumber) {
+        let currentNumber = 0;
+        const increment = Math.ceil(targetNumber / 100); // Adjust increment for speed
+        const element = document.getElementById(elementId);
+
+        const interval = setInterval(() => {
+            currentNumber += increment;
+            if (currentNumber >= targetNumber) {
+                currentNumber = targetNumber; // Ensure it doesn't exceed the target
+                clearInterval(interval);
+            }
+            element.textContent = currentNumber;
+        }, 35); // Adjust the interval for speed
+    }
+
+    // Intersection Observer to trigger animation
+    const statsSection = document.getElementById('stats-section');
+    let hasAnimated = false;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !hasAnimated) {
+                hasAnimated = true; // Prevent multiple animations
+                animateNumber('student-count', 102);
+                animateNumber('postgraduate-count', 70);
+                animateNumber('professor-count', 4);
+            }
+        });
+    }, { threshold: 0.1 }); // Trigger when 10% of the section is visible
+
+    observer.observe(statsSection);
+</script>
+
 </body>
 </html>
