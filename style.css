@@ -1,11 +1,9 @@
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #89f7fe, #66a6ff);
-  height: 100vh;
+  background: #ffffff; /* ✅ nền trắng */
+  height: auto;
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  color: #000;          /* chữ đen cho dễ đọc */
 }
 
 .login-container, .dashboard {
@@ -85,23 +83,9 @@ header {
 
 /* 🌟 STYLE MỚI CHO HOMEPAGE */
 .homepage-body {
-  background: linear-gradient(135deg, #66a6ff, #89f7fe);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  background: #ffffff; /* ✅ nền trắng */
   margin: 0;
-}
-
-.homepage-container {
-  background: #ffffff;
-  border-radius: 1.5rem;
-  padding: 2.5rem;
-  text-align: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  width: 90%;
-  max-width: 420px;
-  animation: fadeIn 0.6s ease;
+  padding: 0;
 }
 
 .user-profile {
@@ -133,13 +117,7 @@ header {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.home-btn.blue {
-  background: linear-gradient(90deg, #4facfe, #00f2fe);
-}
 
-.home-btn.red {
-  background: linear-gradient(90deg, #ff5858, #fb5895);
-}
 
 .home-btn:hover {
   transform: scale(1.05);
@@ -152,7 +130,7 @@ header {
 }
 /* 🌟 STYLE MỚI: TRANG THÔNG TIN TUYỂN SINH */
 .uni-body {
-  background: linear-gradient(135deg, #66a6ff, #89f7fe);
+  background: #ffffff; /* ✅ nền trắng */
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 2rem;
@@ -232,23 +210,19 @@ header {
   transform: scale(1.05);
 }
 
-/* Giữ lại nút màu xanh lá ở homepage */
-.home-btn.green {
-  background: linear-gradient(90deg, #00c851, #33b5e5);
-}
 
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background: linear-gradient(90deg, #4facfe, #00f2fe);
-  color: white;
+  background: #e0e0e0; /* ✅ nền xám nhạt */
+  color: #000;          /* ✅ chữ đen */
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.8rem 1.5rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 100;
 }
 
@@ -257,31 +231,32 @@ header {
   font-size: 1.3rem;
   font-weight: 600;
   letter-spacing: 0.5px;
+  color: #000; /* chữ đen */
 }
 
 .nav-right {
   display: flex;
   align-items: center;
   gap: 1.2rem;
-  margin-right: 60px; /* 🔧 dịch nguyên nhóm sang trái khoảng 60px */
+  margin-right: 60px;
 }
 
 .nav-right a {
-  color: white;
+  color: #000; /* ✅ chữ đen */
   text-decoration: none;
   font-weight: 500;
-  transition: opacity 0.2s;
+  transition: color 0.2s;
 }
 
 .nav-right a:hover {
-  opacity: 0.8;
+  color: #333; /* hover hơi đậm hơn */
 }
 
 .logout-btn {
-  background: rgba(255, 255, 255, 0.25);
-  border: 1px solid white;
-  color: white;
-  padding: 0.4rem 0.8rem; /* 🔧 giảm chút để không tràn */
+  background: #ccc;       /* ✅ nền xám trung bình */
+  border: 1px solid #999;
+  color: #000;            /* chữ đen */
+  padding: 0.4rem 0.8rem;
   border-radius: 1.2rem;
   cursor: pointer;
   font-size: 0.95rem;
@@ -290,8 +265,8 @@ header {
 }
 
 .logout-btn:hover {
-  background: white;
-  color: #007aff;
+  background: #bbb; /* hover đậm hơn chút */
+  color: #000;
 }
 
 /* Để nội dung bên dưới không bị navbar che */
@@ -299,7 +274,7 @@ body {
   padding-top: 70px; /* tuỳ chỉnh theo chiều cao navbar */
 }
 .test-body {
-  background: linear-gradient(135deg, #66a6ff, #89f7fe);
+  background: #ffffff; /* ✅ nền trắng */
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding-top: 80px;
@@ -381,10 +356,7 @@ body {
   transform: scale(1.05);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
-.home-btn.purple {
-  background: linear-gradient(90deg, #a18cd1, #fbc2eb);
-  color: white;
-}
+
 .test-choice-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -520,4 +492,378 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
   padding: 1.5rem;
   border-radius: 1rem;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* NAV LEFT and logo */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* khoảng cách giữa logo và chữ */
+}
+
+/* Ảnh logo trong navbar (thu nhỏ từ 500x500) */
+.logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-top: -8px;   /* đẩy logo lên nhẹ */
+  margin-bottom: -8px;/* và xuống nhẹ để bù */
+  transition: transform 0.18s ease;
+}
+
+/* hover nhẹ để giao diện sinh động */
+.logo:hover {
+  transform: scale(1.08);
+}
+
+/* ==== Giữ layout trung tâm đẹp ==== */
+
+.homepage-container .home-btn {
+  margin: 8px;
+}
+
+/* ==== Hero image full screen ==== */
+.hero-image {
+  width: 100%;
+  height: calc(100vh - 70px); /* trừ chiều cao navbar để sát nav */
+  overflow: hidden;           /* ẩn phần thừa nếu ảnh lớn hơn khung */
+  margin: 0;
+  padding: 0;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;           /* cho ảnh tràn kín màn hình */
+  display: block;              /* bỏ khoảng trắng dưới ảnh */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* === Ảnh trang trí ngay dưới nav === */
+.hero-image {
+  width: 100%;
+  height: calc(100vh - 70px); /* trừ chiều cao thanh nav */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* === Nội dung chính dưới ảnh === */
+.homepage-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 40px auto 60px auto; /* căn giữa ngang và cách trên dưới */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* căn giữa mọi thứ */
+}
+
+/* Ảnh đại diện và tên người dùng */
+.user-profile {
+  text-align: center;
+}
+
+/* === Các nút chức năng === */
+.home-buttons {
+  display: flex;
+  flex-direction: column; /* xếp dọc */
+  align-items: center;    /* căn giữa ngang */
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.home-btn {
+  width: 250px;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Body chỉ căn giữa ở trang login */
+.login-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.home-btn {
+  background: #e0e0e0;
+  color: #000;
+  border: 1px solid #ccc;
+}
+
+.home-btn:hover {
+  background: #d5d5d5;
+}
+
+/* ==== FOOTER ==== */
+.footer {
+  background-color: #14295E; /* màu xanh đậm */
+  color: white;
+  padding: 50px 0;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: center;
+}
+
+.footer-column {
+  flex: 1;
+  text-align: center;
+}
+
+.footer-logo-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.footer-logo img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.footer-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.footer-slogan {
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.footer-info {
+  margin-top: 25px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.footer-info p {
+  margin-bottom: 8px;
+}
+
+/* ==== STATS SECTION ==== */
+.stats-section {
+  background-color: #f3f3f3;
+  text-align: center;
+  padding: 30px 0; /* giảm padding tổng thể */
+  font-family: 'Poppins', sans-serif;
+}
+
+.stats-section h2 {
+  font-size: 20px; /* nhỏ hơn nhẹ */
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px; /* giảm khoảng cách giữa các box */
+  flex-wrap: wrap;
+}
+
+.stat-box {
+  text-align: center;
+  min-width: 150px; /* nhỏ gọn hơn */
+}
+
+.stat-box h3 {
+  font-size: 22px; /* giảm từ 28 → 22 */
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+.stat-box p {
+  font-size: 14px; /* nhỏ gọn */
+  color: #555;
+}
+
+/* ==== LOADING SECTION ==== */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+  margin-top: 0;
+}
+
+.loading-img {
+  width: 100%;        /* tràn toàn chiều ngang */
+  max-width: 1200px;  /* giới hạn tối đa cho màn hình lớn */
+  height: 220px;      /* tăng chiều cao banner */
+  object-fit: contain; /* giữ tỉ lệ gốc, không bị méo */
+}
+
+/* ==== AI CHAT BOX ==== */
+.chat-box {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 360px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 200;
+  font-family: 'Poppins', sans-serif;
+}
+
+.chat-header {
+  background-color: #000;
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.chat-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.chat-arrow {
+  width: 24px;
+  height: 24px;
+  stroke: white;
+}
+
+.chat-content {
+  height: 320px;
+  overflow-y: auto;
+  padding: 16px;
+  background: #fafafa;
+}
+
+.chat-input {
+  border-top: 1px solid #ddd;
+  padding: 12px;
+  background: #fff;
+}
+
+.chat-form {
+  display: flex;
+}
+
+.chat-text {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px 0 0 8px;
+  outline: none;
+  font-size: 14px;
+}
+
+.chat-text:focus {
+  border-color: #7e57c2;
+  box-shadow: 0 0 4px rgba(126, 87, 194, 0.3);
+}
+
+.chat-send {
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.chat-send:hover {
+  background-color: #333;
+}
+
+/* ==== Chat Messages ==== */
+.chat-message {
+  margin-bottom: 8px;
+  display: flex;
+}
+
+.chat-message span {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 10px;
+  max-width: 80%;
+  word-wrap: break-word;
+  line-height: 1.4;
+  font-size: 14px;
+}
+
+/* Tin nhắn của AI */
+.chat-message.ai {
+  justify-content: flex-start;
+}
+
+.chat-message.ai span {
+  background-color: #e5e7eb; /* xám nhạt */
+  color: #333;
+}
+
+/* Tin nhắn của người dùng */
+.chat-message.user {
+  justify-content: flex-end;
+}
+
+.chat-message.user span {
+  background-color: #d0e3ff; /* xanh nhạt */
+  color: #004aad;
+}
+
+/* ==== Chat Options (nút chọn nhanh) ==== */
+.chat-option {
+  display: block;
+  margin-left: auto;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background-color: #f3f3f3;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: background 0.2s ease;
+}
+
+.chat-option:hover {
+  background-color: #e6e6e6;
 }
