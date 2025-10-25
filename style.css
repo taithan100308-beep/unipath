@@ -867,3 +867,204 @@ body {
 .chat-option:hover {
   background-color: #e6e6e6;
 }
+
+/* Lưới chia 2 cột */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;            /* tương đương gap-8 */
+  padding: 0 2rem;      /* px-8 */
+  margin-bottom: 2rem;  /* mb-8 */
+}
+
+/* Thẻ tin tức */
+.news-item {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.news-item:hover {
+  transform: translateY(-4px);
+}
+
+/* Hình ảnh */
+.news-image {
+  width: 100%;
+  height: 16rem; /* tương đương h-64 */
+  object-fit: cover;
+}
+
+/* Nội dung bài */
+.news-content {
+  padding: 1rem;
+}
+
+/* Tiêu đề */
+.news-title {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.news-title a {
+  color: #2563eb; /* text-blue-600 */
+  text-decoration: none;
+}
+
+.news-title a:hover {
+  text-decoration: underline;
+}
+
+/* Đoạn mô tả */
+.news-desc {
+  color: #4b5563; /* text-gray-600 */
+  margin-bottom: 1rem;
+}
+
+/* Link "Xem thêm" */
+.news-link {
+  color: #3b82f6; /* text-blue-500 */
+  text-decoration: none;
+}
+
+.news-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 768px) {
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.news-header {
+  display: flex;             /* giống flex */
+  align-items: center;       /* giống items-center */
+  margin-bottom: 2.25rem;    /* tương đương mb-9 */
+}
+
+.news-icon {
+  margin-left: 2.25rem;      /* ml-9 */
+  width: 1.5rem;             /* w-6 (24px) */
+}
+
+.news-title {
+  margin-left: 0.5rem;       /* ml-2 */
+  font-weight: 800;          /* font-extrabold */
+  font-size: 1.875rem;       /* text-3xl ≈ 30px */
+  font-family: "Times New Roman", Times, serif;
+}
+
+.contact-section {
+  padding: 60px 10%;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 40px;
+}
+
+/* Container 3 cột */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* Card thành viên */
+.member-card {
+  background-color: #f0f0f0; /* màu xám nhạt cho thẻ */
+  border-radius: 15px;
+  padding: 30px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.member-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Avatar */
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 20px;
+  object-fit: cover;
+}
+
+/* Tên và vai trò */
+.member-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.member-card h4 {
+  font-size: 0.95rem;
+  color: #4f46e5; /* tím xanh */
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Mô tả */
+.member-card p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* Nhóm thẻ kỹ năng */
+.tag-list {
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tag-list span {
+  background-color: white;
+  color: #4f46e5;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid #ddd;
+}
+
+/* Liên hệ */
+.contact-info {
+  border-top: 1px solid #ddd;
+  margin-top: 20px;
+  padding-top: 15px;
+  font-size: 0.9rem;
+}
+
+.contact-info p {
+  margin: 5px 0;
+  color: #333;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .card-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .card-container {
+    grid-template-columns: 1fr;
+  }
+}
