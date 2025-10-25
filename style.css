@@ -485,6 +485,7 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .view-stats {
   display: flex;
   justify-content: center;
+  gap: 1.5rem; /* ✅ tạo khoảng cách giữa 2 nút */
   margin-top: 1.5rem;
 }
 
@@ -1293,3 +1294,4 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
