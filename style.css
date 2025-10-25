@@ -720,14 +720,14 @@ body {
 .loading-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   margin-top: 0;
 }
 
 .loading-img {
   width: 100%;        /* tràn toàn chiều ngang */
-  max-width: 1200px;  /* giới hạn tối đa cho màn hình lớn */
-  height: 220px;      /* tăng chiều cao banner */
+  max-width: 1400px;  /* giới hạn tối đa cho màn hình lớn */
+  height: 300px;      /* tăng chiều cao banner */
   object-fit: contain; /* giữ tỉ lệ gốc, không bị méo */
 }
 
@@ -1067,4 +1067,211 @@ body {
   .card-container {
     grid-template-columns: 1fr;
   }
+}
+
+.converter-page {
+  background-color: #f8f9ff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px; /* để không bị navbar che */
+}
+
+.converter-box {
+  background: white;
+  width: 480px;
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.converter-box h1 {
+  color: #4c5fd7;
+  margin-bottom: 25px;
+  font-size: 26px;
+}
+
+.converter-box select,
+.converter-box input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.converter-box select:focus,
+.converter-box input:focus {
+  border-color: #4c5fd7;
+}
+
+.converter-box button {
+  width: 100%;
+  background-color: #4c5fd7;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.converter-box button:hover {
+  background-color: #3a4bc0;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #4c5fd7;
+}
+
+/* =============== 🧮 QUY ĐỔI V-SAT & V-ACT PAGE =============== */
+.converter-page.two-columns {
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  padding-top: 120px;
+  flex-wrap: wrap;
+}
+
+.converter-box {
+  background: white;
+  width: 420px;
+  padding: 35px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.converter-box h1 {
+  color: #4c5fd7;
+  font-size: 24px;
+  margin-bottom: 25px;
+}
+
+.converter-box select,
+.converter-box input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  font-size: 16px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.converter-box select:focus,
+.converter-box input:focus {
+  border-color: #4c5fd7;
+}
+
+.converter-box button {
+  width: 100%;
+  background-color: #4c5fd7;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.converter-box button:hover {
+  background-color: #3a4bc0;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #4c5fd7;
+}
+
+/* ====== EXAM INFO BLOCK STYLES ====== */
+.exam-info {
+  width: 100%;
+  background: #fff; /* nền trắng như bạn muốn */
+  padding: 36px 0;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #eef2ff;
+}
+
+.exam-info-inner {
+  max-width: 1000px;
+  padding: 0 24px;
+}
+
+.exam-info h2 {
+  color: #12307a;
+  margin-bottom: 12px;
+  font-size: 22px;
+}
+
+.exam-info .intro {
+  color: #333;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+
+.grid-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-bottom: 18px;
+}
+
+.exam-info h3 {
+  color: #2f4ac8;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.exam-info ul {
+  margin-left: 18px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.exam-info .small {
+  font-size: 13px;
+  color: #666;
+}
+
+.exam-info p {
+  color: #333;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .grid-two { grid-template-columns: 1fr; }
+  .exam-info-inner { padding: 0 12px; }
+}
+
+.converter-section {
+  padding: 40px 60px;
+  background-color: #fff;
+}
+
+.converter-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: #1e3a8a;
+  text-align: left;
+  margin-top: 60px; /* 👈 cho chữ thấp xuống */
+  margin-bottom: 20px;
+  font-family: 'Segoe UI', sans-serif;
 }
