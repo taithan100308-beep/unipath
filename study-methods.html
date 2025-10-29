@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phương pháp học tập - Unipath</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding-top: 80px;
+    }
+
+    .method-container {
+      max-width: 1100px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: #004aad;
+      margin-bottom: 1rem;
+    }
+
+    .intro-text {
+      text-align: center;
+      color: #555;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    /* 🌟 CHIA 2 CỘT */
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .method-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .method-section {
+      background: #f8fbff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .method-section h2 {
+      color: #1e3a8a;
+      margin-bottom: 0.5rem;
+    }
+
+    .method-section p {
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    }
+
+    .btn-gray {
+      background: #e0e0e0;
+      color: #000;
+    }
+
+    .btn-blue {
+      background: linear-gradient(90deg, #4facfe, #00f2fe);
+      color: #fff;
+    }
+
+    .center {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">Unipath</h2>
+  </div>
+  <div class="nav-right">
+    <a href="homepage.html">Trang chủ</a>
+    <a href="documents.html">Văn bản</a>
+    <a href="contact.html">Liên hệ</a>
+    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+  </div>
+</nav>
+
+  <div class="method-container">
+    <h1>📘 Các phương pháp học tập hiệu quả</h1>
+    <p class="intro-text">Khám phá những phương pháp giúp bạn tối ưu thời gian và ghi nhớ kiến thức lâu dài hơn.</p>
+
+    <!-- 🌟 CHIA 2 CỘT -->
+    <div class="method-grid">
+      <div class="method-section">
+        <h2>⏰ Time Blocking (Chia khung thời gian học)</h2>
+        <p>Phương pháp chia ngày học thành các khối thời gian rõ ràng, giúp tăng tập trung và giảm trì hoãn. Dựa trên nghiên cứu của Stanford University và lý thuyết “Deep Work” của Cal Newport.</p>
+        <div class="center">
+          <button class="btn btn-blue" onclick="window.location.href='study.html'">🎴 Vào công cụ Time-blocking</button>
+          <button class="btn btn-blue" onclick="window.location.href='time-blocking.html'">📖 Xem chi tiết</button>
+        </div>
+      </div>
+
+      <div class="method-section">
+        <h2>🎴 Flashcard (Thẻ ghi nhớ thông minh)</h2>
+        <p>Phương pháp học dựa trên hiệu ứng kiểm tra lại (testing effect) và hồi tưởng chủ động, giúp tăng khả năng ghi nhớ dài hạn.</p>
+        <div class="center">
+          <button class="btn btn-blue" onclick="window.location.href='flashcard.html'">🎴 Vào công cụ Flashcard</button>
+          <button class="btn btn-blue" onclick="window.location.href='flashcard-method.html'">📖 Xem chi tiết</button>
+        </div>
+      </div>
+
+      <div class="method-section">
+        <h2>🧠 Spaced Repetition (Lặp lại ngắt quãng)</h2>
+        <p>Dựa trên hiệu ứng quên của Ebbinghaus, giúp bạn ghi nhớ thông tin lâu hơn bằng cách ôn tập theo chu kỳ hợp lý.</p>
+        <div class="center">
+          <button class="btn btn-gray">🚧 Đang phát triển</button>
+          <button class="btn btn-blue" onclick="window.location.href='spaced-repetion-method.html'">📖 Xem chi tiết</button>
+        </div>
+      </div>
+
+      <div class="method-section">
+        <h2>🔍 Phương pháp Feynman</h2>
+        <p>Kỹ thuật “học bằng cách giảng dạy” – giúp hiểu sâu bản chất vấn đề bằng cách diễn giải lại bằng ngôn ngữ của chính bạn.</p>
+        <div class="center">
+          <button class="btn btn-gray">🚧 Đang phát triển</button>
+          <button class="btn btn-blue" onclick="window.location.href='feynman-method.html'">📖 Xem chi tiết</button>
+        </div>
+      </div>
+
+      <div class="method-section">
+        <h2>💡 Active Recall (Hồi tưởng chủ động)</h2>
+        <p>Phương pháp dựa trên hoạt động kích hoạt trí nhớ, giúp não củng cố thông tin bằng cách tự tìm lại thay vì đọc lại thụ động.</p>
+        <div class="center">
+          <button class="btn btn-gray">🚧 Đang phát triển</button>
+          <button class="btn btn-blue" onclick="window.location.href='active-recall.html'">📖 Xem chi tiết</button>
+        </div>
+      </div>
+
+      <div class="method-section">
+        <h2>🍅 Pomodoro (Quả cà chua tập trung)</h2>
+        <p>Kỹ thuật quản lý thời gian nổi tiếng do Francesco Cirillo phát minh, giúp bạn duy trì năng lượng qua chu kỳ 25 phút tập trung + 5 phút nghỉ.</p>
+        <div class="center">
+          <button class="btn btn-gray">🚧 Đang phát triển</button>
+          <button class="btn btn-blue" onclick="window.location.href='pomodoro.html'">📖 Xem chi tiết</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

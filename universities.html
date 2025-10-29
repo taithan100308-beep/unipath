@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thông tin tuyển sinh - Unipath</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* 🌟 TAB STYLING */
+    .tab-buttons {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      gap: 10px;
+    }
+
+    .tab-btn {
+      background: #e0e0e0;
+      border: 1px solid #ccc;
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: #4facfe;
+      color: white;
+      border-color: #4facfe;
+    }
+
+    .tab-btn:hover {
+      background: #d5d5d5;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body class="uni-body">
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">UNIPATH</h2>
+  </div>
+
+  <div class="nav-right">
+    <a href="homepage.html">Trang chủ</a>
+
+    <!-- 🔹 Dropdown Tuyển sinh -->
+<div class="dropdown">
+  <a href="#" class="dropbtn">Tuyển sinh ▾</a>
+  <div class="dropdown-content">
+    <a href="universities.html">Thông tin tuyển sinh</a>
+    <a href="converter.html">Quy đổi điểm</a>
+    <a href="ctu-cutoff.html">Tra cứu điểm</a>
+  </div>
+</div>
+
+    <a href="biotest.html">Sinh trắc học</a>
+    <a href="study-methods.html">Phương pháp học</a>
+    <a href="documents.html">Văn bản</a>
+    <a href="contact.html">Liên hệ</a>
+    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+  </div>
+</nav>
+
+
+  <div class="uni-page">
+    <h1>🎓 Thông tin tuyển sinh các trường đại học</h1>
+    <p class="desc">Chọn khu vực để xem danh sách các trường đại học và liên kết tuyển sinh.</p>
+
+    <!-- 🌟 Nút chọn khu vực -->
+    <div class="tab-buttons">
+      <button class="tab-btn active" data-tab="ct">Khu vực Cần Thơ</button>
+      <button class="tab-btn" data-tab="hcm">Khu vực TP.HCM</button>
+    </div>
+
+    <!-- 📍 KHU VỰC CẦN THƠ -->
+    <div id="ct" class="tab-content active">
+      <table class="uni-table">
+        <thead>
+          <tr>
+            <th>Tên trường</th>
+            <th>Liên kết</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Đại học Cần Thơ (CTU)</td>
+            <td>
+              <a href="https://www.ctu.edu.vn" target="_blank">Website</a> |
+              <a href="https://tuyensinh.ctu.edu.vn" target="_blank">Tuyển sinh</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Đại học Y Dược Cần Thơ (CTUMP)</td>
+            <td>
+              <a href="https://www.ctump.edu.vn" target="_blank">Website</a> |
+              <a href="https://tuyensinh.ctump.edu.vn/tuyen-sinh-dai-hoc_portal_25.html" target="_blank">Tuyển sinh</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Đại học Kỹ thuật – Công nghệ Cần Thơ (CTUET)</td>
+            <td>
+              <a href="https://www.ctuet.edu.vn" target="_blank">Website</a> |
+              <a href="https://drive.google.com/file/d/14InjmVxBryAk63tV9LGHw-rMr76wUJAj/view" target="_blank">Tuyển sinh</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Đại học Tây Đô (TDU)</td>
+            <td>
+              <a href="https://www.tdu.edu.vn" target="_blank">Website</a> |
+              <a href="https://ts.tdu.edu.vn/tuyen-sinh/" target="_blank">Tuyển sinh</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Đại học Nam Cần Thơ (NCTU)</td>
+            <td>
+              <a href="https://www.nctu.edu.vn" target="_blank">Website</a> |
+              <a href="https://www.nctu.edu.vn/tuyensinh-daihoc" target="_blank">Tuyển sinh</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Đại học FPT – Phân hiệu Cần Thơ</td>
+            <td>
+              <a href="https://cantho.fpt.edu.vn" target="_blank">Website</a> |
+              <a href="https://daihoc.fpt.edu.vn/tuyen-sinh/" target="_blank">Tuyển sinh</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Đại học Kiến trúc TP.HCM – Cơ sở Cần Thơ</td>
+            <td>
+              <a href="https://uah.edu.vn" target="_blank">Website</a> |
+              <a href="https://drive.google.com/drive/u/0/folders/1fM-6iiwjVNm2CQOQjbQEip6MBFdPg2pK" target="_blank">Tuyển sinh</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Đại học Greenwich Việt Nam – Cơ sở Cần Thơ</td>
+            <td>
+              <a href="https://greenwich.edu.vn" target="_blank">Website</a> |
+              <a href="https://greenwich.edu.vn/thong-bao-tuyen-sinh/" target="_blank">Tuyển sinh</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 📍 KHU VỰC TP.HCM -->
+    <div id="hcm" class="tab-content">
+      <table class="uni-table">
+        <thead>
+          <tr>
+            <th>Tên trường</th>
+            <th>Liên kết</th>
+          </tr>
+        </thead>
+<tbody>
+  <tr>
+    <td>Đại học Bách Khoa TP.HCM (HCMUT)</td>
+    <td>
+      <a href="https://www.hcmut.edu.vn" target="_blank">Website</a> |
+      <a href="https://hcmut.edu.vn/tuyen-sinh" target="_blank">Tuyển sinh</a>
+    </td>
+  </tr>
+  <tr>
+    <td>Đại học Kinh tế TP.HCM (UEH)</td>
+    <td>
+      <a href="https://ueh.edu.vn" target="_blank">Website</a> |
+      <a href="https://tuyensinh.ueh.edu.vn" target="_blank">Tuyển sinh</a>
+    </td>
+  </tr>
+  <tr>
+    <td>Đại học Nông Lâm TP.HCM (NLU)</td>
+    <td>
+      <a href="https://hcmuaf.edu.vn" target="_blank">Website</a> |
+      <a href="https://ts.hcmuaf.edu.vn" target="_blank">Tuyển sinh</a>
+    </td>
+  </tr>
+  <tr>
+    <td>Đại học Y Dược TP.HCM (UMP)</td>
+    <td>
+      <a href="https://ump.edu.vn" target="_blank">Website</a> |
+      <a href="https://ump.edu.vn/tuyen-sinh" target="_blank">Tuyển sinh</a>
+    </td>
+  </tr>
+  <tr>
+    <td>Đại học Tôn Đức Thắng (TDTU)</td>
+    <td>
+      <a href="https://tdtu.edu.vn" target="_blank">Website</a> |
+      <a href="https://admission.tdtu.edu.vn" target="_blank">Tuyển sinh</a>
+    </td>
+  </tr>
+  <tr>
+    <td>Đại học Sư phạm Kỹ thuật TP.HCM (HCMUTE)</td>
+    <td>
+      <a href="https://hcmute.edu.vn" target="_blank">Website</a> |
+      <a href="https://tuyensinh.hcmute.edu.vn" target="_blank">Tuyển sinh</a>
+    </td>
+  </tr>
+  <tr>
+    <td>Đại học KHXH & NV TP.HCM (USSH)</td>
+    <td>
+      <a href="https://hcmussh.edu.vn" target="_blank">Website</a> |
+      <a href="https://tuyensinh.uhs.vnu.edu.vn" target="_blank">Tuyển sinh</a>
+    </td>
+  </tr>
+  <tr>
+    <td>Đại học Luật TP.HCM (HCMULAW)</td>
+    <td>
+      <a href="https://hcmulaw.edu.vn" target="_blank">Website</a> |
+      <a href="https://ts.hcmulaw.edu.vn/thong-tin-tuyen-sinh-dai-hoc" target="_blank">Tuyển sinh</a>
+    </td>
+  </tr>
+
+  <!-- 🆕 Các trường ĐHQG-HCM bổ sung -->
+  <tr>
+    <td>Đại học Khoa học Tự nhiên, ĐHQG-HCM (HCMUS)</td>
+    <td>
+      <a href="https://hcmus.edu.vn/" target="_blank">Website</a> |
+      <a href="https://tuyensinh.hcmus.edu.vn/" target="_blank">Tuyển sinh</a>
+    </td>
+  </tr>
+  <tr>
+    <td>Đại học Quốc tế, ĐHQG-HCM (HCMIU)</td>
+    <td>
+      <a href="https://hcmiu.edu.vn/" target="_blank">Website</a> |
+      <a href="https://tuyensinh.hcmiu.edu.vn/" target="_blank">Tuyển sinh</a>
+    </td>
+  </tr>
+  <tr>
+    <td>Đại học Công nghệ Thông tin, ĐHQG-HCM (UIT)</td>
+    <td>
+      <a href="https://www.uit.edu.vn/" target="_blank">Website</a> |
+      <a href="https://tuyensinh.uit.edu.vn/" target="_blank">Tuyển sinh</a>
+    </td>
+  </tr>
+  <tr>
+    <td>Đại học Kinh tế – Luật, ĐHQG-HCM (UEL)</td>
+    <td>
+      <a href="https://tuyensinh.uel.edu.vn/" target="_blank">Website</a> |
+      <a href="https://tuyensinh.uel.edu.vn/thong-tin-tuyen-sinh-dai-hoc-chinh-quy/" target="_blank">Tuyển sinh</a>
+    </td>
+  </tr>
+  <tr>
+    <td>Đại học Khoa học Sức khỏe, ĐHQG-HCM (UHS)</td>
+    <td>
+      <a href="https://www.uhsvnu.edu.vn/" target="_blank">Website</a> |
+      <a href="https://tuyensinh.uhsvnu.edu.vn/" target="_blank">Tuyển sinh</a>
+    </td>
+  </tr>
+</tbody>
+      </table>
+    </div>
+
+    <button class="back-btn" onclick="window.location.href='homepage.html'">⬅ Quay lại trang chủ</button>
+  </div>
+
+  <script>
+    // 🌟 Script chuyển tab
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabButtons.forEach(b => b.classList.remove("active"));
+        tabContents.forEach(c => c.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>

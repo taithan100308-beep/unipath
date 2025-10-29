@@ -1,0 +1,35 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "functions/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/answer",
+        "function": {
+          "functionId": "answerQuery",
+          "region": "us-central1",
+          "codebase": "default"
+        }
+      },
+      {
+        "source": "/api/ingest",
+        "function": {
+          "functionId": "ingestDocument",
+          "region": "us-central1",
+          "codebase": "default"
+        }
+      }
+    ]
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default"
+    }
+  ]
+}

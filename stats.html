@@ -1,0 +1,50 @@
+<!-- 🌟 FILE MỚI: stats.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thống kê học tập - Unipath</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="stats.js" defer></script>
+</head>
+<body class="test-body">
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">UNIPATH</h2>
+  </div>
+
+  <div class="nav-right">
+    <a href="homepage.html">Trang chủ</a>
+
+    <!-- 🔹 Dropdown Tuyển sinh -->
+<div class="dropdown">
+  <a href="#" class="dropbtn">Tuyển sinh ▾</a>
+  <div class="dropdown-content">
+    <a href="universities.html">Thông tin tuyển sinh</a>
+    <a href="converter.html">Quy đổi điểm</a>
+    <a href="ctu-cutoff.html">Tra cứu điểm</a>
+  </div>
+</div>
+
+    <a href="biotest.html">Sinh trắc học</a>
+    <a href="study-methods.html">Phương pháp học</a>
+    <a href="documents.html">Văn bản</a>
+    <a href="contact.html">Liên hệ</a>
+    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+  </div>
+</nav>
+
+  <div class="test-container">
+    <h1>📊 Thống kê thời gian học tập</h1>
+
+    <canvas id="barChart"></canvas>
+    <h2 style="margin-top:2rem;">🥧 Tỉ lệ giữa các môn</h2>
+    <canvas id="pieChart"></canvas>
+
+    <button onclick="window.location.href='study.html'" class="back-btn">⬅ Quay lại</button>
+  </div>
+</body>
+</html>

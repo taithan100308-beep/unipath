@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý thời gian học - UNIPATH</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="study.js" defer></script>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">UNIPATH</h2>
+  </div>
+
+  <div class="nav-right">
+    <a href="homepage.html">Trang chủ</a>
+
+    <!-- 🔹 Dropdown Tuyển sinh -->
+<div class="dropdown">
+  <a href="#" class="dropbtn">Tuyển sinh ▾</a>
+  <div class="dropdown-content">
+    <a href="universities.html">Thông tin tuyển sinh</a>
+    <a href="converter.html">Quy đổi điểm</a>
+    <a href="ctu-cutoff.html">Tra cứu điểm</a>
+  </div>
+</div>
+
+    <a href="biotest.html">Sinh trắc học</a>
+    <a href="study-methods.html">Phương pháp học</a>
+    <a href="documents.html">Văn bản</a>
+    <a href="contact.html">Liên hệ</a>
+    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+  </div>
+</nav>
+
+<!-- 🌟 PHẦN MỚI TRONG study.html -->
+<!-- 🌟 study.html -->
+<div class="study-container">
+  <h1>⏱️ Quản lý thời gian học tập</h1>
+
+  <!-- Tạo mục học -->
+  <div class="task-create">
+    <input type="text" id="taskInput" placeholder="Nhập tên môn học hoặc công việc..." />
+    <button id="addTaskBtn">➕ Thêm mục học</button>
+  </div>
+
+  <!-- Danh sách các mục học -->
+  <div id="taskList" class="task-list"></div>
+
+  <!-- Tổng thời gian -->
+  <div class="total-time">
+    <h2>📅 Tổng thời gian đã học: <span id="totalTime">0 giờ 0 phút 0 giây</span></h2>
+  </div>
+
+  <div class="view-stats">
+    <button onclick="window.location.href='stats.html'" class="test-btn blue">📊 Xem thống kê</button>
+    <button onclick="window.location.href='calendar.html'" class="test-btn blue">📅 Xem lịch học</button>
+  </div>
+</div>
+
+<!-- ✅ CHỈNH LẠI PHẦN SCRIPT NẰM NGOÀI CÁC <div> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module" src="study.js"></script>
+</body>
+</html>

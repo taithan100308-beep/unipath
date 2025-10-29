@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phương pháp Spaced Repetition - UNIPATH</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #ffffff;
+      margin: 0;
+      padding-top: 80px;
+      color: #333;
+      line-height: 1.7;
+    }
+
+    .method-detail-container {
+      max-width: 950px;
+      margin: auto;
+      background: #fff;
+      padding: 2.5rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: #004aad;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      color: #1e3a8a;
+      margin-top: 2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    h3 {
+      color: #2563eb;
+      margin-top: 1.2rem;
+      margin-bottom: 0.4rem;
+    }
+
+    p {
+      text-align: justify;
+      margin-bottom: 1rem;
+    }
+
+    ul, ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+    }
+
+    strong {
+      color: #004aad;
+    }
+
+    .btn-back {
+      display: block;
+      margin: 2rem auto 0;
+      background: linear-gradient(90deg, #4facfe, #00f2fe);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-back:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="logo.png" alt="Logo" class="logo">
+      <h2 class="nav-logo">UNIPATH</h2>
+    </div>
+    <div class="nav-right">
+      <a href="homepage.html">Trang chủ</a>
+      <a href="study-methods.html">Phương pháp học</a>
+      <a href="documents.html">Văn bản</a>
+      <a href="contact.html">Liên hệ</a>
+      <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+    </div>
+  </nav>
+
+  <div class="method-detail-container">
+    <h1>⏳ Phương pháp Lặp lại ngắt quãng (Spaced Repetition)</h1>
+
+    <h2>1️⃣ Giới thiệu chung</h2>
+    <p><strong>Spaced Repetition</strong> là một kỹ thuật học tập khoa học được chứng minh giúp tăng khả năng ghi nhớ lâu dài. Phương pháp này dựa trên nguyên lý “đường cong quên lãng” của <strong>Hermann Ebbinghaus</strong> — cho rằng não người quên dần kiến thức theo thời gian nếu không ôn lại. 
+    Bằng cách ôn tập lại thông tin theo khoảng cách tăng dần (sau 1 ngày, 1 tuần, 1 tháng...), người học củng cố trí nhớ dài hạn và giảm khả năng quên kiến thức.</p>
+    <p>Theo tiến sĩ <strong>Cecil Alec Mace</strong> (1932), người đầu tiên đề cập đến nguyên lý này trong “Psychology of Study”, việc sắp xếp lại thời gian học hợp lý có thể giúp con người ghi nhớ hiệu quả hơn gấp nhiều lần so với việc học nhồi nhét.</p>
+
+    <h2>2️⃣ Lợi ích khi áp dụng Spaced Repetition</h2>
+    <ul>
+      <li><strong>Cải thiện khả năng ghi nhớ lâu dài:</strong> Giúp chuyển kiến thức từ trí nhớ ngắn hạn sang trí nhớ dài hạn.</li>
+      <li><strong>Tối ưu hóa thời gian học:</strong> Học ít hơn nhưng hiệu quả cao hơn do ôn đúng thời điểm bộ não bắt đầu quên.</li>
+      <li><strong>Tăng hiệu suất học tập:</strong> Giảm nhu cầu học lại toàn bộ kiến thức nhờ cơ chế củng cố đều đặn.</li>
+      <li><strong>Ứng dụng rộng rãi:</strong> Đặc biệt hiệu quả với việc học từ vựng, khái niệm chuyên ngành, hay công thức.</li>
+    </ul>
+
+    <h2>3️⃣ Lịch sử và cơ sở khoa học</h2>
+    <p>Giáo sư <strong>Cecil Alec Mace</strong> là người đầu tiên nhắc đến nguyên lý này năm 1932. Sau đó, <strong>Hermann Ebbinghaus</strong> nghiên cứu sâu hơn về trí nhớ và giới thiệu “<em>Forgetting Curve</em>” — đường cong mô tả tốc độ con người quên thông tin.</p>
+    <p>Ông phát hiện rằng việc ôn lại thông tin vào thời điểm sắp quên giúp não bộ “khắc” lại dữ liệu mạnh hơn, kéo dài thời gian ghi nhớ. Đây chính là nền tảng của Spaced Repetition mà sau này được phát triển thành công cụ học hiện đại như <strong>Anki</strong> hay <strong>Quizlet</strong>.</p>
+
+    <h2>4️⃣ Cách áp dụng Spaced Repetition trong học từ vựng</h2>
+    <p>Dưới đây là quy trình thực tế gồm 5 bước giúp bạn áp dụng hiệu quả:</p>
+    <ol>
+      <li><strong>Bước 1:</strong> Hiểu rõ nghĩa và gốc của từ, sử dụng các website như <em>etymonline.com</em> hoặc <em>vocabulary.com</em>.</li>
+      <li><strong>Bước 2:</strong> Làm bài tập nối từ (matching) để kiểm tra khả năng nhớ.</li>
+      <li><strong>Bước 3:</strong> Thực hành bài tập điền chỗ trống để áp dụng từ vào ngữ cảnh.</li>
+      <li><strong>Bước 4:</strong> Dùng từ mới trong câu trả lời IELTS Speaking hoặc đoạn văn ngắn.</li>
+      <li><strong>Bước 5:</strong> Viết đoạn văn hoặc bài luận sử dụng các từ đã học, sau đó tự đánh giá lại.</li>
+    </ol>
+    <p>Nguyên tắc cốt lõi là: <strong>ôn tập đều đặn với khoảng cách tăng dần</strong> – khi bạn sắp quên, hãy ôn lại.</p>
+
+    <h2>5️⃣ Hạn chế & cách khắc phục</h2>
+    <p>Dù hiệu quả, Spaced Repetition vẫn tồn tại một số hạn chế:</p>
+    <ul>
+      <li>Khó duy trì đều đặn nếu không có kỷ luật.</li>
+      <li>Dễ gây nhàm chán do tính lặp lại.</li>
+      <li>Thiếu ngữ cảnh khi học chỉ qua mặt chữ.</li>
+    </ul>
+    <p><strong>Cách khắc phục:</strong></p>
+    <ul>
+      <li>Kết hợp Flashcard có hình ảnh và ví dụ.</li>
+      <li>Dùng ứng dụng như <strong>Anki</strong> – tự động sắp xếp thời điểm ôn tập tối ưu.</li>
+      <li>Học theo nhóm chủ đề hoặc qua bài luyện Speaking/Listening để tăng hứng thú.</li>
+    </ul>
+
+    <h2>6️⃣ Ứng dụng thực tế – Leitner System và công nghệ hỗ trợ</h2>
+    <p>Nhà tâm lý học <strong>Sebastian Leitner</strong> đã tạo ra “Leitner System”, một hệ thống học dựa trên Spaced Repetition với các hộp flashcard.</p>
+    <p>Mỗi lần học, nếu bạn trả lời đúng, thẻ được chuyển sang hộp tiếp theo (với thời gian ôn xa hơn). Nếu sai, thẻ quay lại hộp đầu. Cách này giúp tập trung ôn những phần chưa thuộc thay vì học tràn lan.</p>
+    <p>Hiện nay, các phần mềm như <strong>Anki</strong> và <strong>Quizlet</strong> đã tự động hóa hệ thống này, giúp người học tiết kiệm thời gian, thêm hình ảnh, âm thanh và theo dõi tiến độ.</p>
+
+    <h2>7️⃣ Tổng kết</h2>
+    <p><strong>Spaced Repetition</strong> là phương pháp học dựa trên cơ sở khoa học về trí nhớ, được chứng minh giúp tăng hiệu quả ghi nhớ dài hạn. 
+    Khi kết hợp với các công cụ hiện đại như Flashcard, Anki, hay phương pháp Feynman, người học có thể tối ưu thời gian ôn tập và đạt hiệu quả cao nhất. 
+    Dù vậy, yếu tố quan trọng nhất vẫn là <strong>sự kiên trì, đều đặn và kỷ luật</strong> trong quá trình áp dụng.</p>
+
+    <button class="btn-back" onclick="window.location.href='study-methods.html'">🔙 Quay lại trang phương pháp học</button>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!-- 🌟 HOMEPAGE MỚI - Study Time Manager -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trang chủ - UNIPATH</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="home.js" defer></script>
+</head>
+<body class="homepage-body">
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">UNIPATH</h2>
+  </div>
+
+  <div class="nav-right">
+    <a href="homepage.html">Trang chủ</a>
+
+    <!-- 🔹 Dropdown Tuyển sinh -->
+<div class="dropdown">
+  <a href="#" class="dropbtn">Tuyển sinh ▾</a>
+  <div class="dropdown-content">
+    <a href="universities.html">Thông tin tuyển sinh</a>
+    <a href="converter.html">Quy đổi điểm</a>
+    <a href="ctu-cutoff.html">Tra cứu điểm</a>
+  </div>
+</div>
+    <a href="public/document-ai.html">AI</a>
+    <a href="biotest.html">Sinh trắc học</a>
+    <a href="study-methods.html">Phương pháp học</a>
+    <a href="documents.html">Văn bản</a>
+    <a href="contact.html">Liên hệ</a>
+    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+  </div>
+</nav>
+
+  <div class="hero-image hero-bg1">
+    <img src="background.jpg" alt="Background 1" class="hero-img bg1">
+  </div>
+
+  <div class="loading-container">
+    <img src="loading.png" alt="Loading" class="loading-img">
+  </div>
+
+
+  <div class="homepage-container">
+    <div class="user-profile">
+      <img id="userPhoto" alt="Ảnh đại diện" class="avatar-large" />
+      <h2 id="userName"></h2>
+      <p>Chào mừng bạn quay lại với UNIPATH 🌟</p>
+    </div>
+    <div class="home-buttons"></div>
+  </div>
+
+  <div class="news-header">
+    <img src="news.jpg" alt="News icon" class="news-icon">
+    <p class="news-title">Tin tức</p>
+  </div>
+
+  <div class="news-grid">
+    <div class="news-item">
+      <img src="news1.jpg" alt="News 1" class="news-image">
+      <div class="news-content">
+        <h3 class="news-title">
+          <a href="https://www.vietnamplus.vn/bo-gd-dt-cap-do-kho-de-cua-de-thi-duoc-sinh-ra-ngau-nhien-khong-theo-ma-tran-post1046815.vnp" target="_blank">
+            Bộ GD-ĐT: Cấp độ khó, dễ của đề thi được sinh ra ngẫu nhiên, không theo ma trận
+          </a>
+        </h3>
+        <p class="news-desc">
+          Bộ GD-ĐT cho hay ma trận đề thi không có trước như các năm mà được sinh ra một cách ngẫu nhiên trong các chủ đề học...
+        </p>
+        <a href="https://www.vietnamplus.vn/bo-gd-dt-cap-do-kho-de-cua-de-thi-duoc-sinh-ra-ngau-nhien-khong-theo-ma-tran-post1046815.vnp" target="_blank" class="news-link">Xem thêm</a>
+      </div>
+    </div>
+
+    <div class="news-item">
+      <img src="news2.jpg" alt="News 2" class="news-image">
+      <div class="news-content">
+        <h3 class="news-title">
+          <a href="https://vnexpress.net/co-the-day-som-ky-thi-tot-nghiep-thpt-tu-2026-4864147.html" target="_blank">
+            Có thể đẩy sớm kỳ thi tốt nghiệp THPT từ 2026
+          </a>
+        </h3>
+        <p class="news-desc">
+          Từ năm sau, kỳ thi tốt nghiệp có thể diễn ra sau bế giảng năm học 2 tuần, để thầy trò ý thức việc học chính khóa...
+        </p>
+        <a href="https://vnexpress.net/co-the-day-som-ky-thi-tot-nghiep-thpt-tu-2026-4864147.html" target="_blank" class="news-link">Xem thêm</a>
+      </div>
+    </div>
+
+        <div class="news-item">
+      <img src="news3.jpg" alt="News 2" class="news-image">
+      <div class="news-content">
+        <h3 class="news-title">
+          <a href="https://baochinhphu.vn/cong-bo-pho-diem-tat-ca-cac-mon-thi-tot-nghiep-thpt-2024-102240717085519669.htm?gidzl=5686JZmHzcSVU0PBE0xpQ15-0qek2l1aMNe2IIjS-se9BLX3VLBzEWqcMKCaK_mz1dPP43GHHy4RDntoPW" target="_blank">
+          Công bố phổ điểm tất cả các môn thi tốt nghiệp THPT 2024
+          </a>
+        </h3>
+        <p class="news-desc">
+          Ngay sau khi có kết quả thi tốt nghiệp THPT năm 2024, sáng 17/7, Bộ GD&ĐT đã công bố phổ điểm tất các môn thi.
+        </p>
+        <a href="https://baochinhphu.vn/cong-bo-pho-diem-tat-ca-cac-mon-thi-tot-nghiep-thpt-2024-102240717085519669.htm?gidzl=5686JZmHzcSVU0PBE0xpQ15-0qek2l1aMNe2IIjS-se9BLX3VLBzEWqcMKCaK_mz1dPP43GHHy4RDntoPW" target="_blank" class="news-link">Xem thêm</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-container">
+    <img src="loading.png" alt="Loading" class="loading-img">
+  </div>
+
+  <div id="stats-section" class="stats-section">
+    <h2>NHỮNG CON SỐ THỐNG KÊ</h2>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <h3 id="student-count">0</h3>
+        <p>Số lượng người đã truy cập</p>
+      </div>
+      <div class="stat-box">
+        <h3 id="postgraduate-count">0</h3>
+        <p>Số lượng người đã truy cập trong tháng</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔹 Chat box -->
+  <div id="ai-chat-box" class="chat-box">
+    <div class="chat-header" id="toggle-chat">
+      <h3>AI Assistant</h3>
+      <svg xmlns="http://www.w3.org/2000/svg" class="chat-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+
+    <div id="chat-content" class="chat-content" style="display: none;"></div>
+    <div id="chat-input" class="chat-input" style="display: none;">
+      <form id="chat-form" class="chat-form">
+        <input type="text" id="user-input" class="chat-text" placeholder="Type your message..." />
+        <button type="submit" class="chat-send">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <div class="footer-header">
+            <div class="footer-logo-group">
+              <div class="footer-logo">
+                <img src="logo.png" alt="Logo">
+              </div>
+              <div class="footer-title">UNIPATH</div>
+            </div>
+            <p class="footer-slogan">
+              Đổi mới sáng tạo, nâng cao chất lượng để thành công
+            </p>
+          </div>
+          <div class="footer-info">
+            <p>THPT chuyên Lý Tự Trọng - Phường Cái Răng, TP. Cần Thơ</p>
+            <p>Điện thoại: 0292.3821.428</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ✅ SCRIPT -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+    import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
+    import { firebaseConfig } from "./firebase-config.js";
+
+    // 🔹 Khởi tạo Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // 🔹 Tăng lượt truy cập
+    const visitRef = ref(db, "visits/count");
+    get(visitRef)
+      .then(snapshot => {
+        let count = snapshot.exists() ? snapshot.val() : 0;
+        count++;
+        set(visitRef, count);
+        document.getElementById("student-count").textContent = count;
+      })
+      .catch(err => console.error("Lỗi lấy dữ liệu:", err));
+
+    // 🔹 Chat box logic
+    const toggleChat = document.getElementById("toggle-chat");
+    const chatContent = document.getElementById("chat-content");
+    const chatInput = document.getElementById("chat-input");
+    const chatForm = document.getElementById("chat-form");
+    const userInput = document.getElementById("user-input");
+
+    let chatOpened = false;
+
+    function appendMessage(sender, text) {
+      const div = document.createElement("div");
+      div.className = sender === "user" ? "chat-message user" : "chat-message ai";
+      div.innerHTML = `<span>${text}</span>`;
+      chatContent.appendChild(div);
+      chatContent.scrollTop = chatContent.scrollHeight;
+    }
+
+    function appendOption(text, response) {
+      const btn = document.createElement("button");
+      btn.className = "chat-option";
+      btn.textContent = text;
+      btn.onclick = () => {
+        appendMessage("user", text);
+        appendMessage("ai", response);
+      };
+      chatContent.appendChild(btn);
+    }
+
+    toggleChat.addEventListener("click", () => {
+      const hidden = chatContent.style.display === "none";
+      chatContent.style.display = hidden ? "block" : "none";
+      chatInput.style.display = hidden ? "flex" : "none";
+      toggleChat.querySelector(".chat-arrow").style.transform = hidden ? "rotate(180deg)" : "rotate(0deg)";
+
+      if (hidden && !chatOpened) {
+        chatOpened = true;
+        appendMessage("ai", "Chào! Tôi có thể giúp gì cho bạn?");
+        appendOption("Giới thiệu về website", "Đây là website giúp bạn tra cứu thông tin tuyển sinh và quản lý học tập.");
+        appendOption("Liên hệ hỗ trợ", "Bạn có thể gửi email cho chúng tôi qua phần Liên hệ.");
+      }
+    });
+
+    chatForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = userInput.value.trim();
+      if (!text) return;
+      appendMessage("user", text);
+      userInput.value = "";
+      setTimeout(() => appendMessage("ai", "Cảm ơn bạn! Tôi sẽ ghi nhận phản hồi này."), 600);
+    });
+  </script>
+</body>
+</html>

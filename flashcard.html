@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcard - Unipath</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding-top: 80px;
+    }
+
+    .flashcard-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: #004aad;
+    }
+
+    .create-section {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    input {
+      flex: 1;
+      padding: 0.6rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.8rem;
+      font-size: 1rem;
+    }
+
+    button {
+      background: linear-gradient(90deg, #4facfe, #00f2fe);
+      border: none;
+      color: white;
+      border-radius: 0.8rem;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    #flashcardArea {
+      margin-top: 2rem;
+      display: none;
+    }
+
+    #flashcardList {
+      margin-top: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .flashcard {
+      background: #f8fbff;
+      border-radius: 1rem;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .flashcard:hover {
+      transform: scale(1.05);
+    }
+
+    .flashcard small {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">UNIPATH</h2>
+  </div>
+
+  <div class="nav-right">
+    <a href="homepage.html">Trang chủ</a>
+
+    <!-- 🔹 Dropdown Tuyển sinh -->
+<div class="dropdown">
+  <a href="#" class="dropbtn">Tuyển sinh ▾</a>
+  <div class="dropdown-content">
+    <a href="universities.html">Thông tin tuyển sinh</a>
+    <a href="converter.html">Quy đổi điểm</a>
+    <a href="ctu-cutoff.html">Tra cứu điểm</a>
+  </div>
+</div>
+
+    <a href="biotest.html">Sinh trắc học</a>
+    <a href="study-methods.html">Phương pháp học</a>
+    <a href="documents.html">Văn bản</a>
+    <a href="contact.html">Liên hệ</a>
+    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+  </div>
+</nav>
+
+
+  <div class="flashcard-container">
+    <h1>🧠 Công cụ tạo Flashcard</h1>
+
+    <div class="create-section">
+      <input type="text" id="setName" placeholder="Nhập tên bộ flashcard...">
+      <button id="createSetBtn">Tạo bộ</button>
+    </div>
+
+    <div id="flashcardArea">
+      <h2 id="setTitle">📘 Tên bộ</h2>
+
+      <div class="create-section">
+        <input type="text" id="termInput" placeholder="Thuật ngữ...">
+        <input type="text" id="definitionInput" placeholder="Định nghĩa...">
+        <button id="addCardBtn">Thêm thẻ</button>
+      </div>
+
+      <div id="flashcardList"></div>
+    </div>
+  </div>
+
+  <!-- Quan trọng: thêm defer để script chạy sau khi HTML load -->
+  <script src="flashcard-local.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thư viện công văn</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      background-color: #f8f9ff;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 320px;
+      background: #4c5fd7;
+      color: white;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .subtext {
+      font-size: 14px;
+      color: #d1d3ff;
+      margin-bottom: 20px;
+    }
+
+    .menu {
+      list-style: none;
+    }
+
+    .menu-item {
+      margin-bottom: 10px;
+    }
+
+    .dropdown-btn {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 16px;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      padding: 8px 0;
+    }
+
+    .submenu {
+      list-style: none;
+      padding-left: 16px;
+      display: none;
+    }
+
+    .submenu li {
+      color: #e8eaff;
+      cursor: pointer;
+      padding: 6px 0;
+    }
+
+    .submenu li:hover {
+      text-decoration: underline;
+    }
+
+    /* Content */
+    .content {
+      flex: 1;
+      background: white;
+      padding: 40px;
+      text-align: center;
+      overflow-y: auto;
+    }
+
+    .content h1 {
+      color: #4c5fd7;
+    }
+
+    .hint {
+      color: #7a7a7a;
+      margin-bottom: 60px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 80vh;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+
+    main, .content, .container {
+      padding-top: 80px;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">UNIPATH</h2>
+  </div>
+
+  <div class="nav-right">
+    <a href="homepage.html">Trang chủ</a>
+
+    <!-- 🔹 Dropdown Tuyển sinh -->
+<div class="dropdown">
+  <a href="#" class="dropbtn">Tuyển sinh ▾</a>
+  <div class="dropdown-content">
+    <a href="universities.html">Thông tin tuyển sinh</a>
+    <a href="converter.html">Quy đổi điểm</a>
+    <a href="ctu-cutoff.html">Tra cứu điểm</a>
+  </div>
+</div>
+
+    <a href="biotest.html">Sinh trắc học</a>
+    <a href="study-methods.html">Phương pháp học</a>
+    <a href="documents.html">Văn bản</a>
+    <a href="contact.html">Liên hệ</a>
+    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+  </div>
+</nav>
+
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>📋Văn bản</h2>
+
+      <ul class="menu">
+        <li class="menu-item">
+          <button class="dropdown-btn">🏛 2025-2026 ▾</button>
+          <ul class="submenu">
+
+
+          </ul>
+        </li>
+
+        <li class="menu-item">
+          <button class="dropdown-btn">🏛 2024-2025 ▾</button>
+          <ul class="submenu">
+            <!-- ⚙️ Đặt 5 file PDF cùng thư mục với documents.html -->
+            <li data-file="congvan03.pdf">Phê duyệt IELTS</li>
+            <li data-file="congvan04.pdf">Lịch thi chi tiết THPTQG 2024-2025</li>
+            <li data-file="congvan05.pdf">Ngày thi THPTQG 2024-2025</li>
+            <li data-file="congvan07.pdf">Khung kế hoạch thời gian năm học</li>
+            <li data-file="congvan08.pdf">Hướng dẫn tuyển sinh đại học và cao đẳng</li>
+            <li data-file="congvan09.pdf">Ban hành quy chế thi THPTQG</li>
+          </ul>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Content -->
+    <main class="content">
+      <h1>Chọn công văn để xem</h1>
+      <p class="hint">Vui lòng chọn một công văn từ menu bên trái để xem nội dung chi tiết.</p>
+
+      <div id="doc-display" class="doc-display">
+        <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="No document" width="60">
+        <p>Chưa có công văn nào được chọn</p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Dropdown toggle
+    document.querySelectorAll(".dropdown-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const submenu = btn.nextElementSibling;
+        submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+      });
+    });
+
+    // Hiển thị công văn PDF
+    const docDisplay = document.getElementById("doc-display");
+    document.querySelectorAll(".submenu li").forEach(item => {
+      item.addEventListener("click", () => {
+        const file = item.getAttribute("data-file");
+        if (file) {
+          docDisplay.innerHTML = `
+            <h2>${item.textContent}</h2>
+            <iframe src="${file}" title="${item.textContent}"></iframe>
+          `;
+        } else {
+          docDisplay.innerHTML = `
+            <h2>${item.textContent}</h2>
+            <p>Nội dung chi tiết của ${item.textContent} sẽ hiển thị tại đây.</p>
+          `;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

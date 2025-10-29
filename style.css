@@ -1,0 +1,1453 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #ffffff; /* ✅ nền trắng */
+  height: auto;
+  margin: 0;
+  color: #000;          /* chữ đen cho dễ đọc */
+}
+
+.login-container, .dashboard {
+  background: white;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+}
+
+.google-btn {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 0.75rem 1.5rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.google-btn:hover {
+  background: #f5f5f5;
+}
+
+.google-btn img {
+  width: 24px;
+  height: 24px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.logout-btn, .start-btn, .stop-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  color: white;
+  transition: 0.3s;
+}
+
+.logout-btn { background: #ff5252; }
+.start-btn { background: #4CAF50; }
+.stop-btn { background: #f57c00; }
+
+.logout-btn:hover { background: #e04848; }
+.start-btn:hover { background: #45a049; }
+.stop-btn:hover { background: #e67600; }
+
+.timer-container {
+  margin: 1.5rem 0;
+}
+
+/* 🌟 STYLE MỚI CHO HOMEPAGE */
+.homepage-body {
+  background: #ffffff; /* ✅ nền trắng */
+  margin: 0;
+  padding: 0;
+}
+
+.user-profile {
+  margin-bottom: 1.5rem;
+}
+
+.avatar-large {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 4px #89f7fe;
+}
+
+.home-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.home-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 500;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+
+
+.home-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* 🌟 STYLE MỚI: TRANG THÔNG TIN TUYỂN SINH */
+.uni-body {
+  background: #ffffff; /* ✅ nền trắng */
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 2rem;
+}
+
+.uni-page {
+  max-width: 900px;
+  margin: auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.uni-page h1 {
+  color: #004aad;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.desc {
+  text-align: center;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+/* 🌟 THAY PHẦN CARD BẰNG BẢNG */
+.uni-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+}
+
+.uni-table th {
+  background: #4facfe;
+  color: white;
+  text-align: left;
+  padding: 0.8rem;
+  font-size: 1.05rem;
+}
+
+.uni-table td {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0.8rem;
+  vertical-align: top;
+}
+
+.uni-table tr:hover {
+  background-color: #f3f8ff;
+}
+
+.uni-table a {
+  color: #007aff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.uni-table a:hover {
+  text-decoration: underline;
+}
+
+.back-btn {
+  margin-top: 2rem;
+  display: block;
+  width: 100%;
+  padding: 0.8rem;
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.back-btn:hover {
+  transform: scale(1.05);
+}
+
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #e0e0e0; /* ✅ nền xám nhạt */
+  color: #000;          /* ✅ chữ đen */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.nav-left .nav-logo {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #000; /* chữ đen */
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-right: 60px;
+}
+
+.nav-right a {
+  color: #000; /* ✅ chữ đen */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-right a:hover {
+  color: #333; /* hover hơi đậm hơn */
+}
+
+.logout-btn {
+  background: #ccc;       /* ✅ nền xám trung bình */
+  border: 1px solid #999;
+  color: #000;            /* chữ đen */
+  padding: 0.4rem 0.8rem;
+  border-radius: 1.2rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: #bbb; /* hover đậm hơn chút */
+  color: #000;
+}
+
+/* Để nội dung bên dưới không bị navbar che */
+body {
+  padding-top: 70px; /* tuỳ chỉnh theo chiều cao navbar */
+}
+.test-body {
+  background: #ffffff; /* ✅ nền trắng */
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding-top: 80px;
+}
+
+.test-container {
+  background: #fff;
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.test-container h1 {
+  text-align: center;
+  color: #004aad;
+}
+
+.test-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.question-card {
+  background: #f8fbff;
+  border-radius: 1rem;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.options {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.options label {
+  background: #eaf4ff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.options label:hover {
+  background: #cfe8ff;
+}
+
+.test-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.test-btn {
+  border: none;
+  border-radius: 2rem;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.test-btn.blue {
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+}
+
+.test-btn.gray {
+  background: #ccc;
+  color: #333;
+}
+
+.test-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.test-choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.test-card {
+  background: #f8fbff;
+  border-radius: 1.2rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.test-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.test-card h3 {
+  color: #004aad;
+  margin-bottom: 0.6rem;
+}
+
+.test-card p {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.4rem;
+  margin-bottom: 1.2rem;
+}
+.intro-list {
+  background: #f0f8ff;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  list-style: none;
+  margin: 1rem 0 2rem;
+}
+
+.intro-list li {
+  margin-bottom: 0.6rem;
+  color: #333;
+}
+
+/* 🌟 Quản lý nhiều mục học */
+.study-container {
+  max-width: 900px;
+  margin: auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+  margin-top: 100px;
+}
+
+.task-create {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+#taskInput {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border-radius: 0.8rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+#addTaskBtn {
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  border-radius: 0.8rem;
+  padding: 0.7rem 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+#addTaskBtn:hover { transform: scale(1.05); }
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.task-card {
+  background: #f8fbff;
+  border-radius: 1rem;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.task-actions button {
+  border: none;
+  border-radius: 0.8rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.startBtn { background: #00c851; color: white; }
+.stopBtn { background: #ffbb33; color: white; }
+.deleteBtn { background: #ff4444; color: white; }
+button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.chart-section {
+  margin-top: 2rem;
+}
+
+.total-time {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #004aad;
+}
+
+.view-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem; /* ✅ tạo khoảng cách giữa 2 nút */
+  margin-top: 1.5rem;
+}
+
+#resultSection {
+  background: #f8fbff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* NAV LEFT and logo */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* khoảng cách giữa logo và chữ */
+}
+
+/* Ảnh logo trong navbar (thu nhỏ từ 500x500) */
+.logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-top: -8px;   /* đẩy logo lên nhẹ */
+  margin-bottom: -8px;/* và xuống nhẹ để bù */
+  transition: transform 0.18s ease;
+}
+
+/* hover nhẹ để giao diện sinh động */
+.logo:hover {
+  transform: scale(1.08);
+}
+
+/* ==== Giữ layout trung tâm đẹp ==== */
+
+.homepage-container .home-btn {
+  margin: 8px;
+}
+
+/* === Hero chung === */
+.hero-image:first-of-type {
+  margin-top: 70px; /* trùng chiều cao nav */
+}
+
+.hero-image {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* === Ảnh 1: background.jpg (1592x1020 ≈ 1.56:1) === */
+.hero-bg1 {
+  height: 100vh; /* phủ kín toàn màn hình */
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-bg1 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* Giúp ảnh lấp đầy khung mà không méo */
+  object-position: center; /* Căn giữa ảnh */
+  display: block;
+}
+
+/* === Ảnh 2: background1.jpg (1910x1046 ≈ 1.82:1) === */
+.hero-bg2 {
+  height: 100vh; /* có thể cao hơn vì ảnh dài hơn */
+}
+
+.hero-img.bg2 {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* không cắt ảnh */
+  object-position: center;
+  display: block;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* === Ảnh trang trí ngay dưới nav === */
+.hero-image {
+  width: 100%;
+  height: calc(100vh - 70px); /* trừ chiều cao thanh nav */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* === Nội dung chính dưới ảnh === */
+.homepage-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 60px auto 100px auto; /* 👈 tăng khoảng cách dưới */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Ảnh đại diện và tên người dùng */
+.user-profile {
+  text-align: center;
+}
+
+/* === Các nút chức năng === */
+.home-buttons {
+  display: flex;
+  flex-direction: column; /* xếp dọc */
+  align-items: center;    /* căn giữa ngang */
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.home-btn {
+  width: 250px;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Body chỉ căn giữa ở trang login */
+.login-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.home-btn {
+  background: #e0e0e0;
+  color: #000;
+  border: 1px solid #ccc;
+}
+
+.home-btn:hover {
+  background: #d5d5d5;
+}
+
+/* ==== FOOTER ==== */
+.footer {
+  background-color: #14295E; /* màu xanh đậm */
+  color: white;
+  padding: 50px 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: center;
+}
+
+.footer-column {
+  flex: 1;
+  text-align: center;
+}
+
+.footer-logo-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.footer-logo img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.footer-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.footer-slogan {
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.footer-info {
+  margin-top: 25px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.footer-info p {
+  margin-bottom: 8px;
+}
+
+/* ==== STATS SECTION ==== */
+.stats-section {
+  background-color: #f3f3f3;
+  text-align: center;
+  padding: 30px 0; /* giảm padding tổng thể */
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.stats-section h2 {
+  font-size: 20px; /* nhỏ hơn nhẹ */
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px; /* giảm khoảng cách giữa các box */
+  flex-wrap: wrap;
+}
+
+.stat-box {
+  text-align: center;
+  min-width: 150px; /* nhỏ gọn hơn */
+}
+
+.stat-box h3 {
+  font-size: 22px; /* giảm từ 28 → 22 */
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+.stat-box p {
+  font-size: 14px; /* nhỏ gọn */
+  color: #555;
+}
+
+/* ==== LOADING SECTION ==== */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.loading-img {
+  width: 100%;        /* tràn toàn chiều ngang */
+  max-width: 1400px;  /* giới hạn tối đa cho màn hình lớn */
+  height: 300px;      /* tăng chiều cao banner */
+  object-fit: contain; /* giữ tỉ lệ gốc, không bị méo */
+}
+
+/* ==== AI CHAT BOX ==== */
+.chat-box {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 240px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 200;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.chat-header {
+  background-color: #000;
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.chat-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.chat-arrow {
+  width: 24px;
+  height: 24px;
+  stroke: white;
+}
+
+.chat-content {
+  height: 320px;
+  overflow-y: auto;
+  padding: 16px;
+  background: #fafafa;
+}
+
+.chat-input {
+  border-top: 1px solid #ddd;
+  padding: 12px;
+  background: #fff;
+}
+
+.chat-form {
+  display: flex;
+}
+
+.chat-text {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px 0 0 8px;
+  outline: none;
+  font-size: 14px;
+}
+
+.chat-text:focus {
+  border-color: #7e57c2;
+  box-shadow: 0 0 4px rgba(126, 87, 194, 0.3);
+}
+
+.chat-send {
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.chat-send:hover {
+  background-color: #333;
+}
+
+/* ==== Chat Messages ==== */
+.chat-message {
+  margin-bottom: 8px;
+  display: flex;
+}
+
+.chat-message span {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 10px;
+  max-width: 80%;
+  word-wrap: break-word;
+  line-height: 1.4;
+  font-size: 14px;
+}
+
+/* Tin nhắn của AI */
+.chat-message.ai {
+  justify-content: flex-start;
+}
+
+.chat-message.ai span {
+  background-color: #e5e7eb; /* xám nhạt */
+  color: #333;
+}
+
+/* Tin nhắn của người dùng */
+.chat-message.user {
+  justify-content: flex-end;
+}
+
+.chat-message.user span {
+  background-color: #d0e3ff; /* xanh nhạt */
+  color: #004aad;
+}
+
+/* ==== Chat Options (nút chọn nhanh) ==== */
+.chat-option {
+  display: block;
+  margin-left: auto;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background-color: #f3f3f3;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: background 0.2s ease;
+}
+
+.chat-option:hover {
+  background-color: #e6e6e6;
+}
+
+/* Lưới chia 2 cột */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;            /* tương đương gap-8 */
+  padding: 0 2rem;      /* px-8 */
+  margin-bottom: 2rem;  /* mb-8 */
+}
+
+/* Thẻ tin tức */
+.news-item {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.news-item:hover {
+  transform: translateY(-4px);
+}
+
+/* Hình ảnh */
+.news-image {
+  width: 100%;
+  height: 16rem; /* tương đương h-64 */
+  object-fit: cover;
+}
+
+/* Nội dung bài */
+.news-content {
+  padding: 1rem;
+}
+
+/* Tiêu đề */
+.news-title {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.news-title a {
+  color: #2563eb; /* text-blue-600 */
+  text-decoration: none;
+}
+
+.news-title a:hover {
+  text-decoration: underline;
+}
+
+/* Đoạn mô tả */
+.news-desc {
+  color: #4b5563; /* text-gray-600 */
+  margin-bottom: 1rem;
+}
+
+/* Link "Xem thêm" */
+.news-link {
+  color: #3b82f6; /* text-blue-500 */
+  text-decoration: none;
+}
+
+.news-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 768px) {
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.news-header {
+  display: flex;             /* giống flex */
+  align-items: center;       /* giống items-center */
+  margin-bottom: 2.25rem;    /* tương đương mb-9 */
+}
+
+.news-icon {
+  margin-left: 2.25rem;      /* ml-9 */
+  width: 1.5rem;             /* w-6 (24px) */
+}
+
+.news-title {
+  margin-left: 0.5rem;       /* ml-2 */
+  font-weight: 800;          /* font-extrabold */
+  font-size: 1.875rem;       /* text-3xl ≈ 30px */
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.contact-section {
+  padding: 60px 10%;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 40px;
+}
+
+/* Container 3 cột */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* Card thành viên */
+.member-card {
+  background-color: #f0f0f0; /* màu xám nhạt cho thẻ */
+  border-radius: 15px;
+  padding: 30px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.member-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Avatar */
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 20px;
+  object-fit: cover;
+}
+
+/* Tên và vai trò */
+.member-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.member-card h4 {
+  font-size: 0.95rem;
+  color: #4f46e5; /* tím xanh */
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Mô tả */
+.member-card p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* Nhóm thẻ kỹ năng */
+.tag-list {
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tag-list span {
+  background-color: white;
+  color: #4f46e5;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid #ddd;
+}
+
+/* Liên hệ */
+.contact-info {
+  border-top: 1px solid #ddd;
+  margin-top: 20px;
+  padding-top: 15px;
+  font-size: 0.9rem;
+}
+
+.contact-info p {
+  margin: 5px 0;
+  color: #333;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .card-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .card-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.converter-page {
+  background-color: #f8f9ff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px; /* để không bị navbar che */
+}
+
+.converter-box {
+  background: white;
+  width: 480px;
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.converter-box h1 {
+  color: #4c5fd7;
+  margin-bottom: 25px;
+  font-size: 26px;
+}
+
+.converter-box select,
+.converter-box input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.converter-box select:focus,
+.converter-box input:focus {
+  border-color: #4c5fd7;
+}
+
+.converter-box button {
+  width: 100%;
+  background-color: #4c5fd7;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.converter-box button:hover {
+  background-color: #3a4bc0;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #4c5fd7;
+}
+
+/* =============== 🧮 QUY ĐỔI V-SAT & V-ACT PAGE =============== */
+.converter-page.two-columns {
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  padding-top: 120px;
+  flex-wrap: wrap;
+}
+
+.converter-box {
+  background: white;
+  width: 420px;
+  padding: 35px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.converter-box h1 {
+  color: #4c5fd7;
+  font-size: 24px;
+  margin-bottom: 25px;
+}
+
+.converter-box select,
+.converter-box input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  font-size: 16px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.converter-box select:focus,
+.converter-box input:focus {
+  border-color: #4c5fd7;
+}
+
+.converter-box button {
+  width: 100%;
+  background-color: #4c5fd7;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.converter-box button:hover {
+  background-color: #3a4bc0;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #4c5fd7;
+}
+
+/* ====== EXAM INFO BLOCK STYLES ====== */
+.exam-info {
+  width: 100%;
+  background: #fff; /* nền trắng như bạn muốn */
+  padding: 36px 0;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #eef2ff;
+}
+
+.exam-info-inner {
+  max-width: 1000px;
+  padding: 0 24px;
+}
+
+.exam-info h2 {
+  color: #12307a;
+  margin-bottom: 12px;
+  font-size: 22px;
+}
+
+.exam-info .intro {
+  color: #333;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+
+.grid-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-bottom: 18px;
+}
+
+.exam-info h3 {
+  color: #2f4ac8;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.exam-info ul {
+  margin-left: 18px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.exam-info .small {
+  font-size: 13px;
+  color: #666;
+}
+
+.exam-info p {
+  color: #333;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .grid-two { grid-template-columns: 1fr; }
+  .exam-info-inner { padding: 0 12px; }
+}
+
+.converter-section {
+  padding: 40px 60px;
+  background-color: #fff;
+}
+
+.converter-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: #1e3a8a;
+  text-align: left;
+  margin-top: 60px; /* 👈 cho chữ thấp xuống */
+  margin-bottom: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.options label {
+  flex: 1;
+  text-align: center;
+  font-size: 15px; /* nhỏ hơn 1 chút để vừa 1 hàng */
+  white-space: nowrap; /* không cho xuống dòng */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cutoff-container {
+  max-width: 800px;
+  margin: 120px auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.cutoff-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.cutoff-filters select, .cutoff-filters button {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 0.8rem;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.cutoff-result {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f8fbff;
+  border-radius: 1rem;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+
+.cutoff-result h2 {
+  color: #004aad;
+  margin-bottom: 1rem;
+}
+
+/* 🌟 Cho navbar chứa nhiều nút hơn */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap; /* tự xuống dòng nếu tràn */
+  margin-right: 20px;
+}
+
+.nav-right a {
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-right a:hover {
+  background: #dcdcdc;
+  color: #004aad;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Nút chính (Tuyển sinh) — giờ là <a> */
+.dropbtn {
+  cursor: pointer;
+  display: inline-block;
+  background: none;
+  border: none;
+  color: #333;
+  text-decoration: none;
+  font: inherit;
+  padding: 8px 14px;
+}
+
+/* Menu xổ xuống */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 200px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 99;
+  border-radius: 6px;
+}
+
+/* Mỗi item trong menu */
+.dropdown-content a {
+  color: #333;
+  padding: 10px 14px;
+  display: block;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* Hover styles */
+.nav-right a:hover,
+.dropbtn:hover,
+.dropdown-content a:hover {
+  background-color: #f3f3f3;
+  color: #004aad;
+}
+
+/* Hiện menu khi hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Khi hover giữ màu nút chính */
+.dropdown:hover .dropbtn {
+  color: #004aad;
+}
+
+.method-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .method-grid {
+    grid-template-columns: 1fr;
+  }
+}

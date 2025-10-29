@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phương pháp Flashcard - UNIPATH</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #ffffff;
+      margin: 0;
+      padding-top: 80px;
+      line-height: 1.7;
+      color: #333;
+    }
+
+    .method-detail-container {
+      max-width: 950px;
+      margin: auto;
+      background: #fff;
+      padding: 2.5rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: #004aad;
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+
+    h2 {
+      color: #1e3a8a;
+      margin-top: 2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    h3 {
+      color: #2563eb;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      text-align: justify;
+    }
+
+    ul {
+      margin: 0.8rem 0 1rem 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+    }
+
+    strong {
+      color: #004aad;
+    }
+
+    .btn-back {
+      display: block;
+      margin: 2rem auto 0;
+      background: linear-gradient(90deg, #4facfe, #00f2fe);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-back:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="logo.png" alt="Logo" class="logo">
+      <h2 class="nav-logo">UNIPATH</h2>
+    </div>
+
+    <div class="nav-right">
+      <a href="homepage.html">Trang chủ</a>
+      <a href="study-methods.html">Phương pháp học</a>
+      <a href="documents.html">Văn bản</a>
+      <a href="contact.html">Liên hệ</a>
+      <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+    </div>
+  </nav>
+
+  <div class="method-detail-container">
+    <h1>🎴 Flashcard – Thẻ ghi nhớ thông minh trong học tập</h1>
+
+    <h2>1️⃣ Flashcard là gì?</h2>
+    <p>Flashcard là một công cụ học tập thường được làm từ giấy, có hai mặt. Mặt trước của flashcard thường chứa một từ vựng, một câu hỏi hoặc một khái niệm cụ thể, trong khi mặt sau chứa định nghĩa, câu trả lời hoặc thông tin bổ sung liên quan.</p>
+    <p>Flashcard thường được sử dụng để học, nhớ thông tin quan trọng hoặc kiểm tra các phần kiến thức ngắn. Việc sử dụng flashcard giúp người học tập trung vào việc học từng phần kiến thức một, kích thích trí não thông qua việc nhìn và ghi nhớ thông tin, giúp học viên ghi nhớ hiệu quả.</p>
+    <p>Do đó, flashcard thường được ứng dụng trong việc học và ghi nhớ từ vựng trong tiếng Anh.</p>
+
+    <h2>2️⃣ Lợi ích của việc sử dụng Flashcard</h2>
+    <ul>
+      <li><strong>Học từ vựng hiệu quả:</strong> Giúp kích thích trí não thông qua việc nhìn và ghi nhớ định nghĩa hoặc ngữ cảnh cụ thể.</li>
+      <li><strong>Tăng cường kỹ năng ghi nhớ:</strong> Lặp lại nhiều lần giúp củng cố kiến thức lâu dài.</li>
+      <li><strong>Tiết kiệm thời gian:</strong> Tập trung vào phần kiến thức cụ thể, tránh lan man.</li>
+      <li><strong>Tái sử dụng dễ dàng:</strong> Có thể viết, xáo trộn, hoặc học lại bất cứ lúc nào.</li>
+      <li><strong>Thú vị và đa dạng:</strong> Người học có thể tự tạo flashcard hoặc biến việc học thành trò chơi.</li>
+      <li><strong>Phát triển kỹ năng tự học:</strong> Tự quản lý quá trình học, tự kiểm tra, tự cải thiện.</li>
+    </ul>
+
+    <h2>3️⃣ Sáu loại Flashcard phổ biến trong học tiếng Anh</h2>
+    <ul>
+      <li><strong>Flashcard điền vào chỗ trống:</strong> Giúp nhớ cụm từ hoặc idiom.  
+        <br><em>Ví dụ:</em> When he sent me flowers, I was over the ____ → <strong>moon</strong>.</li>
+      <li><strong>Flashcard từ đồng nghĩa:</strong> Mặt trước là từ chính, mặt sau là các từ đồng nghĩa.</li>
+      <li><strong>Flashcard từ trái nghĩa:</strong> Giúp hiểu và ghi nhớ cặp từ đối lập.</li>
+      <li><strong>Flashcard định nghĩa:</strong> Một mặt là từ, mặt còn lại là định nghĩa.</li>
+      <li><strong>Flashcard dịch thuật:</strong> Mặt trước tiếng Anh, mặt sau tiếng Việt (phù hợp người mới bắt đầu).</li>
+      <li><strong>Flashcard hình ảnh:</strong> Kết hợp hình minh họa để kích thích trí nhớ thị giác.</li>
+    </ul>
+
+    <h2>4️⃣ Cách học từ vựng tiếng Anh bằng Flashcard</h2>
+    <ol>
+      <li><strong>Chọn từ vựng cần học:</strong> Bắt đầu với các từ cơ bản hoặc chủ đề bạn quan tâm.</li>
+      <li><strong>Tạo flashcards:</strong> Có thể viết tay hoặc dùng app như <em>STUDY4</em>, <em>Anki</em>, <em>Quizlet</em>.</li>
+      <li><strong>Ghi chú đầy đủ thông tin:</strong> Bao gồm từ, nghĩa, phiên âm, ví dụ.</li>
+      <li><strong>Sử dụng flashcard đúng cách:</strong> 
+        <ul>
+          <li>Xem từ → cố gắng nhớ → nói nghĩa → lật thẻ kiểm tra.</li>
+          <li>Chuyển thẻ đúng sang nhóm riêng, học lại thẻ sai.</li>
+        </ul>
+      </li>
+      <li><strong>Lặp lại thường xuyên:</strong> Học đều đặn giúp ghi nhớ lâu dài.</li>
+      <li><strong>Sử dụng trong ngữ cảnh:</strong> Thử áp dụng từ mới trong hội thoại hoặc viết.</li>
+      <li><strong>Kết hợp phương pháp khác:</strong> Dùng Flashcard cùng với nghe, đọc, viết để đạt hiệu quả cao.</li>
+    </ol>
+
+    <h2>5️⃣ 10 lưu ý quan trọng khi học từ vựng bằng Flashcard</h2>
+    <ul>
+      <li><strong>Tập trung vào từ quan trọng:</strong> Học đúng nhóm từ phục vụ mục tiêu (ví dụ: IELTS, giao tiếp).</li>
+      <li><strong>Giới hạn số lượng mỗi ngày:</strong> Chỉ nên học khoảng 20 từ để tránh quá tải.</li>
+      <li><strong>Học theo chủ đề:</strong> Giúp kết nối và nhớ nhanh hơn.</li>
+      <li><strong>Sử dụng phương tiện trực quan:</strong> Thêm hình ảnh để kích hoạt trí nhớ thị giác.</li>
+      <li><strong>Lập kế hoạch học tập:</strong> Duy trì lịch học cố định hằng ngày.</li>
+      <li><strong>Tận dụng thời gian rảnh:</strong> Ôn flashcard khi chờ xe, nghỉ giải lao, v.v.</li>
+      <li><strong>Kiểm tra định kỳ:</strong> Ôn lại flashcard cũ để tránh quên.</li>
+      <li><strong>Dùng chiến lược ghi nhớ:</strong> Áp dụng kỹ thuật mnemonic, sơ đồ tư duy.</li>
+      <li><strong>Linh hoạt và thích nghi:</strong> Chỉnh phương pháp phù hợp với phong cách học của bạn.</li>
+      <li><strong>Sử dụng từ trong ngữ cảnh:</strong> Dùng từ trong nói, viết để biến kiến thức thành kỹ năng.</li>
+    </ul>
+
+    <button class="btn-back" onclick="window.location.href='study-methods.html'">🔙 Quay lại trang phương pháp học</button>
+  </div>
+
+</body>
+</html>

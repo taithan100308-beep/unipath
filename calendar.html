@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch học - UNIPATH</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #f9fafb;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .calendar-container {
+      max-width: 800px;
+      margin: 75px auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .calendar-header h2 {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    #calendar-table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    #calendar-table th,
+    #calendar-table td {
+      text-align: center;
+      padding: 10px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background 0.2s;
+    }
+
+    #calendar-table td:hover {
+      background: #e0e7ff;
+    }
+
+    #calendar-table td.selected {
+      background: #3b82f6;
+      color: white;
+    }
+
+    #calendar-table td.today {
+      border: 2px solid #3b82f6;
+      font-weight: bold;
+    }
+
+    .note-container {
+      margin-top: 20px;
+    }
+
+    #daily-note {
+      width: 100%;
+      height: 120px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    .save-btn, .delete-btn {
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .save-btn {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .save-btn:hover {
+      background: #2563eb;
+    }
+
+    .delete-btn {
+      background: #ef4444;
+      color: white;
+      margin-left: 10px;
+    }
+
+    .delete-btn:hover {
+      background: #dc2626;
+    }
+
+    /* ==== Danh sách ghi chú ==== */
+    .notes-list {
+      margin-top: 30px;
+      background: #f9fafb;
+      padding: 1.2rem;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .notes-list h3 {
+      margin-bottom: 10px;
+      color: #111827;
+      font-size: 1.1rem;
+    }
+
+    .notes-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+    .notes-list li {
+      background: #fff;
+      margin-bottom: 8px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      border-left: 4px solid #3b82f6;
+    }
+
+    .notes-list li span.date {
+      font-weight: bold;
+      color: #2563eb;
+    }
+
+    .notes-list li span.text {
+      color: #333;
+      margin-left: 6px;
+    }
+
+    .no-notes {
+      color: #888;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">UNIPATH</h2>
+  </div>
+
+  <div class="nav-right">
+    <a href="homepage.html">Trang chủ</a>
+
+    <!-- 🔹 Dropdown Tuyển sinh -->
+<div class="dropdown">
+  <a href="#" class="dropbtn">Tuyển sinh ▾</a>
+  <div class="dropdown-content">
+    <a href="universities.html">Thông tin tuyển sinh</a>
+    <a href="converter.html">Quy đổi điểm</a>
+    <a href="ctu-cutoff.html">Tra cứu điểm</a>
+  </div>
+</div>
+
+    <a href="biotest.html">Sinh trắc học</a>
+    <a href="study-methods.html">Phương pháp học</a>
+    <a href="documents.html">Văn bản</a>
+    <a href="contact.html">Liên hệ</a>
+    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+  </div>
+</nav>
+
+
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <button id="prev-month">‹</button>
+      <h2 id="month-year"></h2>
+      <button id="next-month">›</button>
+    </div>
+
+    <table id="calendar-table"></table>
+
+    <div class="note-container">
+      <h3>Ghi chú cho ngày <span id="selected-date">chưa chọn</span></h3>
+      <textarea id="daily-note" placeholder="Nhập việc cần học trong ngày này..."></textarea>
+      <div>
+        <button class="save-btn" id="save-note">💾 Lưu ghi chú</button>
+        <button class="delete-btn" id="delete-note">🗑️ Xoá ghi chú</button>
+      </div>
+    </div>
+
+    <!-- 🔽 Danh sách tất cả ghi chú -->
+    <div class="notes-list" id="notes-list">
+      <h3>📋 Danh sách ghi chú đã lưu</h3>
+      <ul id="notes-ul"></ul>
+    </div>
+  </div>
+
+  <script>
+    const monthYear = document.getElementById("month-year");
+    const calendarTable = document.getElementById("calendar-table");
+    const selectedDateEl = document.getElementById("selected-date");
+    const noteInput = document.getElementById("daily-note");
+    const saveBtn = document.getElementById("save-note");
+    const deleteBtn = document.getElementById("delete-note");
+    const notesUl = document.getElementById("notes-ul");
+    let currentDate = new Date();
+    let selectedDate = null;
+
+    function renderCalendar() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+      monthYear.textContent = `${currentDate.toLocaleString("vi-VN", { month: "long" })} / ${year}`;
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const lastDate = new Date(year, month + 1, 0).getDate();
+
+      let html = "<tr><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th><th>CN</th></tr><tr>";
+      let dayCount = 0;
+
+      for (let i = 1; i < (firstDay === 0 ? 7 : firstDay); i++) {
+        html += "<td></td>";
+        dayCount++;
+      }
+
+      for (let day = 1; day <= lastDate; day++) {
+        if (dayCount % 7 === 0) html += "</tr><tr>";
+        html += `<td class="day" data-date="${year}-${month + 1}-${day}">${day}</td>`;
+        dayCount++;
+      }
+
+      html += "</tr>";
+      calendarTable.innerHTML = html;
+
+      const today = new Date();
+
+      document.querySelectorAll(".day").forEach(td => {
+        const [y, m, d] = td.dataset.date.split("-").map(Number);
+        if (y === today.getFullYear() && m === today.getMonth() + 1 && d === today.getDate()) {
+          td.classList.add("today");
+        }
+
+        const dateKey = td.dataset.date;
+        if (localStorage.getItem(`note_${dateKey}`)) {
+          td.style.background = "#dbeafe";
+        }
+
+        td.addEventListener("click", () => {
+          document.querySelectorAll(".day").forEach(d => d.classList.remove("selected"));
+          td.classList.add("selected");
+          selectedDate = td.dataset.date;
+          selectedDateEl.textContent = selectedDate;
+          noteInput.value = localStorage.getItem(`note_${selectedDate}`) || "";
+        });
+      });
+    }
+
+    function renderNotesList() {
+      notesUl.innerHTML = "";
+      const keys = Object.keys(localStorage).filter(k => k.startsWith("note_"));
+      if (keys.length === 0) {
+        notesUl.innerHTML = `<li class="no-notes">Chưa có ghi chú nào được lưu.</li>`;
+        return;
+      }
+
+      keys.sort(); // sắp xếp theo ngày
+      keys.forEach(key => {
+        const date = key.replace("note_", "");
+        const note = localStorage.getItem(key);
+        if (note.trim() !== "") {
+          const li = document.createElement("li");
+          li.innerHTML = `<span class="date">📅 ${date}:</span> <span class="text">${note}</span>`;
+          notesUl.appendChild(li);
+        }
+      });
+    }
+
+    document.getElementById("prev-month").addEventListener("click", () => {
+      currentDate.setMonth(currentDate.getMonth() - 1);
+      renderCalendar();
+    });
+
+    document.getElementById("next-month").addEventListener("click", () => {
+      currentDate.setMonth(currentDate.getMonth() + 1);
+      renderCalendar();
+    });
+
+    saveBtn.addEventListener("click", () => {
+      if (!selectedDate) {
+        alert("⚠️ Vui lòng chọn một ngày trước!");
+        return;
+      }
+      localStorage.setItem(`note_${selectedDate}`, noteInput.value);
+      alert("✅ Ghi chú đã được lưu!");
+      renderCalendar();
+      renderNotesList();
+    });
+
+    deleteBtn.addEventListener("click", () => {
+      if (!selectedDate) {
+        alert("⚠️ Hãy chọn ngày cần xoá trước!");
+        return;
+      }
+      localStorage.removeItem(`note_${selectedDate}`);
+      noteInput.value = "";
+      alert("🗑️ Ghi chú đã được xoá!");
+      renderCalendar();
+      renderNotesList();
+    });
+
+    renderCalendar();
+    renderNotesList();
+  </script>
+</body>
+</html>

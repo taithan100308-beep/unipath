@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tra cứu điểm chuẩn Đại học</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #ffffff;
+      padding-top: 80px;
+    }
+    .cutoff-container {
+      max-width: 850px;
+      margin: auto;
+      background: #fff;
+      border-radius: 1.2rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      padding: 2rem;
+    }
+    select, button {
+      padding: 10px 14px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-right: 10px;
+    }
+    button {
+      background: linear-gradient(90deg, #4facfe, #00f2fe);
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover { transform: scale(1.05); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      background: #f0f7ff;
+      color: #004aad;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">UNIPATH</h2>
+  </div>
+
+  <div class="nav-right">
+    <a href="homepage.html">Trang chủ</a>
+
+    <!-- 🔹 Dropdown Tuyển sinh -->
+<div class="dropdown">
+  <a href="#" class="dropbtn">Tuyển sinh ▾</a>
+  <div class="dropdown-content">
+    <a href="universities.html">Thông tin tuyển sinh</a>
+    <a href="converter.html">Quy đổi điểm</a>
+    <a href="ctu-cutoff.html">Tra cứu điểm</a>
+  </div>
+</div>
+
+    <a href="biotest.html">Sinh trắc học</a>
+    <a href="study-methods.html">Phương pháp học</a>
+    <a href="documents.html">Văn bản</a>
+    <a href="contact.html">Liên hệ</a>
+    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+  </div>
+</nav>
+
+  <div class="cutoff-container">
+    <h1>📊 Tra cứu điểm chuẩn Đại học</h1>
+
+    <div style="margin-top: 1rem;">
+      <select id="schoolSelect">
+        <option value="">-- Chọn trường --</option>
+        <option value="ctu">Đại học Cần Thơ</option>
+        <!-- sau này bạn có thể thêm nhiều trường -->
+      </select>
+
+      <select id="methodSelect">
+        <option value="">-- Chọn phương thức --</option>
+        <option value="thpt">Thi THPT</option>
+        <option value="hocba">Học bạ</option>
+      </select>
+
+
+      <select id="majorSelect">
+        <option value="">-- Chọn ngành --</option>
+      </select>
+
+      <button id="searchBtn">🔍 Tra cứu</button>
+    </div>
+
+    <table id="resultTable" style="display:none;">
+      <thead>
+        <tr>
+          <th>Mã ngành</th>
+          <th>Tên ngành</th>
+          <th>Tổ hợp</th>
+          <th>Điểm chuẩn</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- ✅ Import dữ liệu -->
+  <script type="module">
+    import { ctuData } from "./ctu-data.js";
+
+    const schoolSelect = document.getElementById("schoolSelect");
+    const methodSelect = document.getElementById("methodSelect");
+    const majorSelect = document.getElementById("majorSelect");
+    const searchBtn = document.getElementById("searchBtn");
+    const table = document.getElementById("resultTable");
+    const tbody = table.querySelector("tbody");
+
+    // Khi chọn phương thức -> hiển thị danh sách ngành
+    methodSelect.addEventListener("change", () => {
+      majorSelect.innerHTML = '<option value="">-- Chọn ngành --</option>';
+
+      const method = methodSelect.value;
+      if (schoolSelect.value === "ctu" && method && ctuData[method]) {
+        ctuData[method].forEach(item => {
+          const opt = document.createElement("option");
+          opt.value = item.code;
+          opt.textContent = item.major;
+          majorSelect.appendChild(opt);
+        });
+      }
+    });
+
+    // Khi nhấn nút Tra cứu
+    searchBtn.addEventListener("click", () => {
+      const method = methodSelect.value;
+      const majorCode = majorSelect.value;
+
+      if (!method || !majorCode) {
+        alert("Vui lòng chọn đủ thông tin!");
+        return;
+      }
+
+      const record = ctuData[method].find(item => item.code === majorCode);
+      if (!record) {
+        alert("Không tìm thấy ngành này!");
+        return;
+      }
+
+      table.style.display = "table";
+      tbody.innerHTML = `
+        <tr>
+          <td>${record.code}</td>
+          <td>${record.major}</td>
+          <td>${record.subjects}</td>
+          <td><strong>${record.cutoff}</strong></td>
+        </tr>
+      `;
+    });
+  </script>
+</body>
+</html>
+

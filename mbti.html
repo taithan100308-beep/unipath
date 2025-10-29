@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bài test MBTI - Unipath</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="mbti.js"></script>
+</head>
+<body class="test-body">
+
+  <!-- 🔹 Navbar -->
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">UNIPATH</h2>
+  </div>
+
+  <div class="nav-right">
+    <a href="homepage.html">Trang chủ</a>
+
+    <!-- 🔹 Dropdown Tuyển sinh -->
+<div class="dropdown">
+  <a href="#" class="dropbtn">Tuyển sinh ▾</a>
+  <div class="dropdown-content">
+    <a href="universities.html">Thông tin tuyển sinh</a>
+    <a href="converter.html">Quy đổi điểm</a>
+    <a href="ctu-cutoff.html">Tra cứu điểm</a>
+  </div>
+</div>
+
+    <a href="biotest.html">Sinh trắc học</a>
+    <a href="study-methods.html">Phương pháp học</a>
+    <a href="documents.html">Văn bản</a>
+    <a href="contact.html">Liên hệ</a>
+    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+  </div>
+</nav>
+
+  <!-- 🔹 Nội dung -->
+  <div class="test-container">
+    <h1>🧠 Bài Test MBTI - Đo lường 16 nhóm tính cách</h1>
+    <p class="desc">
+      Hãy chọn mức độ phù hợp nhất với bạn cho từng câu hỏi (từ "Rất không đồng ý" đến "Rất đồng ý").
+    </p>
+
+    <form id="mbtiForm" class="test-form">
+      <!-- Các câu hỏi được thêm bằng JavaScript -->
+      <div class="test-actions">
+        <button type="submit" class="test-btn blue">Hoàn thành bài test</button>
+        <button type="button" class="test-btn gray" onclick="window.location.href='biotest.html'">⬅ Quay lại</button>
+      </div>
+    </form>
+
+    <!-- 🔹 Kết quả -->
+    <div id="resultSection" style="display:none; margin-top:2rem;">
+      <h2 style="text-align:center;">
+        Kết quả MBTI của bạn:
+        <span id="typeCode" style="color:#004aad;"></span>
+      </h2>
+
+      <ul id="details" style="margin-top:1.5rem;"></ul>
+
+      <h3 style="margin-top:2rem;">🔎 Gợi ý nhóm ngành phù hợp:</h3>
+      <p id="suggestion" style="color:#004aad;font-weight:500;"></p>
+
+      <div style="text-align:center;margin-top:2rem;">
+        <button id="redoBtn" class="back-btn" onclick="location.reload()">🔁 Làm lại bài test</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

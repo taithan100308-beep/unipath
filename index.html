@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng nhập - Unipath</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js" defer></script>
+</head>
+<body class="login-body">
+  <div class="login-container">
+    <h1>UNIPATH</h1>
+    <p>Đăng nhập để bắt đầu theo dõi thời gian học của bạn</p>
+    <button id="googleLoginBtn" class="google-btn">
+      <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google logo">
+      Đăng nhập bằng Google
+    </button>
+  </div>
+  <script>
+  // Kiểm tra nếu là thiết bị di động
+  const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    // Tạo overlay cảnh báo
+    const warning = document.createElement('div');
+    warning.style.position = 'fixed';
+    warning.style.top = '0';
+    warning.style.left = '0';
+    warning.style.width = '100vw';
+    warning.style.height = '100vh';
+    warning.style.backgroundColor = 'rgba(255,255,255,0.96)';
+    warning.style.display = 'flex';
+    warning.style.flexDirection = 'column';
+    warning.style.justifyContent = 'center';
+    warning.style.alignItems = 'center';
+    warning.style.zIndex = '9999';
+    warning.style.textAlign = 'center';
+    warning.style.padding = '20px';
+    warning.innerHTML = `
+      <h2 style="color:#d32f2f; font-size:1.6rem; margin-bottom:15px;">⚠️ Web chưa tương thích trên điện thoại</h2>
+      <p style="font-size:1.1rem; color:#333; max-width:400px; margin-bottom:20px;">
+        Vui lòng sử dụng <strong>máy tính</strong> để có trải nghiệm học tập tốt nhất.
+      </p>
+      <button onclick="window.close()" style="padding:10px 20px; border:none; background:#d32f2f; color:#fff; border-radius:6px; cursor:pointer;">
+        Đóng trang
+      </button>
+    `;
+    document.body.appendChild(warning);
+  }
+</script>
+</body>
+</html>

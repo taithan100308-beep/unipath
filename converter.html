@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quy đổi điểm V-SAT & ĐGNL</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 🟦 Navbar -->
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">UNIPATH</h2>
+  </div>
+
+  <div class="nav-right">
+    <a href="homepage.html">Trang chủ</a>
+
+    <!-- 🔹 Dropdown Tuyển sinh -->
+<div class="dropdown">
+  <a href="#" class="dropbtn">Tuyển sinh ▾</a>
+  <div class="dropdown-content">
+    <a href="universities.html">Thông tin tuyển sinh</a>
+    <a href="converter.html">Quy đổi điểm</a>
+    <a href="ctu-cutoff.html">Tra cứu điểm</a>
+  </div>
+</div>
+
+    <a href="biotest.html">Sinh trắc học</a>
+    <a href="study-methods.html">Phương pháp học</a>
+    <a href="documents.html">Văn bản</a>
+    <a href="contact.html">Liên hệ</a>
+    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+  </div>
+</nav>
+
+
+  <!-- 🧮 Hai hộp quy đổi -->
+<section class="converter-section">
+  <main class="converter-page two-columns">
+    <!-- V-SAT converter -->
+    <div class="converter-box">
+      <h1>Quy đổi điểm V-SAT</h1>
+      <select id="subject">
+        <option value="toan">Toán</option>
+        <option value="ngu_van">Ngữ văn</option>
+        <option value="vat_li">Vật lí</option>
+        <option value="hoa_hoc">Hóa học</option>
+        <option value="dia_li">Địa lí</option>
+        <option value="lich_su">Lịch sử</option>
+        <option value="tieng_anh">Tiếng Anh</option>
+        <option value="sinh_hoc">Sinh học</option>
+      </select>
+      <input type="number" id="vsatScore" placeholder="Nhập điểm V-SAT..." step="0.1" />
+      <button onclick="convertScoreVSAT()">Quy đổi</button>
+      <div id="resultVSAT" class="result"></div>
+    </div>
+
+    <!-- V-ACT / ĐGNL converter -->
+    <div class="converter-box">
+      <h1>Quy đổi điểm ĐGNL</h1>
+      <input type="number" id="vactScore" placeholder="Nhập điểm ĐGNL (V-ACT)..." step="1" />
+      <button onclick="convertScoreVACT()">Quy đổi</button>
+      <div id="resultVACT" class="result"></div>
+    </div>
+
+    <div class="loading-container">
+      <img src="loading.png" alt="Loading" class="loading-img">
+    </div>
+  </main>
+</section>
+
+<!-- ====== INFO BLOCK: Thông tin về kỳ thi (đặt ngay dưới 2 converters) ====== -->
+<section class="exam-info" aria-labelledby="exam-info-title">
+  <div class="exam-info-inner">
+    <h2 id="exam-info-title">Thông tin nhanh về các kỳ thi (Phân biệt V-SAT và ĐGNL)</h2>
+
+    <p class="intro">
+      Lưu ý: <strong>V-SAT</strong> và <strong>ĐGNL / V-ACT</strong> là hai loại kỳ thi khác nhau về mục đích, cấu trúc và thang điểm.
+      Dưới đây là tóm tắt riêng cho từng kỳ thi — đọc kỹ phần tương ứng với kỳ thi bạn quan tâm.
+    </p>
+
+    <div class="grid-two">
+      <!-- V-SAT -->
+      <div class="col">
+        <h3>V-SAT (Kỳ thi đánh giá theo môn)</h3>
+        <p>
+          V-SAT là kỳ thi đánh giá theo từng môn, thường tổ chức trên máy tính, cho phép thí sinh thi độc lập từng môn (Toán, Ngữ văn, Tiếng Anh, Vật lí, Hóa học, Sinh học, Lịch sử, Địa lí).
+          Kết quả V-SAT được một số trường sử dụng để xét tuyển theo quy định riêng của từng trường.
+        </p>
+
+        <h4>Các điểm cần biết về V-SAT</h4>
+        <ul>
+          <li>Các môn: Toán, Ngữ văn, Tiếng Anh, Vật lí, Hóa học, Sinh học, Lịch sử, Địa lí (thi độc lập theo môn).</li>
+          <li>Thời gian: thường Toán & Ngữ văn 90 phút; các môn còn lại ~60 phút (tham khảo đề minh họa/ BTC từng năm).</li>
+          <li>Quy đổi: nhiều trường cung cấp bảng quy đổi V-SAT → điểm THPT; khi cần nội suy tuyến tính theo khoảng (a,b) → (c,d).</li>
+        </ul>
+
+        <p class="small">Nguồn: trang chính thức V-SAT / đề minh họa của đơn vị tổ chức (hãy kiểm tra trang đơn vị tổ chức để lấy bảng quy đổi chính xác cho năm bạn dự thi).</p>
+      </div>
+
+      <!-- ĐGNL / V-ACT -->
+      <div class="col">
+        <h3>ĐGNL (Ví dụ: V-ACT / Bài đánh giá năng lực)</h3>
+        <p>
+          ĐGNL (đánh giá năng lực) là dạng bài thi tổng hợp/chuẩn hoá, thường do một số tổ chức/đại học thiết kế (ví dụ bài đánh giá năng lực của ĐHQG hoặc các bài gọi tắt như V-ACT). Thang điểm và cách quy đổi khác với V-SAT.
+        </p>
+
+        <h4>Các điểm cần biết về ĐGNL</h4>
+        <ul>
+          <li>Thang điểm thô của ĐGNL khác (ví dụ bảng bạn gửi dùng khoảng 0–~1200 hoặc dạng điểm quy chuẩn) — cần dùng bảng phân vị để quy đổi sang điểm THPT.</li>
+          <li>Cách quy đổi: dùng các khoảng (a < x ≤ b) tương ứng (c < y ≤ d) và nội suy tuyến tính trong khoảng đó.</li>
+          <li>ĐGNL thường dùng IRT / mô hình chuẩn hoá khi ước lượng năng lực, nên điểm thô bị quy chuẩn trước khi quy đổi.</li>
+        </ul>
+
+        <p class="small">Nguồn: bảng phân vị/ hướng dẫn quy đổi do đơn vị tổ chức.</p>
+      </div>
+    </div>
+
+    <h3>Cách tính điểm (tóm tắt IRT & nội suy)</h3>
+    <p>
+      - <strong>IRT (Item Response Theory)</strong>: phương pháp ước lượng năng lực dựa trên xác suất trả lời đúng từng câu, cân nhắc độ khó và độ phân biệt của câu hỏi. Kết quả IRT thường cho điểm ước lượng (theta) rồi được chuẩn hoá sang thang thích hợp. <br>
+      - <strong>Nội suy tuyến tính</strong>: khi có bảng phân khoảng (a,b) → (c,d), nếu điểm thô x nằm trong (a, b] ta áp dụng:
+      <br><code>y = c + ((x - a) / (b - a)) * (d - c)</code>
+    </p>
+
+    <h3>Thời gian & Đợt thi (tóm tắt)</h3>
+    <p>
+      - Lịch thi và số đợt do từng đơn vị công bố; một số kỳ có nhiều đợt trong năm. <br>
+      - Luôn kiểm tra trang chính thức của kỳ thi hoặc trang tuyển sinh trường bạn nộp để biết đợt thi, điều kiện đăng ký và hồ sơ.
+    </p>
+  </div>
+</section>
+<!-- ========== END INFO BLOCK ========== -->
+
+  <script src="converter.js"></script>
+</body>
+</html>

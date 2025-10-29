@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Đọc Công Văn</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 { text-align: center; color: #333; }
+    textarea, input, button {
+      width: 100%;
+      margin-top: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #4A90E2;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #357ABD;
+    }
+    #answer {
+      margin-top: 20px;
+      padding: 15px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>📄 Trợ Lý AI Đọc Công Văn</h1>
+
+  <label>🔑 API Key (bạn giữ bí mật nhé)</label>
+  <input type="password" id="apiKey" placeholder="Nhập API key của bạn">
+
+  <label>📘 Nội dung công văn / tài liệu</label>
+  <textarea id="document" rows="10" placeholder="Dán nội dung công văn vào đây..."></textarea>
+
+  <label>❓ Câu hỏi của bạn</label>
+  <textarea id="question" rows="3" placeholder="Ví dụ: Quyết định này có hiệu lực từ ngày nào?"></textarea>
+
+  <button onclick="askAI()">Gửi cho AI</button>
+
+  <div id="answer"></div>
+
+  <script>
+    async function askAI() {
+      const apiKey = document.getElementById("apiKey").value.trim();
+      const documentText = document.getElementById("document").value.trim();
+      const question = document.getElementById("question").value.trim();
+      const answerBox = document.getElementById("answer");
+
+      if (!apiKey || !documentText || !question) {
+        alert("Vui lòng nhập đầy đủ thông tin.");
+        return;
+      }
+
+      answerBox.innerHTML = "⏳ Đang xử lý, vui lòng chờ...";
+
+      try {
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: [
+              { role: "system", content: "Bạn là trợ lý AI chuyên đọc hiểu công văn và văn bản hành chính. Trả lời ngắn gọn, rõ ràng, đúng nội dung trong văn bản được cung cấp." },
+              { role: "user", content: "Văn bản: " + documentText },
+              { role: "user", content: "Câu hỏi: " + question }
+            ]
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          answerBox.innerHTML = `<b>Lỗi:</b> ${data.error.message}`;
+        } else {
+          answerBox.innerHTML = `<b>Trả lời:</b><br>${data.choices[0].message.content}`;
+        }
+
+      } catch (err) {
+        answerBox.innerHTML = "❌ Lỗi khi gọi API: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
