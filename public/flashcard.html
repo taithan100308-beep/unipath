@@ -3,90 +3,599 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flashcard - Unipath</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Flashcard SRS - Unipath</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+    
     body {
-      background: #ffffff;
-      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
       margin: 0;
-      padding-top: 80px;
+      padding-bottom: 3rem;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: white;
+      padding: 15px 30px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+    }
+
+    .nav-logo {
+      color: #667eea;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-right a, .dropdown .dropbtn {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-right a:hover {
+      color: #667eea;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background: white;
+      min-width: 200px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      z-index: 1;
+      top: 100%;
+      margin-top: 5px;
+      padding-top: 5px;
+    }
+
+        .dropdown::before {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      height: 10px;
+      background: transparent;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 12px 20px;
+      color: #333;
+      transition: background 0.2s;
+    }
+
+    .dropdown-content a:hover {
+      background: #f5f5f5;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
     }
 
     .flashcard-container {
-      max-width: 800px;
+      max-width: 1200px;
       margin: auto;
       background: #fff;
       padding: 2rem;
       border-radius: 1.5rem;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     }
 
     h1 {
       text-align: center;
-      color: #004aad;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+    }
+
+    .stats-banner {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .mode-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #e0e0e0;
+      flex-wrap: wrap;
+    }
+
+    .mode-tab {
+      padding: 0.8rem 1.5rem;
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+
+    .mode-tab.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+    }
+
+    .mode-content {
+      display: none;
+    }
+
+    .mode-content.active {
+      display: block;
     }
 
     .create-section {
       display: flex;
       gap: 1rem;
       margin-top: 1rem;
+      flex-wrap: wrap;
     }
 
-    input {
+    input, textarea {
       flex: 1;
-      padding: 0.6rem 1rem;
-      border: 1px solid #ccc;
+      min-width: 200px;
+      padding: 0.8rem 1rem;
+      border: 2px solid #e0e0e0;
       border-radius: 0.8rem;
       font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
     }
 
     button {
-      background: linear-gradient(90deg, #4facfe, #00f2fe);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       border: none;
       color: white;
       border-radius: 0.8rem;
-      padding: 0.6rem 1.2rem;
+      padding: 0.8rem 1.5rem;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-weight: 600;
+      font-size: 1rem;
     }
 
-    button:hover {
-      transform: scale(1.05);
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
     }
 
-    #flashcardArea {
-      margin-top: 2rem;
-      display: none;
+    button:active {
+      transform: translateY(0);
     }
 
-    #flashcardList {
-      margin-top: 1.5rem;
+    button.secondary {
+      background: #6c757d;
+    }
+
+    button.danger {
+      background: linear-gradient(90deg, #ff6b6b, #ee5a6f);
+    }
+
+    button.success {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .set-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .set-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+
+    .set-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .set-card h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.3rem;
+    }
+
+    .set-card .set-stats {
+      display: flex;
       gap: 1rem;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+
+    .set-card .delete-set {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0;
+    }
+
+    .review-container {
+      max-width: 700px;
+      margin: 2rem auto;
+    }
+
+    .review-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 3rem 2rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      min-height: 350px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+
+    .review-card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+    }
+
+    .card-front h2 {
+      color: #667eea;
+      font-size: 2rem;
+      margin: 0;
+      text-align: center;
+    }
+
+    .card-back p {
+      color: #333;
+      font-size: 1.3rem;
+      line-height: 1.6;
+      text-align: center;
+      margin: 0;
+    }
+
+    .difficulty-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .difficulty-btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .difficulty-btn.again {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    }
+
+    .difficulty-btn.hard {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .difficulty-btn.good {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .difficulty-btn.easy {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    }
+
+    .difficulty-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .difficulty-time {
+      font-size: 0.75rem;
+      opacity: 0.9;
+    }
+
+    .progress-info {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .card-status {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .card-status.new {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .card-status.learning {
+      background: #fff3e0;
+      color: #f57c00;
+    }
+
+    .card-status.review {
+      background: #e8f5e9;
+      color: #388e3c;
+    }
+
+    .chart-container {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: #f8f9fa;
+      border-radius: 1rem;
+    }
+
+    .chart-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    .progress-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .progress-bar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .progress-label {
+      min-width: 100px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 25px;
+      background: #e0e0e0;
+      border-radius: 1rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 0.5rem;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .progress-fill.new {
+      background: linear-gradient(90deg, #2196f3, #1976d2);
+    }
+
+    .progress-fill.learning {
+      background: linear-gradient(90deg, #ff9800, #f57c00);
+    }
+
+    .progress-fill.review {
+      background: linear-gradient(90deg, #4caf50, #388e3c);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #999;
+    }
+
+    .back-btn {
+      background: #6c757d;
+      margin-bottom: 1rem;
     }
 
     .flashcard {
       background: #f8fbff;
       border-radius: 1rem;
-      padding: 1rem;
-      text-align: center;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      cursor: pointer;
-      transition: transform 0.2s;
+      position: relative;
     }
 
-    .flashcard:hover {
-      transform: scale(1.05);
+    .flashcard b {
+      color: #667eea;
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 0.5rem;
     }
 
     .flashcard small {
-      color: #333;
+      color: #666;
+      line-height: 1.4;
     }
+
+    .flashcard .delete-card {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: #ff6b6b;
+      border: none;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.8rem;
+      padding: 0;
+    }
+
+    .hint-text {
+      text-align: center;
+      color: #999;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .stats-banner {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .difficulty-buttons {
+        flex-direction: column;
+      }
+
+      .difficulty-btn {
+        min-width: 100%;
+      }
+    }
+    .logout-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+/* Điều chỉnh nút logout để vừa với icon */
+.logout-btn {
+  background: #ccc;
+  border: 1px solid #999;
+  color: #000;
+  padding: 5px 11px;  /* ← giảm padding để nút nhỏ hơn */
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-btn:hover {
+  background: #bbb;
+  color: #000;
+}
   </style>
 </head>
 <body>
+  <!-- Navbar -->
 <nav class="navbar">
   <div class="nav-left">
     <img src="logo.png" alt="Logo" class="logo">
@@ -97,46 +606,942 @@
     <a href="homepage.html">Trang chủ</a>
 
     <!-- 🔹 Dropdown Tuyển sinh -->
-<div class="dropdown">
+    <div class="dropdown">
   <a href="#" class="dropbtn">Tuyển sinh ▾</a>
   <div class="dropdown-content">
     <a href="universities.html">Thông tin tuyển sinh</a>
     <a href="converter.html">Quy đổi điểm</a>
-    <a href="ctu-cutoff.html">Tra cứu điểm</a>
+      
+      <!-- Submenu bên phải - chỉ có link -->
+    <div class="dropdown-item-with-sub">
+      <a href="#">Tra cứu điểm ▸</a>
+      
+      <!-- Submenu bên phải - chỉ 2 link -->
+      <div class="submenu-right">
+        <a href="ctu-cutoff.html">Tra cứu</a>
+        <a href="compare-score.html">So sánh</a>
+      </div>
+    </div>
+    
+    <a href="documents.html">Văn bản</a>
+    <a href="de-minh-hoa.html">Thư viện đề</a>
   </div>
 </div>
 
+
     <a href="biotest.html">Sinh trắc học</a>
     <a href="study-methods.html">Phương pháp học</a>
-    <a href="documents.html">Văn bản</a>
-    <a href="contact.html">Liên hệ</a>
-    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+    
+    <!-- 🔹 Dropdown Công cụ -->
+    <div class="dropdown">
+      <a href="#" class="dropbtn">Công cụ học ▾</a>
+      <div class="dropdown-content">
+        <a href="study.html">Time-blocking</a>
+        <a href="flashcard.html">Flashcard</a>
+      </div>
+    </div>
+
+        <a href="document-ai.html">Trợ lý AI</a>
+
+    <!-- 🔹 Nút Đăng xuất -->
+<button id="logoutNavBtn" class="logout-btn">
+  <img src="log-out.jpg" class="logout-icon">
+</button>
   </div>
 </nav>
-
-
   <div class="flashcard-container">
-    <h1>🧠 Công cụ tạo Flashcard</h1>
+    <h1>🎯 Flashcard Học Thông Minh</h1>
 
-    <div class="create-section">
-      <input type="text" id="setName" placeholder="Nhập tên bộ flashcard...">
-      <button id="createSetBtn">Tạo bộ</button>
+    <!-- Stats Banner -->
+    <div class="stats-banner">
+      <div class="stat-item">
+        <div class="stat-number" id="dueToday">0</div>
+        <div class="stat-label">Cần ôn hôm nay</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="totalCards">0</div>
+        <div class="stat-label">Tổng số thẻ</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="masteredCards">0</div>
+        <div class="stat-label">Đã thành thạo</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="retentionRate">0%</div>
+        <div class="stat-label">Tỷ lệ nhớ</div>
+      </div>
     </div>
 
-    <div id="flashcardArea">
-      <h2 id="setTitle">📘 Tên bộ</h2>
+    <div class="mode-tabs">
+      <button class="mode-tab active" data-mode="study">📚 Ôn tập</button>
+      <button class="mode-tab" data-mode="create">➕ Tạo flashcard</button>
+      <button class="mode-tab" data-mode="stats">📊 Thống kê</button>
+    </div>
 
+    <!-- STUDY MODE -->
+    <div id="studyMode" class="mode-content active">
+      <div class="set-list" id="studySetList"></div>
+
+      <div id="studyArea" style="display: none;">
+        <button class="back-btn" id="backToStudySetsBtn">← Quay lại danh sách</button>
+        
+        <div class="review-container">
+          <div class="review-card" id="reviewCard">
+            <span class="card-status" id="cardStatus">Mới</span>
+            <div class="card-front">
+              <h2 id="reviewTerm">Thuật ngữ</h2>
+            </div>
+            <div class="card-back">
+              <p id="reviewDefinition">Định nghĩa</p>
+            </div>
+          </div>
+          
+          <p class="hint-text" id="hintText">💡 Click vào thẻ để lật xem định nghĩa</p>
+          
+          <div class="difficulty-buttons" id="difficultyButtons" style="display: none;">
+            <button class="difficulty-btn again" data-difficulty="again">
+              <span class="difficulty-label">😰 Quên</span>
+              <span class="difficulty-time">&lt;1 phút</span>
+            </button>
+            <button class="difficulty-btn hard" data-difficulty="hard">
+              <span class="difficulty-label">😅 Khó</span>
+              <span class="difficulty-time" id="hardTime">1 ngày</span>
+            </button>
+            <button class="difficulty-btn good" data-difficulty="good">
+              <span class="difficulty-label">😊 Tốt</span>
+              <span class="difficulty-time" id="goodTime">3 ngày</span>
+            </button>
+            <button class="difficulty-btn easy" data-difficulty="easy">
+              <span class="difficulty-label">😎 Dễ</span>
+              <span class="difficulty-time" id="easyTime">7 ngày</span>
+            </button>
+          </div>
+
+          <div class="progress-info">
+            <span id="cardProgress">0 / 0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CREATE MODE -->
+    <div id="createMode" class="mode-content">
       <div class="create-section">
-        <input type="text" id="termInput" placeholder="Thuật ngữ...">
-        <input type="text" id="definitionInput" placeholder="Định nghĩa...">
-        <button id="addCardBtn">Thêm thẻ</button>
+        <input type="text" id="setName" placeholder="Nhập tên bộ flashcard...">
+        <button id="createSetBtn">Tạo bộ mới</button>
       </div>
 
-      <div id="flashcardList"></div>
+      <div class="set-list" id="setList"></div>
+
+      <div id="flashcardArea" style="display: none;">
+        <button class="back-btn" id="backToSetsBtn">← Quay lại danh sách</button>
+        <h2 id="setTitle">📘 Tên bộ</h2>
+
+        <div class="create-section">
+          <input type="text" id="termInput" placeholder="Thuật ngữ...">
+          <textarea id="definitionInput" placeholder="Định nghĩa..."></textarea>
+          <button id="addCardBtn">Thêm thẻ</button>
+        </div>
+
+        <div id="flashcardList"></div>
+      </div>
+    </div>
+
+    <!-- STATS MODE -->
+    <div id="statsMode" class="mode-content">
+      <div class="chart-container">
+        <div class="chart-title">📈 Tiến độ học tập</div>
+        <div class="progress-bars">
+          <div class="progress-bar">
+            <div class="progress-label">Thẻ mới</div>
+            <div class="progress-track">
+              <div class="progress-fill new" id="newProgress" style="width: 0%">0</div>
+            </div>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-label">Đang học</div>
+            <div class="progress-track">
+              <div class="progress-fill learning" id="learningProgress" style="width: 0%">0</div>
+            </div>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-label">Ôn tập</div>
+            <div class="progress-track">
+              <div class="progress-fill review" id="reviewProgress" style="width: 0%">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-list" id="statsSetList"></div>
     </div>
   </div>
 
-  <!-- Quan trọng: thêm defer để script chạy sau khi HTML load -->
-  <script src="flashcard-local.js" defer></script>
+  <script>
+// ========================================
+// PHẦN 1: HỆ THỐNG LƯU TRỮ ĐÃ FIX
+// ========================================
+
+const FlashcardStorage = {
+  STORAGE_KEY: 'flashcardSets',
+  
+  // Lưu dữ liệu - LUÔN lưu vào localStorage trước
+  async save(key, data) {
+    try {
+      const jsonData = JSON.stringify(data);
+      
+      // 1. Lưu vào localStorage (đảm bảo luôn có backup)
+      localStorage.setItem(key, jsonData);
+      console.log('✅ Đã lưu vào localStorage');
+      
+      // 2. Thử lưu vào persistent storage nếu có
+      if (window.storage && typeof window.storage.set === 'function') {
+        try {
+          await window.storage.set(key, jsonData, false); // false = personal data
+          console.log('✅ Đã lưu vào persistent storage');
+        } catch (error) {
+          console.log('⚠️ Persistent storage không khả dụng, chỉ dùng localStorage');
+        }
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('❌ Lỗi khi lưu:', error);
+      return false;
+    }
+  },
+
+  // Load dữ liệu - ƯU TIÊN localStorage
+  async load(key) {
+    try {
+      console.log('🔍 Đang tìm kiếm dữ liệu...');
+      
+      // 1. Thử load từ localStorage TRƯỚC (nhanh và luôn có)
+      const localData = localStorage.getItem(key);
+      console.log('📦 localStorage data:', localData ? 'CÓ DỮ LIỆU' : 'TRỐNG');
+      
+      if (localData) {
+        console.log('✅ Đã load từ localStorage');
+        console.log('📊 Số ký tự:', localData.length);
+        return JSON.parse(localData);
+      }
+      
+      // 2. Nếu localStorage trống, thử persistent storage
+      console.log('🔍 Đang kiểm tra persistent storage...');
+      if (window.storage && typeof window.storage.get === 'function') {
+        try {
+          const result = await window.storage.get(key, false);
+          console.log('📦 Persistent storage result:', result);
+          
+          if (result && result.value) {
+            const data = JSON.parse(result.value);
+            // Đồng bộ ngược lại localStorage
+            localStorage.setItem(key, result.value);
+            console.log('✅ Đã load từ persistent storage và đồng bộ về localStorage');
+            console.log('📊 Số bộ flashcard:', Object.keys(data).length);
+            return data;
+          } else {
+            console.log('⚠️ Persistent storage trống hoặc không có dữ liệu');
+          }
+        } catch (error) {
+          console.log('⚠️ Lỗi khi load từ persistent storage:', error.message);
+        }
+      } else {
+        console.log('⚠️ window.storage không khả dụng');
+      }
+      
+      // 3. Không có dữ liệu nào
+      console.log('ℹ️ Không có dữ liệu, khởi tạo mới');
+      return null;
+      
+    } catch (error) {
+      console.error('❌ Lỗi khi load:', error);
+      return null;
+    }
+  },
+
+  // Xóa dữ liệu
+  async delete(key) {
+    try {
+      localStorage.removeItem(key);
+      
+      if (window.storage && typeof window.storage.delete === 'function') {
+        try {
+          await window.storage.delete(key, false);
+        } catch (error) {
+          console.log('⚠️ Không xóa được persistent storage');
+        }
+      }
+      
+      console.log('✅ Đã xóa dữ liệu');
+    } catch (error) {
+      console.error('❌ Lỗi khi xóa:', error);
+    }
+  }
+};
+
+// ========================================
+// PHẦN 2: SRS ALGORITHM (GIỮ NGUYÊN)
+// ========================================
+
+const SRSAlgorithm = {
+  intervals: {
+    again: 1 / 1440,
+    hard: 1,
+    good: 3,
+    easy: 7
+  },
+
+  calculateNextReview(card, difficulty) {
+    const now = Date.now();
+    let interval = card.interval || 1;
+    let easeFactor = card.easeFactor || 2.5;
+
+    switch (difficulty) {
+      case 'again':
+        interval = this.intervals.again;
+        easeFactor = Math.max(1.3, easeFactor - 0.2);
+        card.lapses = (card.lapses || 0) + 1;
+        card.state = 'learning';
+        break;
+      case 'hard':
+        interval = Math.max(1, interval * 1.2);
+        easeFactor = Math.max(1.3, easeFactor - 0.15);
+        card.state = 'learning';
+        break;
+      case 'good':
+        if (card.state === 'new') {
+          interval = this.intervals.good;
+          card.state = 'learning';
+        } else if (card.state === 'learning') {
+          interval = Math.max(3, interval * easeFactor);
+          card.state = 'review';
+        } else {
+          interval = interval * easeFactor;
+        }
+        break;
+      case 'easy':
+        interval = this.intervals.easy;
+        if (interval < 7) interval = 7;
+        else interval = interval * easeFactor * 1.3;
+        easeFactor += 0.15;
+        card.state = 'review';
+        break;
+    }
+
+    card.interval = interval;
+    card.easeFactor = easeFactor;
+    card.dueDate = now + (interval * 24 * 60 * 60 * 1000);
+    card.reviewCount = (card.reviewCount || 0) + 1;
+    card.lastReviewed = now;
+
+    return card;
+  },
+
+  getNextIntervalDays(card, difficulty) {
+    const interval = card.interval || 1;
+    const easeFactor = card.easeFactor || 2.5;
+
+    switch (difficulty) {
+      case 'hard':
+        return Math.max(1, Math.round(interval * 1.2));
+      case 'good':
+        if (card.state === 'new') return 3;
+        if (card.state === 'learning') return Math.max(3, Math.round(interval * easeFactor));
+        return Math.round(interval * easeFactor);
+      case 'easy':
+        if (interval < 7) return 7;
+        return Math.round(interval * easeFactor * 1.3);
+      default:
+        return 1;
+    }
+  },
+
+  formatInterval(days) {
+    if (days < 1) return '<1 ngày';
+    if (days === 1) return '1 ngày';
+    if (days < 30) return `${Math.round(days)} ngày`;
+    const months = Math.round(days / 30);
+    return `${months} tháng`;
+  }
+};
+
+// ========================================
+// PHẦN 3: APP STATE & INIT
+// ========================================
+
+let flashcardSets = {};
+let currentSetId = null;
+let currentStudySetId = null;
+let studyQueue = [];
+let currentCardIndex = 0;
+let isFlipped = false;
+
+// DOM Elements
+const studyMode = document.getElementById('studyMode');
+const createMode = document.getElementById('createMode');
+const statsMode = document.getElementById('statsMode');
+const modeTabs = document.querySelectorAll('.mode-tab');
+const studySetList = document.getElementById('studySetList');
+const studyArea = document.getElementById('studyArea');
+const reviewCard = document.getElementById('reviewCard');
+const reviewTerm = document.getElementById('reviewTerm');
+const reviewDefinition = document.getElementById('reviewDefinition');
+const cardStatus = document.getElementById('cardStatus');
+const hintText = document.getElementById('hintText');
+const difficultyButtons = document.getElementById('difficultyButtons');
+const cardProgress = document.getElementById('cardProgress');
+const backToStudySetsBtn = document.getElementById('backToStudySetsBtn');
+
+// ========================================
+// KHỞI TẠO APP - ĐÃ FIX
+// ========================================
+
+async function init() {
+  console.log('🚀 Đang khởi tạo app...');
+  
+  // Load dữ liệu
+  const savedSets = await FlashcardStorage.load(FlashcardStorage.STORAGE_KEY);
+  flashcardSets = savedSets || {};
+  
+  console.log('📦 Dữ liệu đã load:', flashcardSets);
+  console.log('📊 Số bộ flashcard:', Object.keys(flashcardSets).length);
+  
+  // Khởi tạo SRS data cho cards cũ
+  let needsSave = false;
+  Object.keys(flashcardSets).forEach(setId => {
+    flashcardSets[setId].cards = flashcardSets[setId].cards.map(card => {
+      if (!card.state) {
+        card.state = 'new';
+        card.dueDate = Date.now();
+        card.interval = 0;
+        card.easeFactor = 2.5;
+        card.reviewCount = 0;
+        card.lapses = 0;
+        needsSave = true;
+      }
+      return card;
+    });
+  });
+  
+  // Lưu lại nếu có thay đổi
+  if (needsSave) {
+    await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
+    console.log('💾 Đã cập nhật SRS data cho cards cũ');
+  }
+  
+  // Render UI
+  updateStats();
+  renderStudySetList();
+  renderSetList();
+  renderStatsSetList();
+  checkDueCards();
+  
+  console.log('✅ Khởi tạo hoàn tất!');
+}
+
+// ========================================
+// PHẦN 4: MODE SWITCHING
+// ========================================
+
+modeTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const mode = tab.dataset.mode;
+    modeTabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    
+    studyMode.classList.remove('active');
+    createMode.classList.remove('active');
+    statsMode.classList.remove('active');
+    
+    if (mode === 'study') {
+      studyMode.classList.add('active');
+      renderStudySetList();
+    } else if (mode === 'create') {
+      createMode.classList.add('active');
+      renderSetList();
+    } else {
+      statsMode.classList.add('active');
+      renderStatsSetList();
+      updateStatsCharts();
+    }
+  });
+});
+
+// ========================================
+// PHẦN 5: STATS & NOTIFICATIONS
+// ========================================
+
+function updateStats() {
+  const now = Date.now();
+  let due = 0;
+  let total = 0;
+  let mastered = 0;
+  let totalReviews = 0;
+  let successfulReviews = 0;
+
+  Object.values(flashcardSets).forEach(set => {
+    set.cards.forEach(card => {
+      total++;
+      if (card.dueDate <= now) due++;
+      if (card.state === 'review' && card.interval >= 21) mastered++;
+      totalReviews += card.reviewCount || 0;
+      if (card.state === 'review') successfulReviews += card.reviewCount || 0;
+    });
+  });
+
+  const retention = totalReviews > 0 ? Math.round((successfulReviews / totalReviews) * 100) : 0;
+
+  document.getElementById('dueToday').textContent = due;
+  document.getElementById('totalCards').textContent = total;
+  document.getElementById('masteredCards').textContent = mastered;
+  document.getElementById('retentionRate').textContent = `${retention}%`;
+}
+
+function checkDueCards() {
+  const now = Date.now();
+  let dueCount = 0;
+
+  Object.values(flashcardSets).forEach(set => {
+    set.cards.forEach(card => {
+      if (card.dueDate <= now) dueCount++;
+    });
+  });
+
+  if (dueCount > 0) {
+    console.log(`🔔 Bạn có ${dueCount} thẻ cần ôn hôm nay!`);
+  }
+}
+
+// ========================================
+// PHẦN 6: STUDY MODE
+// ========================================
+
+function renderStudySetList() {
+  studySetList.innerHTML = '';
+  const sets = Object.entries(flashcardSets);
+  
+  if (sets.length === 0) {
+    studySetList.innerHTML = '<div class="empty-state">Chưa có bộ flashcard nào. Hãy tạo bộ đầu tiên! 🚀</div>';
+    return;
+  }
+
+  const now = Date.now();
+  sets.forEach(([id, set]) => {
+    const dueCards = set.cards.filter(c => c.dueDate <= now).length;
+    
+    const div = document.createElement('div');
+    div.className = 'set-card';
+    div.innerHTML = `
+      <h3>${set.name}</h3>
+      <div class="set-stats">
+        <span>📚 ${set.cards.length} thẻ</span>
+        <span>🔥 ${dueCards} cần ôn</span>
+      </div>
+    `;
+    div.addEventListener('click', () => startStudy(id));
+    studySetList.appendChild(div);
+  });
+}
+
+function startStudy(setId) {
+  currentStudySetId = setId;
+  const set = flashcardSets[setId];
+  const now = Date.now();
+  
+  studyQueue = set.cards
+    .map((card, index) => ({ card, index }))
+    .filter(item => item.card.dueDate <= now)
+    .sort((a, b) => a.card.dueDate - b.card.dueDate);
+
+  if (studyQueue.length === 0) {
+    alert('Chưa có thẻ nào cần ôn! 🎉');
+    return;
+  }
+
+  currentCardIndex = 0;
+  studySetList.style.display = 'none';
+  studyArea.style.display = 'block';
+  showStudyCard();
+}
+
+function showStudyCard() {
+  if (currentCardIndex >= studyQueue.length) {
+    alert('Hoàn thành! 🎉');
+    backToStudySetsBtn.click();
+    return;
+  }
+
+  const { card } = studyQueue[currentCardIndex];
+  isFlipped = false;
+  
+  reviewCard.classList.remove('flipped');
+  reviewTerm.textContent = card.term;
+  reviewDefinition.textContent = card.definition;
+  
+  const statusText = card.state === 'new' ? 'Mới' : 
+                    card.state === 'learning' ? 'Đang học' : 'Ôn tập';
+  cardStatus.textContent = statusText;
+  cardStatus.className = `card-status ${card.state}`;
+  
+  hintText.style.display = 'block';
+  difficultyButtons.style.display = 'none';
+  cardProgress.textContent = `${currentCardIndex + 1} / ${studyQueue.length}`;
+  
+  updateDifficultyTimes(card);
+}
+
+function updateDifficultyTimes(card) {
+  const hardDays = SRSAlgorithm.getNextIntervalDays(card, 'hard');
+  const goodDays = SRSAlgorithm.getNextIntervalDays(card, 'good');
+  const easyDays = SRSAlgorithm.getNextIntervalDays(card, 'easy');
+  
+  document.getElementById('hardTime').textContent = SRSAlgorithm.formatInterval(hardDays);
+  document.getElementById('goodTime').textContent = SRSAlgorithm.formatInterval(goodDays);
+  document.getElementById('easyTime').textContent = SRSAlgorithm.formatInterval(easyDays);
+}
+
+reviewCard.addEventListener('click', () => {
+  if (!isFlipped) {
+    reviewCard.classList.add('flipped');
+    isFlipped = true;
+    hintText.style.display = 'none';
+    difficultyButtons.style.display = 'flex';
+  }
+});
+
+// ========================================
+// XỬ LÝ DIFFICULTY - ĐÃ FIX LƯU DỮ LIỆU
+// ========================================
+
+document.querySelectorAll('.difficulty-btn').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    const difficulty = btn.dataset.difficulty;
+    const { card, index } = studyQueue[currentCardIndex];
+    
+    // Cập nhật card với SRS
+    const updatedCard = SRSAlgorithm.calculateNextReview(card, difficulty);
+    flashcardSets[currentStudySetId].cards[index] = updatedCard;
+    
+    // LƯU NGAY LẬP TỨC
+    const saved = await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
+    if (saved) {
+      console.log('✅ Đã lưu tiến độ học');
+    }
+    
+    updateStats();
+    
+    currentCardIndex++;
+    showStudyCard();
+  });
+});
+
+backToStudySetsBtn.addEventListener('click', () => {
+  studyArea.style.display = 'none';
+  studySetList.style.display = 'grid';
+  currentStudySetId = null;
+  renderStudySetList();
+});
+
+// ========================================
+// PHẦN 7: CREATE MODE
+// ========================================
+
+const createSetBtn = document.getElementById('createSetBtn');
+const setNameInput = document.getElementById('setName');
+const flashcardArea = document.getElementById('flashcardArea');
+const setTitle = document.getElementById('setTitle');
+const addCardBtn = document.getElementById('addCardBtn');
+const termInput = document.getElementById('termInput');
+const definitionInput = document.getElementById('definitionInput');
+const flashcardList = document.getElementById('flashcardList');
+const setList = document.getElementById('setList');
+const backToSetsBtn = document.getElementById('backToSetsBtn');
+
+createSetBtn.addEventListener('click', async () => {
+  const setName = setNameInput.value.trim();
+  if (!setName) {
+    alert('Vui lòng nhập tên bộ flashcard!');
+    return;
+  }
+
+  currentSetId = `set_${Date.now()}`;
+  flashcardSets[currentSetId] = { name: setName, cards: [] };
+  
+  // LƯU NGAY
+  await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
+  console.log('✅ Đã tạo bộ mới:', setName);
+
+  setTitle.textContent = `📘 ${setName}`;
+  flashcardArea.style.display = 'block';
+  setList.style.display = 'none';
+  flashcardList.innerHTML = '';
+  setNameInput.value = '';
+  updateStats();
+});
+
+addCardBtn.addEventListener('click', async () => {
+  if (!currentSetId) {
+    alert('Hãy tạo một bộ flashcard trước!');
+    return;
+  }
+
+  const term = termInput.value.trim();
+  const def = definitionInput.value.trim();
+
+  if (!term || !def) {
+    alert('Vui lòng nhập đầy đủ thuật ngữ và định nghĩa!');
+    return;
+  }
+
+  const card = {
+    term,
+    definition: def,
+    state: 'new',
+    dueDate: Date.now(),
+    interval: 0,
+    easeFactor: 2.5,
+    reviewCount: 0,
+    lapses: 0
+  };
+  
+  flashcardSets[currentSetId].cards.push(card);
+  
+  // LƯU NGAY
+  await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
+  console.log('✅ Đã thêm thẻ mới');
+
+  renderCard(card, flashcardSets[currentSetId].cards.length - 1);
+  termInput.value = '';
+  definitionInput.value = '';
+  updateStats();
+});
+
+function renderCard(card, index) {
+  const div = document.createElement('div');
+  div.className = 'flashcard';
+  div.innerHTML = `
+    <button class="delete-card" data-index="${index}">×</button>
+    <b>${card.term}</b>
+    <hr style="width: 100%; border: none; border-top: 1px solid #e0e0e0; margin: 0.5rem 0;">
+    <small>${card.definition}</small>
+  `;
+  
+  const deleteBtn = div.querySelector('.delete-card');
+  deleteBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    deleteCard(index);
+  });
+  
+  flashcardList.appendChild(div);
+}
+
+async function deleteCard(index) {
+  if (confirm('Xóa thẻ này?')) {
+    flashcardSets[currentSetId].cards.splice(index, 1);
+    await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
+    console.log('✅ Đã xóa thẻ');
+    renderCurrentSet();
+    updateStats();
+  }
+}
+
+function renderSetList() {
+  setList.innerHTML = '';
+  const sets = Object.entries(flashcardSets);
+  
+  if (sets.length === 0) {
+    setList.innerHTML = '<div class="empty-state">Chưa có bộ flashcard nào. Tạo bộ đầu tiên của bạn! 🚀</div>';
+    return;
+  }
+
+  sets.forEach(([id, set]) => {
+    const div = document.createElement('div');
+    div.className = 'set-card';
+    div.innerHTML = `
+      <button class="delete-set" data-id="${id}">×</button>
+      <h3>${set.name}</h3>
+      <div class="set-stats">
+        <span>📚 ${set.cards.length} thẻ</span>
+      </div>
+    `;
+    
+    const deleteBtn = div.querySelector('.delete-set');
+    deleteBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      deleteSet(id);
+    });
+    
+    div.addEventListener('click', (e) => {
+      if (!e.target.classList.contains('delete-set')) {
+        openSet(id);
+      }
+    });
+    
+    setList.appendChild(div);
+  });
+}
+
+function openSet(id) {
+  currentSetId = id;
+  const set = flashcardSets[id];
+  setTitle.textContent = `📘 ${set.name}`;
+  flashcardArea.style.display = 'block';
+  setList.style.display = 'none';
+  renderCurrentSet();
+}
+
+function renderCurrentSet() {
+  flashcardList.innerHTML = '';
+  const set = flashcardSets[currentSetId];
+  if (set && set.cards) {
+    set.cards.forEach((card, index) => renderCard(card, index));
+  }
+}
+
+async function deleteSet(id) {
+  if (confirm('Xóa toàn bộ bộ flashcard này?')) {
+    delete flashcardSets[id];
+    await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
+    console.log('✅ Đã xóa bộ flashcard');
+    
+    renderSetList();
+    renderStudySetList();
+    renderStatsSetList();
+    updateStats();
+    
+    if (currentSetId === id) {
+      flashcardArea.style.display = 'none';
+      setList.style.display = 'grid';
+      currentSetId = null;
+    }
+  }
+}
+
+backToSetsBtn.addEventListener('click', () => {
+  flashcardArea.style.display = 'none';
+  setList.style.display = 'grid';
+  currentSetId = null;
+  renderSetList();
+});
+
+// ========================================
+// PHẦN 8: STATS MODE
+// ========================================
+
+function updateStatsCharts() {
+  let newCount = 0;
+  let learningCount = 0;
+  let reviewCount = 0;
+  let total = 0;
+
+  Object.values(flashcardSets).forEach(set => {
+    set.cards.forEach(card => {
+      total++;
+      if (card.state === 'new') newCount++;
+      else if (card.state === 'learning') learningCount++;
+      else reviewCount++;
+    });
+  });
+
+  const newPercent = total > 0 ? (newCount / total) * 100 : 0;
+  const learningPercent = total > 0 ? (learningCount / total) * 100 : 0;
+  const reviewPercent = total > 0 ? (reviewCount / total) * 100 : 0;
+
+  document.getElementById('newProgress').style.width = `${newPercent}%`;
+  document.getElementById('newProgress').textContent = newCount;
+  
+  document.getElementById('learningProgress').style.width = `${learningPercent}%`;
+  document.getElementById('learningProgress').textContent = learningCount;
+  
+  document.getElementById('reviewProgress').style.width = `${reviewPercent}%`;
+  document.getElementById('reviewProgress').textContent = reviewCount;
+}
+
+function renderStatsSetList() {
+  const statsSetList = document.getElementById('statsSetList');
+  statsSetList.innerHTML = '';
+  const sets = Object.entries(flashcardSets);
+  
+  if (sets.length === 0) {
+    statsSetList.innerHTML = '<div class="empty-state">Chưa có dữ liệu thống kê</div>';
+    return;
+  }
+
+  sets.forEach(([id, set]) => {
+    const newCards = set.cards.filter(c => c.state === 'new').length;
+    const learningCards = set.cards.filter(c => c.state === 'learning').length;
+    const reviewCards = set.cards.filter(c => c.state === 'review').length;
+    
+    const div = document.createElement('div');
+    div.className = 'set-card';
+    div.innerHTML = `
+      <h3>${set.name}</h3>
+      <div class="set-stats">
+        <span style="color: #2196f3;">● ${newCards} mới</span>
+        <span style="color: #ff9800;">● ${learningCards} học</span>
+        <span style="color: #4caf50;">● ${reviewCards} ôn</span>
+      </div>
+    `;
+    statsSetList.appendChild(div);
+  });
+}
+
+// ========================================
+// PHẦN 9: XỬ LÝ ĐĂNG XUẤT - LƯU DỮ LIỆU
+// ========================================
+
+// Lắng nghe nút đăng xuất
+const logoutBtn = document.getElementById('logoutNavBtn');
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    
+    // Lưu dữ liệu trước khi đăng xuất
+    console.log('💾 Đang lưu dữ liệu trước khi đăng xuất...');
+    const saved = await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
+    
+    if (saved) {
+      console.log('✅ Đã lưu thành công!');
+      
+      // Chờ 500ms để đảm bảo dữ liệu đã được lưu
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Thực hiện đăng xuất
+      alert('Dữ liệu của bạn đã được lưu!');
+      
+      // KHÔNG xóa localStorage khi đăng xuất để test
+      // localStorage.clear(); 
+      
+      // Redirect về trang đăng nhập hoặc trang chủ
+      // window.location.href = 'login.html';
+    } else {
+      alert('Lỗi khi lưu dữ liệu! Vui lòng thử lại.');
+    }
+  });
+}
+
+// Tự động lưu mỗi 30 giây
+setInterval(async () => {
+  if (Object.keys(flashcardSets).length > 0) {
+    await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
+    console.log('🔄 Auto-save: Đã lưu dữ liệu');
+  }
+}, 30000);
+
+// Lưu trước khi tắt trang
+window.addEventListener('beforeunload', async (e) => {
+  if (Object.keys(flashcardSets).length > 0) {
+    await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
+  }
+});
+
+// ========================================
+// KHỞI ĐỘNG APP
+// ========================================
+
+init();
+  </script>
 </body>
 </html>

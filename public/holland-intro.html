@@ -9,7 +9,6 @@
 </head>
 <body class="test-body">
 
-  <!-- Navbar -->
 <nav class="navbar">
   <div class="nav-left">
     <img src="logo.png" alt="Logo" class="logo">
@@ -20,24 +19,47 @@
     <a href="homepage.html">Trang chủ</a>
 
     <!-- 🔹 Dropdown Tuyển sinh -->
-<div class="dropdown">
+    <div class="dropdown">
   <a href="#" class="dropbtn">Tuyển sinh ▾</a>
   <div class="dropdown-content">
     <a href="universities.html">Thông tin tuyển sinh</a>
     <a href="converter.html">Quy đổi điểm</a>
-    <a href="ctu-cutoff.html">Tra cứu điểm</a>
+      
+      <!-- Submenu bên phải - chỉ có link -->
+    <div class="dropdown-item-with-sub">
+      <a href="#">Tra cứu điểm ▸</a>
+      
+      <!-- Submenu bên phải - chỉ 2 link -->
+      <div class="submenu-right">
+        <a href="ctu-cutoff.html">Tra cứu</a>
+        <a href="compare-score.html">So sánh</a>
+      </div>
+    </div>
+    
+    <a href="documents.html">Văn bản</a>
+    <a href="de-minh-hoa.html">Thư viện đề</a>
   </div>
 </div>
 
+    <a href="document-ai.html">Trợ lý AI</a>
     <a href="biotest.html">Sinh trắc học</a>
     <a href="study-methods.html">Phương pháp học</a>
-    <a href="documents.html">Văn bản</a>
-    <a href="contact.html">Liên hệ</a>
-    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+    
+    <!-- 🔹 Dropdown Công cụ -->
+    <div class="dropdown">
+      <a href="#" class="dropbtn">Công cụ học ▾</a>
+      <div class="dropdown-content">
+        <a href="study.html">Time-blocking</a>
+        <a href="flashcard.html">Flashcard</a>
+      </div>
+    </div>
+
+    <!-- 🔹 Nút Đăng xuất -->
+<button id="logoutNavBtn" class="logout-btn">
+  <img src="log-out.jpg" class="logout-icon">
+</button>
   </div>
 </nav>
-
-
   <div class="test-container">
     <h1>🎯 Giới thiệu bài test Holland (RIASEC)</h1>
     <p class="desc">

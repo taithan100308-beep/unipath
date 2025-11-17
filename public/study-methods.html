@@ -100,45 +100,77 @@
 <nav class="navbar">
   <div class="nav-left">
     <img src="logo.png" alt="Logo" class="logo">
-    <h2 class="nav-logo">Unipath</h2>
+    <h2 class="nav-logo">UNIPATH</h2>
   </div>
-  <div class="nav-right">
+
+  <!-- 🍔 NÚT HAMBURGER MỚI -->
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- OVERLAY TỐI PHÍA SAU (thêm mới) -->
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <div class="nav-right" id="navMenu">
     <a href="homepage.html">Trang chủ</a>
-    <a href="documents.html">Văn bản</a>
-    <a href="contact.html">Liên hệ</a>
-    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+
+    <!-- Dropdown Tuyển sinh -->
+    <div class="dropdown">
+      <a href="#" class="dropbtn dropdown-toggle">Tuyển sinh ▾</a>
+      <div class="dropdown-content">
+        <a href="universities.html">Thông tin tuyển sinh</a>
+        <a href="converter.html">Quy đổi điểm</a>
+        
+        <div class="dropdown-item-with-sub">
+          <a href="#" class="submenu-toggle">Tra cứu điểm ▸</a>
+          <div class="submenu-right">
+            <a href="ctu-cutoff.html">Tra cứu</a>
+            <a href="compare-score.html">So sánh</a>
+          </div>
+        </div>
+        
+        <a href="documents.html">Văn bản</a>
+        <a href="de-minh-hoa.html">Thư viện đề</a>
+      </div>
+    </div>
+
+    <a href="biotest.html">Sinh trắc học</a>
+    <a href="study-methods.html">Phương pháp học</a>
+    
+    <!-- Dropdown Công cụ -->
+    <div class="dropdown">
+      <a href="#" class="dropbtn dropdown-toggle">Công cụ học ▾</a>
+      <div class="dropdown-content">
+        <a href="study.html">Time-blocking</a>
+        <a href="flashcard.html">Flashcard</a>
+      </div>
+    </div>
+
+    <a href="document-ai.html">Trợ lý AI</a>
+
+    <button id="logoutNavBtn" class="logout-btn">
+      <img src="log-out.jpg" class="logout-icon">
+    </button>
   </div>
 </nav>
-
   <div class="method-container">
     <h1>📘 Các phương pháp học tập hiệu quả</h1>
     <p class="intro-text">Khám phá những phương pháp giúp bạn tối ưu thời gian và ghi nhớ kiến thức lâu dài hơn.</p>
 
     <!-- 🌟 CHIA 2 CỘT -->
-    <div class="method-grid">
-      <div class="method-section">
-        <h2>⏰ Time Blocking (Chia khung thời gian học)</h2>
-        <p>Phương pháp chia ngày học thành các khối thời gian rõ ràng, giúp tăng tập trung và giảm trì hoãn. Dựa trên nghiên cứu của Stanford University và lý thuyết “Deep Work” của Cal Newport.</p>
-        <div class="center">
-          <button class="btn btn-blue" onclick="window.location.href='study.html'">🎴 Vào công cụ Time-blocking</button>
-          <button class="btn btn-blue" onclick="window.location.href='time-blocking.html'">📖 Xem chi tiết</button>
-        </div>
-      </div>
+              <div class="method-grid">
 
-      <div class="method-section">
-        <h2>🎴 Flashcard (Thẻ ghi nhớ thông minh)</h2>
-        <p>Phương pháp học dựa trên hiệu ứng kiểm tra lại (testing effect) và hồi tưởng chủ động, giúp tăng khả năng ghi nhớ dài hạn.</p>
-        <div class="center">
-          <button class="btn btn-blue" onclick="window.location.href='flashcard.html'">🎴 Vào công cụ Flashcard</button>
-          <button class="btn btn-blue" onclick="window.location.href='flashcard-method.html'">📖 Xem chi tiết</button>
-        </div>
-      </div>
+
+
+
+
 
       <div class="method-section">
         <h2>🧠 Spaced Repetition (Lặp lại ngắt quãng)</h2>
         <p>Dựa trên hiệu ứng quên của Ebbinghaus, giúp bạn ghi nhớ thông tin lâu hơn bằng cách ôn tập theo chu kỳ hợp lý.</p>
         <div class="center">
-          <button class="btn btn-gray">🚧 Đang phát triển</button>
           <button class="btn btn-blue" onclick="window.location.href='spaced-repetion-method.html'">📖 Xem chi tiết</button>
         </div>
       </div>
@@ -147,7 +179,6 @@
         <h2>🔍 Phương pháp Feynman</h2>
         <p>Kỹ thuật “học bằng cách giảng dạy” – giúp hiểu sâu bản chất vấn đề bằng cách diễn giải lại bằng ngôn ngữ của chính bạn.</p>
         <div class="center">
-          <button class="btn btn-gray">🚧 Đang phát triển</button>
           <button class="btn btn-blue" onclick="window.location.href='feynman-method.html'">📖 Xem chi tiết</button>
         </div>
       </div>
@@ -156,7 +187,6 @@
         <h2>💡 Active Recall (Hồi tưởng chủ động)</h2>
         <p>Phương pháp dựa trên hoạt động kích hoạt trí nhớ, giúp não củng cố thông tin bằng cách tự tìm lại thay vì đọc lại thụ động.</p>
         <div class="center">
-          <button class="btn btn-gray">🚧 Đang phát triển</button>
           <button class="btn btn-blue" onclick="window.location.href='active-recall.html'">📖 Xem chi tiết</button>
         </div>
       </div>
@@ -165,11 +195,110 @@
         <h2>🍅 Pomodoro (Quả cà chua tập trung)</h2>
         <p>Kỹ thuật quản lý thời gian nổi tiếng do Francesco Cirillo phát minh, giúp bạn duy trì năng lượng qua chu kỳ 25 phút tập trung + 5 phút nghỉ.</p>
         <div class="center">
-          <button class="btn btn-gray">🚧 Đang phát triển</button>
           <button class="btn btn-blue" onclick="window.location.href='pomodoro.html'">📖 Xem chi tiết</button>
         </div>
       </div>
+
+
+      <div class="method-section">
+        <h2>⏰ Time Blocking (Chia khung thời gian học)</h2>
+        <p>Phương pháp chia ngày học thành các khối thời gian rõ ràng, giúp tăng tập trung và giảm trì hoãn. Dựa trên nghiên cứu của Stanford University và lý thuyết “Deep Work” của Cal Newport.</p>
+        <div class="center">
+          <button class="btn btn-blue" onclick="window.location.href='time-blocking.html'">📖 Xem chi tiết</button>
+        </div>
+      </div>
+
+      <div class="method-section">
+        <h2>🎴 Flashcard (Thẻ ghi nhớ thông minh)</h2>
+        <p>Phương pháp học dựa trên hiệu ứng kiểm tra lại (testing effect) và hồi tưởng chủ động, giúp tăng khả năng ghi nhớ dài hạn.</p>
+        <div class="center">
+          <button class="btn btn-blue" onclick="window.location.href='flashcard-method.html'">📖 Xem chi tiết</button>
+        </div>
+      </div>
+
+
     </div>
+
+
+
   </div>
+
+
+  <script>
+    const hamburger = document.getElementById('hamburgerBtn');
+  const navMenu = document.getElementById('navMenu');
+  const navOverlay = document.getElementById('navOverlay');
+
+
+ // Toggle menu
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+    navOverlay.classList.toggle('active');
+    
+    // Prevent body scroll khi menu mở
+    document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+  });
+
+  // Đóng menu khi click overlay
+  navOverlay.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    navMenu.classList.remove('active');
+    navOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  // 📂 DROPDOWN CONTROL trong mobile
+  const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+  dropdownToggles.forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+      // Chỉ chặn default trên mobile
+      if (window.innerWidth <= 992) {
+        e.preventDefault();
+        const dropdown = toggle.closest('.dropdown');
+        dropdown.classList.toggle('active');
+      }
+    });
+  });
+
+  // 📂 SUBMENU CONTROL trong mobile
+  const submenuToggles = document.querySelectorAll('.submenu-toggle');
+  submenuToggles.forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+      if (window.innerWidth <= 992) {
+        e.preventDefault();
+        const parent = toggle.closest('.dropdown-item-with-sub');
+        parent.classList.toggle('active');
+      }
+    });
+  });
+
+  // Đóng menu khi click vào link (trừ dropdown toggles)
+  const navLinks = navMenu.querySelectorAll('a:not(.dropbtn):not(.submenu-toggle)');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 992) {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+        navOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  // Reset khi resize window
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 992) {
+      hamburger.classList.remove('active');
+      navMenu.classList.remove('active');
+      navOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+      
+      // Reset dropdowns
+      document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+      document.querySelectorAll('.dropdown-item-with-sub').forEach(d => d.classList.remove('active'));
+    }
+  });
+  </script>
 </body>
 </html>

@@ -1,0 +1,257 @@
+// ===============================================================
+// ✅ Unipath AI Chat - FIXED VERSION
+// ===============================================================
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
+const OpenAI = require("openai");
+const pdfParse = require("pdf-parse");
+
+admin.initializeApp();
+
+// ===============================================================
+// 📚 KNOWLEDGE BASE - Bảng tra cứu chính xác
+// ===============================================================
+const KNOWLEDGE_BASE = `
+═══════════════════════════════════════════════════════════
+BẢNG TRA CỨU CHỨNG CHỈ NGOẠI NGỮ - MIỄN THI TỐT NGHIỆP THPT
+═══════════════════════════════════════════════════════════
+
+🎯 QUY ĐỊNH CHUNG:
+Theo Thông tư 24/2024/TT-BGDĐT, người có chứng chỉ ngoại ngữ 
+đạt từ BẬC 3 trở lên (Khung năng lực 6 bậc Việt Nam) 
+được MIỄN THI môn Ngoại ngữ tốt nghiệp THPT.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🇬🇧 TIẾNG ANH (Bậc 3 = B1):
+┌─────────────────┬──────────────────┬─────────────┐
+│ Chứng chỉ       │ Điểm tối thiểu   │ Miễn thi    │
+├─────────────────┼──────────────────┼─────────────┤
+│ IELTS           │ 4.0              │ ✅ Có       │
+│ TOEFL iBT       │ 45               │ ✅ Có       │
+│ TOEFL ITP       │ 450              │ ✅ Có       │
+│ Cambridge       │ B1 (PET)         │ ✅ Có       │
+│ TOEIC 4 kỹ năng │ 550              │ ✅ Có       │
+│ Aptis           │ B1               │ ✅ Có       │
+└─────────────────┴──────────────────┴─────────────┘
+
+🇨🇳 TIẾNG TRUNG:
+- HSK: cấp 3, 4, 5, 6 → ✅ Miễn thi
+- HSK: cấp 1, 2 → ❌ KHÔNG miễn thi
+
+🇯🇵 TIẾNG NHẬT:
+- JLPT: N3, N2, N1 → ✅ Miễn thi
+- JLPT: N4, N5 → ❌ KHÔNG miễn thi
+- J-Test: cấp D trở lên → ✅ Miễn thi
+
+🇰🇷 TIẾNG HÀN:
+- TOPIK: cấp 3, 4, 5, 6 → ✅ Miễn thi
+- TOPIK: cấp 1, 2 → ❌ KHÔNG miễn thi
+
+🇫🇷 TIẾNG PHÁP:
+- DELF: B1, B2 → ✅ Miễn thi
+- DALF: C1, C2 → ✅ Miễn thi
+- TCF: từ 300 điểm → ✅ Miễn thi
+
+🇩🇪 TIẾNG ĐỨC:
+- Goethe-Zertifikat: B1, B2, C1, C2 → ✅ Miễn thi
+- TestDaF: TDN 3, 4, 5 → ✅ Miễn thi
+
+⚠️ ĐIỀU KIỆN BẮT BUỘC:
+1. Chứng chỉ phải CÒN HẠN đến ngày làm thủ tục dự thi
+2. Thời hạn thường: 2 năm (IELTS, TOEFL, TOPIK, HSK...)
+3. Một số chứng chỉ vĩnh viễn: Cambridge, JLPT
+
+💡 VÍ DỤ CỤ THỂ:
+✅ IELTS 4.5 → Miễn thi (≥ 4.0)
+❌ IELTS 3.5 → KHÔNG miễn thi (< 4.0)
+✅ TOEFL iBT 50 → Miễn thi (≥ 45)
+❌ TOEFL iBT 40 → KHÔNG miễn thi (< 45)
+✅ HSK 4 → Miễn thi (≥ 3)
+❌ HSK 2 → KHÔNG miễn thi (< 3)
+❌ JLPT N4 → KHÔNG miễn thi (cần N3 trở lên)
+`;
+
+// ===============================================================
+// 📄 Đọc PDF
+// ===============================================================
+async function getPDFContent(pdfFileName) {
+  try {
+    const bucket = admin.storage().bucket();
+    const file = bucket.file(`documents/${pdfFileName}`);
+    const [buffer] = await file.download();
+    const data = await pdfParse(buffer);
+    console.log(`✅ PDF: ${pdfFileName}`);
+    return data.text;
+  } catch (error) {
+    console.error(`❌ Lỗi PDF ${pdfFileName}:`, error.message);
+    return null;
+  }
+}
+
+// ===============================================================
+// 💬 MAIN FUNCTION
+// ===============================================================
+exports.chatWithAI = functions
+  .runWith({ 
+    timeoutSeconds: 120,
+    memory: "512MB" 
+  })
+  .https.onRequest(async (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type');
+    
+    if (req.method === 'OPTIONS') {
+      return res.status(204).send('');
+    }
+    
+    if (req.method !== "POST") {
+      return res.status(405).send("Method not allowed");
+    }
+
+    try {
+      const { message } = req.body;
+      if (!message) return res.status(400).send("message required");
+
+      console.log(`📩 Q: ${message}`);
+
+      const openaiKey = process.env.OPENAI_API_KEY || 
+        (functions.config().openai && functions.config().openai.key);
+
+      if (!openaiKey) {
+        return res.status(500).json({ error: "Thiếu OPENAI_API_KEY" });
+      }
+
+      const client = new OpenAI({ apiKey: openaiKey });
+
+      // ===============================================================
+      // 📚 Đọc PDF (tùy chọn)
+      // ===============================================================
+      let pdfContent = "";
+      try {
+        const content = await getPDFContent("thong-tu-24-2024-thi-tn-thpt.pdf");
+        if (content) pdfContent = content;
+      } catch (e) {
+        console.warn("⚠️ Không đọc được PDF, dùng Knowledge Base");
+      }
+
+      // ===============================================================
+      // 🎯 System Prompt - QUAN TRỌNG
+      // ===============================================================
+      const systemPrompt = `Bạn là AI Advisor của Unipath 🤖 - Chuyên gia tư vấn tuyển sinh ĐH Việt Nam.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 CÁCH TRẢ LỜI ĐÚNG:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ HIỂU NGỮ NGHĨA - KHÔNG CHỈ TÌM TỪ:
+   ❌ SAI: Tìm từ "IELTS" trong tài liệu → Không thấy → "Không có thông tin"
+   ✅ ĐÚNG: 
+   - User hỏi "IELTS có miễn thi không?"
+   - → Hiểu: User muốn biết IELTS có thuộc "chứng chỉ Bậc 3" không
+   - → Tra Knowledge Base: IELTS ≥ 4.0 = Bậc 3
+   - → Trả lời: "✅ Có! IELTS 4.0+ được miễn thi"
+
+2️⃣ LUÔN DÙNG KNOWLEDGE BASE:
+   - Bảng tra cứu có ĐẦY ĐỦ mapping: chứng chỉ → điểm → Bậc
+   - VD: "TOEFL bao nhiêu?" → Tra bảng → "TOEFL iBT ≥ 45"
+
+3️⃣ FORMAT TRẢ LỜI:
+   ✅/❌ CÂU TRẢ LỜI RÕ RÀNG
+   📌 Giải thích ngắn gọn
+   💡 Ví dụ cụ thể
+   ⚠️ Lưu ý quan trọng
+
+4️⃣ VÍ DỤ CHUẨN:
+   Q: "IELTS có được miễn thi không?"
+   A: "✅ Có! IELTS từ 4.0 trở lên thuộc Bậc 3, được miễn thi môn Ngoại ngữ.
+   
+   📌 Điều kiện:
+   - Điểm: ≥ 4.0
+   - Chứng chỉ còn hạn (2 năm)
+   
+   💡 VD: IELTS 4.5 → Miễn thi ✅"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 KNOWLEDGE BASE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${KNOWLEDGE_BASE}
+
+${pdfContent ? `\n━━━ TÀI LIỆU PDF ━━━\n${pdfContent.substring(0, 5000)}\n` : ''}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ QUY TẮC BẮT BUỘC:
+- Chỉ dùng thông tin từ Knowledge Base
+- KHÔNG bịa đặt số liệu
+- Nếu không chắc → "Vui lòng liên hệ trường để chính xác"`;
+
+      // ===============================================================
+      // 🚀 Gọi OpenAI
+      // ===============================================================
+      const completion = await client.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: message }
+        ],
+        temperature: 0.3,
+        max_tokens: 800
+      });
+
+      const reply = completion.choices?.[0]?.message?.content || 
+        "Xin lỗi, mình chưa hiểu câu hỏi. Bạn có thể hỏi lại không? 😊";
+
+      console.log(`✅ A: ${reply.substring(0, 80)}...`);
+      res.json({ reply });
+
+    } catch (err) {
+      console.error("❌ Error:", err);
+      res.status(500).json({ 
+        error: "Lỗi server. Vui lòng thử lại.",
+        details: process.env.NODE_ENV === 'development' ? err.message : undefined
+      });
+    }
+  });
+
+// ===============================================================
+// 📤 Upload PDF (Optional)
+// ===============================================================
+exports.uploadDocument = functions.https.onRequest(async (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  
+  if (req.method === 'OPTIONS') {
+    res.set('Access-Control-Allow-Methods', 'POST');
+    res.set('Access-Control-Allow-Headers', 'Content-Type');
+    return res.status(204).send('');
+  }
+
+  if (req.method !== "POST") {
+    return res.status(405).send("Method not allowed");
+  }
+
+  try {
+    const { fileName, fileData } = req.body;
+    
+    if (!fileName || !fileData) {
+      return res.status(400).json({ error: "Missing fileName or fileData" });
+    }
+
+    const bucket = admin.storage().bucket();
+    const file = bucket.file(`documents/${fileName}`);
+    const buffer = Buffer.from(fileData, 'base64');
+    
+    await file.save(buffer, {
+      metadata: { contentType: 'application/pdf' }
+    });
+
+    console.log(`✅ Uploaded: ${fileName}`);
+    res.json({ success: true, message: `Uploaded ${fileName}` });
+
+  } catch (err) {
+    console.error("❌ Upload error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});

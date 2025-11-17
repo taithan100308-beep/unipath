@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": ".",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -9,9 +9,17 @@
     ],
     "rewrites": [
       {
+        "source": "/api/chat",
+        "function": {
+          "functionId": "chatWithAI",
+          "region": "us-central1",
+          "codebase": "default"
+        }
+      },
+      {
         "source": "/api/answer",
         "function": {
-          "functionId": "answerQuery",
+          "functionId": "chatWithAI",
           "region": "us-central1",
           "codebase": "default"
         }

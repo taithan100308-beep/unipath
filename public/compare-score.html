@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>So sánh điểm chuẩn đại học</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #e0e0e0; /* ✅ màu xám nhạt giống homepage */
+  color: #000;
+  padding: 15px 30px;
+  border-radius: 0; /* ✅ bỏ bo góc cho navbar fixed */
+  margin-bottom: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  z-index: 100;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  width: 60px; /* ✅ tăng lên 60px như homepage */
+  height: 60px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-top: -8px;
+  margin-bottom: -8px;
+  transition: transform 0.18s ease;
+}
+
+.logo:hover {
+  transform: scale(1.08);
+}
+
+.nav-logo {
+  color: #000; /* ✅ đổi thành màu đen */
+  font-size: 1.3rem; /* ✅ giống homepage */
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.nav-right {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-right: 60px; /* ✅ thêm margin như homepage */
+}
+
+.nav-right a, 
+.dropdown .dropbtn {
+  text-decoration: none;
+  color: #000; /* ✅ đổi thành màu đen */
+  font-weight: 500;
+  transition: color 0.3s, background 0.2s;
+  font-size: 0.95rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.nav-right a:hover,
+.dropdown .dropbtn:hover {
+  background: #dcdcdc; /* ✅ hover với nền xám đậm hơn */
+  color: #004aad;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background: none;
+  border: none;
+  color: #000; /* ✅ màu đen */
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 10px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 200px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 99;
+  border-radius: 8px;
+  padding: 8px 0;
+  top: 100%;
+  margin-top: 5px;
+}
+
+.dropdown::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: transparent;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.dropdown-content a:hover {
+  background-color: #f5f5f5;
+  color: #667eea;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  color: #667eea;
+}
+
+/* Submenu */
+.dropdown-item-with-sub {
+  position: relative;
+}
+
+.dropdown-item-with-sub > a {
+  display: block;
+  padding: 10px 20px;
+  color: #333;
+  text-decoration: none;
+}
+
+.submenu-right {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: #fff;
+  min-width: 150px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  z-index: 100;
+  padding: 8px 0;
+}
+
+.dropdown-item-with-sub:hover .submenu-right {
+  display: block;
+}
+
+.submenu-right a {
+  display: block;
+  padding: 10px 14px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.submenu-right a:hover {
+  background-color: #f3f3f3;
+  color: #667eea;
+}
+
+.dropdown-item-with-sub:hover > a {
+  background-color: #f3f3f3;
+  color: #667eea;
+}
+
+/* Logout button - ĐỒNG BỘ */
+.logout-btn {
+  background: #ccc; /* ✅ màu xám */
+  border: 1px solid #999;
+  color: #000;
+  padding: 5px 11px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-btn:hover {
+  background: #bbb;
+  color: #000;
+}
+
+.logout-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+/* Body spacing để không bị navbar che */
+body {
+  background: #ffffff;
+  padding-top: 100px; /* ✅ tăng lên vì navbar cao hơn */
+}
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 30px;
+    }
+
+    .sidebar {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
+
+    .sidebar h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+
+    .filter-section {
+      margin-bottom: 25px;
+      padding-bottom: 25px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .filter-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .filter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      padding: 10px 0;
+      user-select: none;
+    }
+
+    .filter-header h3 {
+      font-size: 16px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .filter-header .icon {
+      font-size: 14px;
+      color: #667eea;
+      transition: transform 0.3s;
+    }
+
+    .filter-header.collapsed .icon {
+      transform: rotate(180deg);
+    }
+
+    .filter-options {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .filter-options.hidden {
+      display: none;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #667eea;
+    }
+
+    .checkbox-item label {
+      cursor: pointer;
+      color: #555;
+      font-size: 14px;
+      flex: 1;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .clear-filters {
+      width: 100%;
+      padding: 12px;
+      background: #f8f9fa;
+      color: #667eea;
+      border: 2px solid #667eea;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 20px;
+    }
+
+    .clear-filters:hover {
+      background: #667eea;
+      color: white;
+    }
+
+    .main-content {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      min-height: 600px;
+    }
+
+    .header {
+      margin-bottom: 25px;
+    }
+
+    .header h1 {
+      color: #667eea;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .results-info {
+      color: #888;
+      font-size: 14px;
+    }
+
+    .results-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .program-card {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 25px;
+      border: 2px solid #e0e0e0;
+      transition: all 0.3s;
+    }
+
+    .program-card:hover {
+      border-color: #667eea;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+    }
+
+    .program-header {
+      margin-bottom: 15px;
+    }
+
+    .program-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .universities-comparison {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .university-item {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 4px solid #667eea;
+    }
+
+    .university-name {
+      font-weight: 600;
+      color: #667eea;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .score-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .score-label {
+      color: #666;
+      font-size: 13px;
+    }
+
+    .score-value {
+      font-weight: 700;
+      font-size: 18px;
+      color: #764ba2;
+    }
+
+    .score-detail {
+      font-size: 11px;
+      color: #999;
+      margin-top: 5px;
+      font-style: italic;
+    }
+
+    .program-code {
+      font-size: 13px;
+      color: #888;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 10px;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+    }
+
+    .no-results-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+
+    .no-results-text {
+      font-size: 18px;
+      color: #666;
+    }
+
+    @media (max-width: 968px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        top: 0;
+      }
+
+      .universities-comparison {
+        grid-template-columns: 1fr;
+      }
+    }
+    /* ================================================
+   🍔 HAMBURGER & RESPONSIVE NAVBAR - CHUẨN HÓA
+   Thêm vào cuối <style> của converter.html và compare-score.html
+   ================================================ */
+
+/* 🍔 NÚT HAMBURGER - Ẩn mặc định */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 101;
+}
+
+.hamburger span {
+  width: 28px;
+  height: 3px;
+  background-color: #333;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Animation 3 gạch → X */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Overlay tối phía sau menu */
+.nav-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 99;
+}
+.nav-overlay.active {
+  display: block;
+}
+
+/* ================================================
+   📱 RESPONSIVE NAVBAR (≤ 992px)
+   ================================================ */
+@media (max-width: 992px) {
+  
+  /* Navbar chính */
+  .navbar {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    padding: 0.8rem 1rem !important;
+    gap: 0 !important;
+  }
+
+  .nav-left {
+    width: auto !important;
+    justify-content: flex-start !important;
+  }
+
+  .logo {
+    width: 45px;
+    height: 45px;
+  }
+
+  .nav-logo {
+    font-size: 1.1rem !important;
+  }
+
+  /* Hiện hamburger */
+  .hamburger {
+    display: flex !important;
+  }
+
+  /* Menu mobile - Trượt từ phải */
+  .nav-right {
+    position: fixed !important;
+    top: 0 !important;
+    right: -100% !important;
+    width: 280px !important;
+    height: 100vh !important;
+    background: #f5f5f5 !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 80px 0 20px 0 !important;
+    gap: 0 !important;
+    margin-right: 0 !important;
+    box-shadow: -4px 0 15px rgba(0,0,0,0.2) !important;
+    transition: right 0.3s ease !important;
+    overflow-y: auto !important;
+    z-index: 100 !important;
+  }
+
+  .nav-right.active {
+    right: 0 !important;
+  }
+
+  /* Link trong menu mobile - THẲNG HÀNG */
+  .nav-right > a,
+  .nav-right .dropbtn {
+    width: 100% !important;
+    padding: 14px 20px !important;
+    font-size: 0.95rem !important;
+    border-bottom: 1px solid #ddd !important;
+    display: block !important;
+    text-align: left !important;
+    background: transparent !important;
+    margin: 0 !important;
+  }
+
+  .nav-right > a:hover,
+  .nav-right .dropbtn:hover {
+    background: #e0e0e0 !important;
+  }
+
+  /* Dropdown trong mobile - THẲNG HÀNG */
+  .dropdown {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .dropdown-content {
+    position: static !important;
+    display: none !important;
+    box-shadow: none !important;
+    background: #ebebeb !important;
+    width: 100% !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    transform: none !important;
+    left: auto !important;
+    margin: 0 !important;
+  }
+
+  .dropdown.active .dropdown-content {
+    display: block !important;
+  }
+
+  .dropdown-content a {
+    padding: 12px 20px 12px 40px !important;
+    border-bottom: 1px solid #ddd !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* Submenu - THẲNG HÀNG */
+  .dropdown-item-with-sub {
+    width: 100% !important;
+  }
+
+  .dropdown-item-with-sub > a {
+    padding: 12px 20px 12px 40px !important;
+  }
+
+  .dropdown-item-with-sub .submenu-right {
+    position: static !important;
+    display: none !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+    background: #e0e0e0 !important;
+    border-radius: 0 !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+  }
+
+  .dropdown-item-with-sub.active .submenu-right {
+    display: block !important;
+  }
+
+  .submenu-right a {
+    padding: 10px 20px 10px 60px !important;
+    font-size: 0.85rem !important;
+    border-bottom: 1px solid #d0d0d0 !important;
+  }
+
+  /* Logout button - THẲNG HÀNG */
+  .logout-btn {
+    width: calc(100% - 40px) !important;
+    margin: 16px 20px !important;
+    justify-content: center !important;
+    padding: 10px !important;
+  }
+
+  /* Icon mũi tên cho dropdown */
+  .dropdown > .dropbtn::after {
+    content: ' ▾';
+    float: right;
+    transition: transform 0.2s;
+  }
+
+  .dropdown.active > .dropbtn::after {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-item-with-sub > a::after {
+    content: ' ▸';
+    float: right;
+    transition: transform 0.2s;
+  }
+
+  .dropdown-item-with-sub.active > a::after {
+    transform: rotate(90deg);
+  }
+
+  /* Hover effects */
+  .dropdown-content a:hover,
+  .submenu-right a:hover {
+    background: #d5d5d5 !important;
+  }
+
+  /* Điều chỉnh nội dung chính */
+  .main-container,
+  body > div:not(.navbar) {
+    padding-top: 100px;
+  }
+
+  /* Tab navigation mobile */
+  .tab-navigation {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tab-btn {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+
+  /* Converter wrapper mobile */
+  .converter-wrapper {
+    grid-template-columns: 1fr !important;
+  }
+
+  .converter-box {
+    width: 100%;
+  }
+
+  /* PDF viewer mobile */
+  .pdf-viewer,
+  .pdf-viewer iframe {
+    height: 500px;
+  }
+
+  /* Sidebar (compare-score.html) */
+  .container {
+    grid-template-columns: 1fr !important;
+  }
+
+  .sidebar {
+    position: relative !important;
+    top: 0 !important;
+  }
+}
+
+/* ================================================
+   📱 MOBILE NHỎ (≤ 768px)
+   ================================================ */
+@media (max-width: 768px) {
+  .logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .nav-logo {
+    font-size: 1rem !important;
+  }
+
+  .tab-btn {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  .converter-box {
+    padding: 20px;
+  }
+
+  .converter-box h2 {
+    font-size: 20px;
+  }
+
+  .pdf-viewer,
+  .pdf-viewer iframe {
+    height: 400px;
+  }
+
+  .exam-info {
+    padding: 25px;
+  }
+
+  .exam-info h2 {
+    font-size: 22px;
+  }
+
+  .universities-comparison {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ================================================
+   📱 MOBILE RẤT NHỎ (≤ 480px)
+   ================================================ */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.6rem 0.8rem !important;
+  }
+
+  .logo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .nav-logo {
+    font-size: 0.9rem !important;
+  }
+
+  .converter-box,
+  .exam-info {
+    padding: 15px;
+  }
+
+  .converter-box h2 {
+    font-size: 18px;
+  }
+
+  .converter-box select,
+  .converter-box input,
+  .converter-box button {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .result {
+    font-size: 16px;
+  }
+}
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">UNIPATH</h2>
+  </div>
+
+  <!-- 🍔 NÚT HAMBURGER -->
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- OVERLAY TỐI PHÍA SAU -->
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <div class="nav-right" id="navMenu">
+    <a href="homepage.html">Trang chủ</a>
+
+    <!-- Dropdown Tuyển sinh -->
+    <div class="dropdown">
+      <a href="#" class="dropbtn dropdown-toggle">Tuyển sinh ▾</a>
+      <div class="dropdown-content">
+        <a href="universities.html">Thông tin tuyển sinh</a>
+        <a href="converter.html">Quy đổi điểm</a>
+        
+        <div class="dropdown-item-with-sub">
+          <a href="#" class="submenu-toggle">Tra cứu điểm ▸</a>
+          <div class="submenu-right">
+            <a href="ctu-cutoff.html">Tra cứu</a>
+            <a href="compare-score.html">So sánh</a>
+          </div>
+        </div>
+        
+        <a href="documents.html">Văn bản</a>
+        <a href="de-minh-hoa.html">Thư viện đề</a>
+      </div>
+    </div>
+
+    <a href="biotest.html">Sinh trắc học</a>
+    <a href="study-methods.html">Phương pháp học</a>
+    
+    <!-- Dropdown Công cụ -->
+    <div class="dropdown">
+      <a href="#" class="dropbtn dropdown-toggle">Công cụ học ▾</a>
+      <div class="dropdown-content">
+        <a href="study.html">Time-blocking</a>
+        <a href="flashcard.html">Flashcard</a>
+      </div>
+    </div>
+
+    <a href="document-ai.html">Trợ lý AI</a>
+
+    <button id="logoutNavBtn" class="logout-btn">
+      <img src="log-out.jpg" class="logout-icon">
+    </button>
+  </div>
+</nav>
+
+<div class="container">
+  <aside class="sidebar">
+    <h2>🔍 Lọc kết quả</h2>
+
+    <div class="filter-section">
+      <div class="filter-header" onclick="toggleFilter('region')">
+        <h3>📍 Vùng miền</h3>
+        <span class="icon">▼</span>
+      </div>
+      <div class="filter-options" id="region-filter">
+        <div class="checkbox-item">
+          <input type="checkbox" id="south" value="south" onchange="applyFilters()">
+          <label for="south">Miền Nam</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="central" value="central" onchange="applyFilters()">
+          <label for="central">Miền Trung</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="north" value="north" onchange="applyFilters()">
+          <label for="north">Miền Bắc</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <div class="filter-header" onclick="toggleFilter('method')">
+        <h3>📝 Phương thức xét tuyển</h3>
+        <span class="icon">▼</span>
+      </div>
+      <div class="filter-options" id="method-filter">
+        <div class="checkbox-item">
+          <input type="checkbox" id="thpt" value="thpt" onchange="applyFilters()">
+          <label for="thpt">Thi THPT</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="dgnl" value="dgnl" onchange="applyFilters()">
+          <label for="dgnl">Đánh giá năng lực (ĐGNL)</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="other" value="other" onchange="applyFilters()">
+          <label for="other">Khác</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <div class="filter-header" onclick="toggleFilter('program')">
+        <h3>🎓 Ngành học</h3>
+        <span class="icon">▼</span>
+      </div>
+      <div class="filter-options" id="program-filter">
+        <input type="text" class="search-box" id="programSearch" placeholder="Tìm ngành..." onkeyup="filterPrograms()">
+        <div id="programList" style="max-height: 300px; overflow-y: auto; margin-top: 10px;">
+        </div>
+      </div>
+    </div>
+
+    <button class="clear-filters" onclick="clearAllFilters()">Xóa bộ lọc</button>
+  </aside>
+
+  <main class="main-content">
+    <div class="header">
+      <h1>So sánh điểm chuẩn</h1>
+      <p class="results-info" id="resultsInfo">Đang tải dữ liệu...</p>
+    </div>
+    <div class="results-grid" id="resultsGrid">
+    </div>
+  </main>
+</div>
+
+<script>
+const universities = {
+  'HCMUT': {
+    name: 'ĐH Bách Khoa TP.HCM',
+    region: 'south',
+    programs: {
+      'Khoa học Máy tính': { code: '106', other: 85.41 },
+      'Kỹ thuật Máy tính': { code: '107', other: 82.91 },
+      'Điện - Điện tử - Viễn Thông - Tự động hoá - Thiết kế vi mạch': { code: '108', other: 80.77 },
+      'Kỹ Thuật Cơ khí': { code: '109', other: 75.43 },
+      'Kỹ Thuật Cơ Điện tử': { code: '110', other: 81.82 },
+      'Dệt - May': { code: '112', other: 60.75 },
+      'Hoá - Thực phẩm - Sinh học': { code: '114', other: 75.43 },
+      'Xây dựng và Quản lý Dự án Xây dựng': { code: '115', other: 55.05 },
+      'Kiến Trúc': { code: '117', other: 67.42 },
+      'Dầu khí - Địa chất': { code: '120', other: 60 },
+      'Quản lý Công nghiệp': { code: '123', other: 75.98 },
+      'Tài nguyên và Môi trường': { code: '125', other: 60.93 },
+      'Logistics và Hệ thống Công nghiệp': { code: '128', other: 80.52 },
+      'Kỹ thuật Vật liệu': { code: '129', other: 71.1 },
+      'Vật lý Kỹ thuật': { code: '137', other: 76.61 },
+      'Cơ Kỹ thuật': { code: '138', other: 75.98 },
+      'Kỹ thuật Nhiệt': { code: '140', other: 73.5 },
+      'Bảo dưỡng Công nghiệp': { code: '141', other: 65.59 },
+      'Kỹ thuật Ô tô': { code: '142', other: 76.34 },
+      'Tàu thủy - Hàng không (Song ngành)': { code: '145', other: 76.63 },
+      'Khoa học Dữ liệu': { code: '146', other: 83.85 },
+      'Địa Kỹ thuật Xây dựng': { code: '147', other: 55.06 },
+      'Kinh tế Xây dựng': { code: '148', other: 55.72 },
+      'Quản trị Kinh doanh': { code: '153', other: 71.24 },
+      'Khoa học Máy tính (CT Tiếng Anh)': { code: '206', other: 83.74 },
+      'Kỹ thuật Máy tính (CT Tiếng Anh)': { code: '207', other: 78.66 },
+      'Kỹ thuật Điện - Điện tử (CT Tiên tiến)': { code: '208', other: 79.5 },
+      'Kỹ thuật Cơ khí (CT Tiếng Anh)': { code: '209', other: 74.3 },
+      'Kỹ thuật Cơ Điện tử (CT Tiếng Anh)': { code: '210', other: 78.44 },
+      'Kỹ thuật Robot (CT Tiếng Anh)': { code: '211', other: 73.89 },
+      'Kỹ thuật Hóa học (CT Tiếng Anh)': { code: '214', other: 63.3 },
+      'Quản lý Dự án Xây dựng và Kỹ thuật Xây dựng (CT Tiếng Anh)': { code: '215', other: 56.2 },
+      'Kiến trúc Cảnh quan (CT Tiếng Anh)': { code: '217', other: 55.45 },
+      'Công nghệ Sinh học (CT Tiếng Anh)': { code: '218', other: 66.13 },
+      'Công nghệ Thực phẩm (CT Tiếng Anh)': { code: '219', other: 59.21 },
+      'Kỹ thuật Dầu khí (CT Tiếng Anh)': { code: '220', other: 60.25 },
+      'Quản lý Công nghiệp (CT Tiếng Anh)': { code: '223', other: 61.08 },
+      'Tài nguyên và Môi trường (CT Tiếng Anh)': { code: '225', other: 55.46 },
+      'Logistics và Hệ thống Công nghiệp (CT Tiếng Anh)': { code: '228', other: 73.05 },
+      'Kỹ thuật Vật liệu (CT Tiếng Anh)': { code: '229', other: 55.23 },
+      'Kỹ thuật Y sinh (CT Tiếng Anh)': { code: '237', other: 64.74 },
+      'Kỹ thuật Ô tô (CT Tiếng Anh)': { code: '242', other: 69.49 },
+      'Kỹ thuật Hàng không (CT Tiếng Anh)': { code: '245', other: 78.79 },
+      'Kinh doanh số (CT Tiếng Anh)': { code: '253', other: 59.06 },
+      'Công nghệ Sinh học số (CT Tiếng Anh)': { code: '254', other: 56.42 },
+      'Kinh tế Tuần hoàn (CT Tiếng Anh)': { code: '255', other: 64.38 },
+      'Năng lượng Tái tạo (CT Tiếng Anh)': { code: '257', other: 58.07 },
+      'Thiết kế Vi mạch (CT Tiếng Anh)': { code: '258', other: 83.09 },
+      'Khoa học Máy tính (CT Định hướng Nhật Bản)': { code: '266', other: 77.05 },
+      'Cơ Kỹ thuật': { code: '268', other: 69.4 },
+      'Khoa học Máy tính (Liên kết Úc, New Zealand, Mỹ)': { code: '306', other: 72.9 },
+      'Kỹ thuật Máy tính (Liên kết Úc, New Zealand)': { code: '307', other: 67.68 },
+      'Kỹ thuật Điện - Điện tử (Liên kết Úc, Hàn Quốc)': { code: '308', other: 65.52 },
+      'Kỹ thuật Cơ khí (Liên kết Mỹ, Úc)': { code: '309', other: 74.3 },
+      'Kỹ thuật Cơ Điện tử (Liên kết Mỹ, Úc)': { code: '310', other: 78.44 },
+      'Kỹ thuật Hóa học (Liên kết Úc)': { code: '314', other: 63.3 },
+      'Kỹ thuật Xây dựng (Liên kết Úc)': { code: '315', other: 56.2 },
+      'Công nghệ Thực phẩm (Liên kết New Zealand)': { code: '319', other: 56.2 },
+      'Quản lý Công nghiệp (Liên kết Úc)': { code: '323', other: 61.08 },
+      'Kỹ thuật Môi trường, Quản lý Tài nguyên & Môi trường (Liên kết Úc)': { code: '325', other: 55.46 },
+      'Kỹ thuật Ô tô (Liên kết Úc)': { code: '342', other: 69.49 },
+      'Kỹ thuật Hàng không (Liên kết Úc)': { code: '345', other: 78.79 },
+      'Trí tuệ Nhân tạo (ĐH Công nghệ Sydney cấp bằng)': { code: '406', other: 65.5 },
+      'Công nghệ Thông tin (ĐH Công nghệ Sydney cấp bằng)': { code: '416', other: 57.38 }
+    }
+  },
+  'HCMUS': {
+    name: 'ĐH Khoa học Tự nhiên - ĐHQG HCM',
+    region: 'south',
+    programs: {
+      'Công nghệ giáo dục': { code: '7140103', thpt: 24.25, dgnl: 797 },
+      'Sinh học': { code: '7420101', thpt: 22.1, dgnl: 696 },
+      'Sinh học (CTTCTA)': { code: '7420101_DKD', thpt: 21.5, dgnl: 673 },
+      'Công nghệ Sinh học': { code: '7420201', thpt: 24.72, dgnl: 817 },
+      'Công nghệ Sinh học (CT TCTA)': { code: '7420201_DKD', thpt: 24.3, dgnl: 800 },
+      'Vật lý học (CT TCTA)': { code: '7440102_DKD', thpt: 24.4, dgnl: 804 },
+      'Vật lý học': { code: '7440102_NN', thpt: 26.75, dgnl: 917 },
+      'Hóa học': { code: '7440112', thpt: 26.18, dgnl: 886 },
+      'Hóa học (CT TCTA)': { code: '7440112_DKD', thpt: 24.25, dgnl: 797 },
+      'Khoa học Vật liệu': { code: '7440122', thpt: 24.1, dgnl: 790 },
+      'Khoa học Vật liệu (CTTCTA)': { code: '7440122_DKD', thpt: 23.35, dgnl: 742 },
+      'Địa chất học': { code: '7440201_NN', thpt: 22.55, dgnl: 707 },
+      'Hải dương học': { code: '7440228', thpt: 22.65, dgnl: 711 },
+      'Khoa học Môi trường': { code: '7440301', thpt: 21.81, dgnl: 658 },
+      'Khoa học Môi trường (CTTCTA)': { code: '7440301_DKD', thpt: 20, dgnl: 573 },
+      'Toán học': { code: '7460101_NN', thpt: 26.61, dgnl: 910 },
+      'Khoa học dữ liệu': { code: '7460108_NN', thpt: 28.5, dgnl: 1019 },
+      'Khoa học máy tính (Tiên tiến)': { code: '7480101_TT', thpt: 29.92, dgnl: 1136 },
+      'Trí tuệ nhân tạo': { code: '7480107', thpt: 29.39, dgnl: 1092 },
+      'Công nghệ thông tin (CT TCTA)': { code: '7480201_DKD', thpt: 25.87, dgnl: 906 },
+      'Công nghệ thông tin': { code: '7480201_NN', thpt: 27.27, dgnl: 972 },
+      'Công nghệ kỹ thuật Hóa học (CTTCTA)': { code: '7510401_DKD', thpt: 25.22, dgnl: 842 },
+      'Công nghệ Vật liệu': { code: '7510402', thpt: 25.07, dgnl: 832 },
+      'Công nghệ Kỹ thuật Môi trường': { code: '7510406', thpt: 22, dgnl: 673 },
+      'Kỹ thuật điện tử - viễn thông': { code: '7520207', thpt: 26.6, dgnl: 910 },
+      'Kỹ thuật điện tử - viễn thông (CT TCTA)': { code: '7520207_DKD', thpt: 25.7, dgnl: 864 },
+      'Thiết kế vi mạch': { code: '75202a1', thpt: 28.27, dgnl: 1002 },
+      'Kỹ thuật hạt nhân': { code: '7520402', thpt: 25.95, dgnl: 876 },
+      'Vật lý y khoa': { code: '7520403', thpt: 26.13, dgnl: 882 },
+      'Kỹ thuật địa chất': { code: '7520501', thpt: 22.95, dgnl: 723 },
+      'Quản lý tài nguyên và môi trường': { code: '7850101', thpt: 22.25, dgnl: 693 }
+    }
+  },
+  'UIT': {
+    name: 'ĐH Công nghệ Thông tin - ĐHQG HCM',
+    region: 'south',
+    programs: {
+      'Truyền thông Đa phương tiện': { code: '7320104', thpt: 25, dgnl: 911 },
+      'Thương mại điện tử': { code: '7340122', thpt: 24.57, dgnl: 889 },
+      'Khoa học dữ liệu': { code: '7460108', thpt: 27.74, dgnl: 1010 },
+      'Khoa học máy tính': { code: '7480101', thpt: 27.25, dgnl: 993 },
+      'Mạng máy tính và truyền thông dữ liệu': { code: '7480102', thpt: 24.6, dgnl: 854 },
+      'Kỹ thuật phần mềm': { code: '7480103', thpt: 26.7, dgnl: 946 },
+      'Hệ thống thông tin': { code: '7480104', thpt: 24.78, dgnl: 891 },
+      'Hệ thống thông tin (tiên tiến)': { code: '7480104_TT', thpt: 24.29, dgnl: 867 },
+      'Kỹ thuật máy tính': { code: '7480106', thpt: 25.3, dgnl: 923 },
+      'Trí tuệ nhân tạo': { code: '7480107', thpt: 29.6, dgnl: 1098 },
+      'Công nghệ thông tin': { code: '7480201', thpt: 26.6, dgnl: 969 },
+      'Công nghệ thông tin Việt Nhật': { code: '7480201_VN', thpt: 24.2, dgnl: 867 },
+      'An toàn thông tin': { code: '7480202', thpt: 26.27, dgnl: 956 },
+      'Thiết kế Vi mạch': { code: '752020A1', thpt: 27, dgnl: 984 }
+    }
+  },
+  'FTU_CS2': {
+    name: 'ĐH Ngoại thương - Cơ sở II (TP.HCM)',
+    region: 'south',
+    programs: {
+      'Kinh tế đối ngoại': { code: 'KTES1.1', thpt: '27.2 / 26.2', dgnl: 27.96 },
+      'Kế toán - Kiểm toán': { code: 'KTKS1.I', thpt: '26.45 / 25.45', dgnl: 27.72 },
+      'CLC Kinh tế đối ngoại': { code: 'KTES2.1', thpt: '26.35', dgnl: null },
+      'Quản trị kinh doanh': { code: 'QTKS1.1', thpt: '26.75 / 25.75', dgnl: 27.8 },
+      'CLC Quản trị kinh doanh': { code: 'QTKS2.1', thpt: '25.65', dgnl: null },
+      'Tài chính - Ngân hàng': { code: 'TCHS1.1', thpt: '27.65 / 26.65', dgnl: 28.1 },
+      'CLC Tài chính - Ngân hàng': { code: 'TCHS2.1', thpt: '26.2', dgnl: null },
+      'Logistics và Quản lý chuỗi cung ứng': { code: 'KDQS2.1', thpt: '28.3', dgnl: 28.39 },
+      'Marketing tích hợp': { code: 'MKTS2.1', thpt: '27.5', dgnl: 28 }
+    }
+  },
+  'CTU': {
+    name: 'ĐH Cần Thơ',
+    region: 'south',
+    programs: {
+      'Giáo dục mầm non': { code: '7140201', thpt: 25.87, dgnl: 25.87 },
+      'Giáo dục Tiểu học': { code: '7140202', thpt: 26.09, dgnl: 26.09 },
+      'Giáo dục Công dân': { code: '7140204', thpt: 27.71, dgnl: 27.71 },
+      'Giáo dục Thể chất': { code: '7140206', thpt: 23.23, dgnl: 23.23 },
+      'Sư phạm Toán học': { code: '7140209', thpt: 27.67, dgnl: 27.67 },
+      'Sư phạm Tin học': { code: '7140210', thpt: 24.5, dgnl: 24.5 },
+      'Sư phạm Vật lý': { code: '7140211', thpt: 27.19, dgnl: 27.19 },
+      'Sư phạm Hóa học': { code: '7140212', thpt: 27.23, dgnl: 27.23 },
+      'Sư phạm Sinh học': { code: '7140213', thpt: 25.52, dgnl: 25.52 },
+      'Sư phạm Ngữ văn': { code: '7140217', thpt: 28.23, dgnl: 28.23 },
+      'Sư phạm Lịch sử': { code: '7140218', thpt: 28.61, dgnl: 28.61 },
+      'Sư phạm Địa lý': { code: '7140219', thpt: 28.32, dgnl: 28.32 },
+      'Sư phạm Tiếng Anh': { code: '7140231', thpt: 26.78, dgnl: 26.78 },
+      'Sư phạm Tiếng Pháp': { code: '7140233', thpt: 22.51, dgnl: 22.51 },
+      'Sư phạm Khoa học tự nhiên': { code: '7140247', thpt: 25.99, dgnl: 25.99 },
+      'Sư phạm Lịch sử - Địa lý': { code: '7140249', thpt: 28.46, dgnl: 28.46 },
+      'Ngôn ngữ Anh': { code: '7220201', thpt: 24.48, dgnl: 24.48 },
+      'Ngôn ngữ Anh (CTCLC)': { code: '7220201C', thpt: 23, dgnl: 23 },
+      'Ngôn ngữ Pháp': { code: '7220203', thpt: 20.6, dgnl: 20.6 },
+      'Triết học': { code: '7229001', thpt: 25.41, dgnl: 25.41 },
+      'Văn học': { code: '7229030', thpt: 26.5, dgnl: 26.5 },
+      'Kinh tế': { code: '7310101', thpt: 21.61, dgnl: 21.61 },
+      'Chính trị học': { code: '7310201', thpt: 26.29, dgnl: 26.29 },
+      'Xã hội học': { code: '7310301', thpt: 26.12, dgnl: 26.12 },
+      'Tâm lý học giáo dục': { code: '7310403', thpt: 26.75, dgnl: 26.75 },
+      'Báo chí': { code: '7320101', thpt: 26.75, dgnl: 26.75 },
+      'Truyền thông đa phương tiện': { code: '7320104', thpt: 24.11, dgnl: 24.11 },
+      'Thông tin - thư viện': { code: '7320201', thpt: 17.81, dgnl: 17.81 },
+      'Quản trị kinh doanh': { code: '7340101', thpt: 21.5, dgnl: 21.5 },
+      'Quản trị kinh doanh (CTCLC)': { code: '7340101C', thpt: 19.62, dgnl: 19.62 },
+      'Marketing': { code: '7340115', thpt: 22.96, dgnl: 22.96 },
+      'Kinh doanh quốc tế': { code: '7340120', thpt: 22.47, dgnl: 22.47 },
+      'Kinh doanh quốc tế (CTCLC)': { code: '7340120C', thpt: 20.75, dgnl: 20.75 },
+      'Kinh doanh thương mại': { code: '7340121', thpt: 21.75, dgnl: 21.75 },
+      'Thương mại điện tử': { code: '7340122', thpt: 22.23, dgnl: 22.23 },
+      'Tài chính - Ngân hàng': { code: '7340201', thpt: 22.9, dgnl: 22.9 },
+      'Tài chính - Ngân hàng (CTCLC)': { code: '7340201C', thpt: 20.1, dgnl: 20.1 },
+      'Kế toán': { code: '7340301', thpt: 22.61, dgnl: 22.61 },
+      'Kiểm toán': { code: '7340302', thpt: 21.75, dgnl: 21.75 },
+      'Luật': { code: '7380101', thpt: 25.97, dgnl: 25.97 },
+      'Luật dân sự và tố tụng dân sự': { code: '7380103', thpt: 25.69, dgnl: 25.69 },
+      'Luật kinh tế': { code: '7380107', thpt: 26.39, dgnl: 26.39 },
+      'Sinh học': { code: '7420101', thpt: 19.61, dgnl: 19.61 },
+      'Công nghệ sinh học': { code: '7420201', thpt: 20.2, dgnl: 20.2 },
+      'Công nghệ sinh học (CTTT)': { code: '7420201T', thpt: 18.68, dgnl: 18.68 },
+      'Sinh học ứng dụng': { code: '7420203', thpt: 17.15, dgnl: 17.15 },
+      'Hóa học': { code: '7440112', thpt: 22.28, dgnl: 22.28 },
+      'Khoa học môi trường': { code: '7440301', thpt: 15, dgnl: 15 },
+      'Toán ứng dụng': { code: '7460112', thpt: 21.77, dgnl: 21.77 },
+      'Thống kê': { code: '7460201', thpt: 18.41, dgnl: 18.41 },
+      'Khoa học máy tính': { code: '7480101', thpt: 23.07, dgnl: 23.07 },
+      'Mạng máy tính và truyền thông dữ liệu': { code: '7480102', thpt: 21.01, dgnl: 21.01 },
+      'Mạng máy tính và truyền thông dữ liệu (CTCLC)': { code: '7480102C', thpt: 17.75, dgnl: 17.75 },
+      'Kỹ thuật phần mềm': { code: '7480103', thpt: 23.05, dgnl: 23.05 },
+      'Kỹ thuật phần mềm (CTCLC)': { code: '7480103C', thpt: 19.4, dgnl: 19.4 },
+      'Hệ thống thông tin': { code: '7480104', thpt: 21.38, dgnl: 21.38 },
+      'Hệ thống thông tin (CTCLC)': { code: '7480104C', thpt: 18.8, dgnl: 18.8 },
+      'Kỹ thuật máy tính (Thiết kế vi mạch bán dẫn)': { code: '7480106', thpt: 24, dgnl: 24 },
+      'Trí tuệ nhân tạo': { code: '7480107', thpt: 23.04, dgnl: 23.04 },
+      'Công nghệ thông tin': { code: '7480201', thpt: 24.78, dgnl: 24.78 },
+      'Công nghệ thông tin (CTCLC)': { code: '7480201C', thpt: 20.25, dgnl: 20.25 },
+      'An toàn thông tin': { code: '7480202', thpt: 22.5, dgnl: 22.5 },
+      'Công nghệ kỹ thuật hóa học': { code: '7510401', thpt: 22.59, dgnl: 22.59 },
+      'Công nghệ kỹ thuật hóa học (CTCLC)': { code: '7510401C', thpt: 15, dgnl: 15 },
+      'Quản lý công nghiệp': { code: '7510601', thpt: 20.61, dgnl: 20.61 },
+      'Logistics và Quản lý chuỗi cung ứng': { code: '7510605', thpt: 23.65, dgnl: 23.65 },
+      'Kỹ thuật cơ khí': { code: '7520103', thpt: 22.05, dgnl: 22.05 },
+      'Kỹ thuật cơ điện tử': { code: '7520114', thpt: 22.35, dgnl: 22.35 },
+      'Kỹ thuật ô tô': { code: '7520130', thpt: 22.15, dgnl: 22.15 },
+      'Kỹ thuật điện': { code: '7520201', thpt: 21.8, dgnl: 21.8 },
+      'Kỹ thuật điện (CTCLC)': { code: '7520201C', thpt: 17.6, dgnl: 17.6 },
+      'Kỹ thuật điện tử - viễn thông': { code: '7520207', thpt: 20.95, dgnl: 20.95 },
+      'Kỹ thuật y sinh': { code: '7520212', thpt: 21, dgnl: 21 },
+      'Kỹ thuật điều khiển và tự động hóa': { code: '7520216', thpt: 23.35, dgnl: 23.35 },
+      'Kỹ thuật điều khiển và tự động hóa (CTCLC)': { code: '7520216C', thpt: 18.65, dgnl: 18.65 },
+      'Kỹ thuật vật liệu': { code: '7520309', thpt: 19.7, dgnl: 19.7 },
+      'Kỹ thuật môi trường': { code: '7520320', thpt: 15, dgnl: 15 },
+      'Vật lý kỹ thuật': { code: '7520401', thpt: 21.55, dgnl: 21.55 },
+      'Công nghệ thực phẩm': { code: '7540101', thpt: 20.28, dgnl: 20.28 },
+      'Công nghệ thực phẩm (CTCLC)': { code: '7540101C', thpt: 16.67, dgnl: 16.67 },
+      'Công nghệ sau thu hoạch': { code: '7540104', thpt: 15, dgnl: 15 },
+      'Công nghệ chế biến thủy sản': { code: '7540105', thpt: 15.4, dgnl: 15.4 },
+      'Đảm bảo chất lượng và an toàn thực phẩm': { code: '7540106', thpt: 17, dgnl: 17 },
+      'Kiến trúc': { code: '7580101', thpt: 18.1, dgnl: 18.1 },
+      'Quy hoạch vùng và đô thị': { code: '7580105', thpt: 15, dgnl: 15 },
+      'Kỹ thuật xây dựng': { code: '7580201', thpt: 16.1, dgnl: 16.1 },
+      'Kỹ thuật xây dựng (CTCLC)': { code: '7580201C', thpt: 15.15, dgnl: 15.15 },
+      'Kỹ thuật xây dựng công trình thủy': { code: '7580202', thpt: 15, dgnl: 15 },
+      'Kỹ thuật xây dựng công trình giao thông': { code: '7580205', thpt: 15, dgnl: 15 },
+      'Kỹ thuật cấp thoát nước': { code: '7580213', thpt: 15, dgnl: 15 },
+      'Khoa học đất': { code: '7620103', thpt: 15, dgnl: 15 },
+      'Chăn nuôi': { code: '7620105', thpt: 15, dgnl: 15 },
+      'Nông học': { code: '7620109', thpt: 15, dgnl: 15 },
+      'Khoa học cây trồng': { code: '7620110', thpt: 15, dgnl: 15 },
+      'Bảo vệ thực vật': { code: '7620112', thpt: 15, dgnl: 15 },
+      'Công nghệ rau hoa quả và cảnh quan': { code: '7620113', thpt: 15, dgnl: 15 },
+      'Kinh tế nông nghiệp': { code: '7620115', thpt: 16, dgnl: 16 },
+      'Nuôi trồng thủy sản': { code: '7620301', thpt: 15, dgnl: 15 },
+      'Nuôi trồng thủy sản (CTTT)': { code: '7620301T', thpt: 15, dgnl: 15 },
+      'Bệnh học thủy sản': { code: '7620302', thpt: 15, dgnl: 15 },
+      'Quản lý thủy sản': { code: '7620305', thpt: 15, dgnl: 15 },
+      'Thú y': { code: '7640101', thpt: 20, dgnl: 20 },
+      'Thú y (CTCLC)': { code: '7640101C', thpt: 18, dgnl: 18 },
+      'Hóa dược': { code: '7720203', thpt: 22.76, dgnl: 22.76 },
+      'Du lịch': { code: '7810101', thpt: 26.73, dgnl: 26.73 },
+      'Quản trị dịch vụ du lịch và lữ hành': { code: '7810103', thpt: 21.4, dgnl: 21.4 },
+      'Quản trị dịch vụ du lịch và lữ hành (CTCLC)': { code: '7810103C', thpt: 19.1, dgnl: 19.1 },
+      'Quản lý tài nguyên và môi trường': { code: '7850101', thpt: 17.1, dgnl: 17.1 },
+      'Kinh tế tài nguyên thiên nhiên': { code: '7850102', thpt: 18.05, dgnl: 18.05 },
+      'Quản lý đất đai': { code: '7850103', thpt: 16.9, dgnl: 16.9 }
+    }
+  },
+    'UMP': {
+    name: 'ĐH Y Dược TP.HCM',
+    region: 'south',
+    programs: {
+      'Y khoa': { code: '7720101', thpt: 27.34, dgnl: null },
+      'Y học dự phòng': { code: '7720110', thpt: 19, dgnl: null },
+      'Y học cổ truyền': { code: '7720115', thpt: 21.5, dgnl: null },
+      'Dược học': { code: '7720201', thpt: 22.85, dgnl: null },
+      'Hóa dược': { code: '7720203', thpt: 23.65, dgnl: null },
+      'Điều dưỡng': { code: '7720301', thpt: 20.15, dgnl: null },
+      'Điều dưỡng chuyên ngành Gây mê hồi sức': { code: '7720301_03', thpt: 21.18, dgnl: null },
+      'Hộ sinh': { code: '7720302', thpt: 18, dgnl: null },
+      'Dinh dưỡng': { code: '7720401', thpt: 19.25, dgnl: null },
+      'Răng - Hàm - Mặt': { code: '7720501', thpt: 26.45, dgnl: null },
+      'Kỹ thuật phục hình răng': { code: '7720502', thpt: 21.5, dgnl: null },
+      'Kỹ thuật xét nghiệm y học': { code: '7720601', thpt: 22.05, dgnl: null },
+      'Kỹ thuật hình ảnh y học': { code: '7720602', thpt: 21, dgnl: null },
+      'Kỹ thuật phục hồi chức năng': { code: '7720603', thpt: 21, dgnl: null },
+      'Y tế công cộng': { code: '7720701', thpt: 17, dgnl: null },
+      'Công tác xã hội': { code: '7760101', thpt: 17.25, dgnl: null }
+    }
+  },
+    'PNT': {
+    name: 'ĐH Y Khoa Phạm Ngọc Thạch',
+    region: 'south',
+    programs: {
+      'Y khoa': { code: '7720101', thpt: 25.55, dgnl: null },
+      'Y học cổ truyền': { code: '7720115', thpt: 21.13, dgnl: null },
+      'Dược học': { code: '7720201', thpt: 22, dgnl: null },
+      'Điều dưỡng': { code: '7720301', thpt: 19.65, dgnl: null },
+      'Hộ sinh': { code: '7720302', thpt: 19.66, dgnl: null },
+      'Dinh dưỡng': { code: '7720401', thpt: 18, dgnl: null },
+      'Răng Hàm Mặt': { code: '7720501', thpt: 25.26, dgnl: null },
+      'Kỹ thuật xét nghiệm y học': { code: '7720601', thpt: 21.59, dgnl: null },
+      'Kỹ thuật hình ảnh y học': { code: '7720602', thpt: 20.55, dgnl: null },
+      'Kỹ thuật phục hồi chức năng': { code: '7720603', thpt: 21.25, dgnl: null },
+      'Khúc xạ nhãn khoa': { code: '7720699', thpt: 21, dgnl: null },
+      'Y tế công cộng': { code: '7720701', thpt: 18, dgnl: null }
+    }
+  },
+  'UEH': {
+    name: 'ĐH Kinh tế TP.HCM',
+    region: 'south',
+    programs: {
+      'Tiếng Anh thương mại': { code: '7220201', thpt: 24.5, dgnl: null},
+      'Kinh tế': { code: '7310101', thpt: 25.4, dgnl: null },
+      'Kinh tế chính trị': { code: '7310102', thpt: 24, dgnl: null },
+      'Kinh tế đầu tư': { code: '7310104_01', thpt: 24.05, dgnl: null },
+      'Thẩm định giá và Quản trị tài sản': { code: '7310104_02', thpt: 22.8, dgnl: null },
+      'Thống kê kinh doanh': { code: '7310107', thpt: 24.8, dgnl: null },
+      'Toán tài chính': { code: '7310108_01', thpt: 24, dgnl: null },
+      'Phân tích rủi ro và định phí bảo hiểm': { code: '7310108_02', thpt: 23, dgnl: null },
+      'Truyền thông số và thiết kế đa phương tiện': { code: '7320106', thpt: 26.3, dgnl: null },
+      'Quản trị kinh doanh': { code: '7340101_01', thpt: 24.3, dgnl: null },
+      'Kinh doanh số': { code: '7340101_02', thpt: 25.6, dgnl: null },
+      'Quản trị bệnh viện': { code: '7340101_03', thpt: 22.8, dgnl: 22.8 },
+      'Quản trị bền vững doanh nghiệp và môi trường': { code: '7340101_04', thpt: 23.6, dgnl: null },
+      'Marketing': { code: '7340115_01', thpt: 26.5, dgnl: null },
+      'Công nghệ Marketing': { code: '7340115_02', thpt: 26.65, dgnl: null },
+      'Bất động sản': { code: '7340116', thpt: 22.8, dgnl: null },
+      'Kinh doanh quốc tế': { code: '7340120', thpt: 26.3, dgnl: null },
+      'Kinh doanh thương mại': { code: '7340121', thpt: 25.8, dgnl: null },
+      'Thương mại điện tử': { code: '7340122', thpt: 26.1, dgnl: null },
+      'Tài chính công': { code: '7340201_01', thpt: 23.8, dgnl: null },
+      'Thuế': { code: '7340201_02', thpt: 23.5, dgnl: null },
+      'Ngân hàng': { code: '7340201_03', thpt: 24.4, dgnl: null },
+      'Thị trường chứng khoán': { code: '7340201_04', thpt: 23.1, dgnl: null },
+      'Tài chính': { code: '7340201_05', thpt: 24.9, dgnl: null },
+      'Đầu tư tài chính': { code: '7340201_06', thpt: 24.4, dgnl: null },
+      'Quản trị Hải quan - Ngoại thương': { code: '7340201_07', thpt: 25.3, dgnl: null },
+      'Tài chính - Ngân hàng (Đào tạo quốc tế)': { code: '7340201_08', thpt: 24.5, dgnl: null },
+      'Bảo hiểm': { code: '7340204', thpt: 22.8, dgnl: null },
+      'Công nghệ tài chính': { code: '7340205', thpt: 25.9, dgnl: null },
+      'Tài chính quốc tế': { code: '7340206', thpt: 26.3, dgnl: null },
+      'Kế toán doanh nghiệp': { code: '7340301_01', thpt: 23.4, dgnl: null },
+      'Kế toán công': { code: '7340301_02', thpt: 24, dgnl: null },
+      'Kế toán (ICAEW)': { code: '7340301_03', thpt: 23, dgnl: null },
+      'Kế toán (ACCA)': { code: '7340301_04', thpt: 23.2, dgnl: null },
+      'Kiểm toán': { code: '7340302', thpt: 25.7, dgnl: null },
+      'Quản lý công': { code: '7340403', thpt: 23, dgnl: null },
+      'Quản trị nhân lực': { code: '7340404', thpt: 24.8, dgnl: null },
+      'Hệ thống thông tin quản lý': { code: '7340405', thpt: 25, dgnl: null },
+      'Luật kinh doanh quốc tế': { code: '7380101', thpt: 24.9, dgnl: null },
+      'Luật kinh tế': { code: '7380107', thpt: 24.65, dgnl: null },
+      'Khoa học dữ liệu': { code: '7460108_01', thpt: 26, dgnl: null },
+      'Phân tích dữ liệu': { code: '7460108_02', thpt: 26.4, dgnl: null },
+      'Khoa học máy tính': { code: '7480101', thpt: 24, dgnl: null },
+      'Kỹ thuật phần mềm': { code: '7480103', thpt: 23.6, dgnl: null },
+      'Trí tuệ nhân tạo': { code: '7480107_01', thpt: 23.8, dgnl: null },
+      'Điều khiển thông minh và tự động hóa': { code: '7480107_02', thpt: 23.4, dgnl: null },
+      'Công nghệ thông tin': { code: '7480201_01', thpt: 24.3, dgnl: null },
+      'Công nghệ nghệ thuật': { code: '7480201_02', thpt: 24.9, dgnl: null },
+      'Công nghệ và đổi mới sáng tạo': { code: '7480201_03', thpt: 23, dgnl: null },
+      'An toàn thông tin': { code: '7480202', thpt: 23.8, dgnl: null },
+      'Logistics và Quản lý chuỗi cung ứng': { code: '7510605_01', thpt: 27.7, dgnl: null },
+      'Công nghệ Logistics': { code: '7510605_02', thpt: 25.4, dgnl: null },
+      'Kiến trúc và thiết kế đô thị thông minh': { code: '7580104', thpt: 23, dgnl: null },
+      'Kinh doanh nông nghiệp': { code: '7620114', thpt: 23, dgnl: null },
+      'Quản trị dịch vụ du lịch và lữ hành': { code: '7810103', thpt: 23.4, dgnl: null },
+      'Quản trị khách sạn': { code: '7810201_01', thpt: 24.2, dgnl: null },
+      'Quản trị sự kiện và dịch vụ giải trí': { code: '7810201_02', thpt: 25.5, dgnl: null },
+      'Cử nhân ISB ASEAN Co-op': { code: 'ASA_Co-op', thpt: 24.7, dgnl: null },
+      'Cử nhân Tài năng ISB BBus': { code: 'ISB_CNTN', thpt: 25, dgnl: null }
+    }
+  }
+};
+
+function getAllPrograms() {
+  const programs = new Set();
+  Object.values(universities).forEach(uni => {
+    Object.keys(uni.programs).forEach(program => {
+      const normalized = program.replace(/\s*\(.*?\)\s*/g, '').trim();
+      programs.add(normalized);
+    });
+  });
+  return Array.from(programs).sort();
+}
+
+function initializeProgramList() {
+  const programList = document.getElementById('programList');
+  const programs = getAllPrograms();
+  
+  programList.innerHTML = programs.map(program => `
+    <div class="checkbox-item">
+      <input type="checkbox" id="prog_${program.replace(/\s+/g, '_')}" value="${program}" onchange="applyFilters()">
+      <label for="prog_${program.replace(/\s+/g, '_')}">${program}</label>
+    </div>
+  `).join('');
+}
+
+function filterPrograms() {
+  const search = document.getElementById('programSearch').value.toLowerCase();
+  const items = document.querySelectorAll('#programList .checkbox-item');
+  
+  items.forEach(item => {
+    const label = item.querySelector('label').textContent.toLowerCase();
+    item.style.display = label.includes(search) ? 'flex' : 'none';
+  });
+}
+
+function toggleFilter(section) {
+  const header = event.currentTarget;
+  const options = document.getElementById(`${section}-filter`);
+  
+  header.classList.toggle('collapsed');
+  options.classList.toggle('hidden');
+}
+
+function getSelectedFilters() {
+  const regions = Array.from(document.querySelectorAll('#region-filter input:checked')).map(cb => cb.value);
+  const methods = Array.from(document.querySelectorAll('#method-filter input:checked')).map(cb => cb.value);
+  const programs = Array.from(document.querySelectorAll('#programList input:checked')).map(cb => cb.value.toLowerCase());
+  
+  return { regions, methods, programs };
+}
+
+function normalizeProgram(name) {
+  return name.replace(/\s*\(.*?\)\s*/g, '').trim().toLowerCase();
+}
+
+function applyFilters() {
+  const filters = getSelectedFilters();
+  const resultsGrid = document.getElementById('resultsGrid');
+  const grouped = {};
+
+  Object.entries(universities).forEach(([uniKey, uni]) => {
+    const regionMatch = filters.regions.length === 0 || filters.regions.includes(uni.region);
+    if (!regionMatch) return;
+
+    Object.entries(uni.programs).forEach(([programName, data]) => {
+      const normalized = normalizeProgram(programName);
+      const programMatch = filters.programs.length === 0 || filters.programs.includes(normalized);
+      if (!programMatch) return;
+
+      if (!grouped[normalized]) {
+        grouped[normalized] = {
+          name: programName.replace(/\s*\(.*?\)\s*/g, '').trim(),
+          universities: []
+        };
+      }
+
+      grouped[normalized].universities.push({
+        uniKey,
+        uniName: uni.name,
+        programName,
+        code: data.code,
+        thpt: data.thpt,
+        dgnl: data.dgnl,
+        other: data.other,
+        dgnlNote: data.dgnlNote || null
+      });
+    });
+  });
+
+  const results = Object.values(grouped);
+  
+  if (results.length === 0) {
+    resultsGrid.innerHTML = `
+      <div class="no-results">
+        <div class="no-results-icon">🔍</div>
+        <p class="no-results-text">Không tìm thấy kết quả phù hợp với bộ lọc</p>
+        <p style="font-size: 14px; color: #999; margin-top: 10px;">Thử tick vào các bộ lọc để xem kết quả</p>
+      </div>
+    `;
+    document.getElementById('resultsInfo').textContent = 'Không có kết quả';
+    return;
+  }
+
+  const showThpt = filters.methods.length === 0 || filters.methods.includes('thpt');
+  const showDgnl = filters.methods.length === 0 || filters.methods.includes('dgnl');
+  const showOther = filters.methods.length === 0 || filters.methods.includes('other');
+
+  resultsGrid.innerHTML = results.map(program => `
+    <div class="program-card">
+      <div class="program-header">
+        <div class="program-name">${program.name}</div>
+      </div>
+      <div class="universities-comparison">
+        ${program.universities.map(uni => `
+          <div class="university-item">
+            <div class="university-name">${uni.uniName}</div>
+            <div class="program-code">${uni.code}</div>
+            ${showThpt && uni.thpt ? `
+              <div class="score-row">
+                <span class="score-label">THPT:</span>
+                <span class="score-value">${uni.thpt}</span>
+              </div>
+            ` : ''}
+            ${showDgnl && uni.dgnl ? `
+              <div class="score-row">
+                <span class="score-label">ĐGNL:</span>
+                <span class="score-value">${uni.dgnl}${uni.dgnlNote ? '*' : ''}</span>
+              </div>
+              ${uni.dgnlNote ? `<div class="score-detail">* ${uni.dgnlNote}</div>` : ''}
+            ` : ''}
+            ${showOther && uni.other ? `
+              <div class="score-row">
+                <span class="score-label">Khác:</span>
+                <span class="score-value">${uni.other}</span>
+              </div>
+            ` : ''}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  const methodText = filters.methods.length === 0 ? 'THPT & ĐGNL & Khác' : filters.methods.map(m => {
+    if (m === 'thpt') return 'THPT';
+    if (m === 'dgnl') return 'ĐGNL';
+    if (m === 'other') return 'Khác';
+    return m.toUpperCase();
+  }).join(' & ');
+  
+  const regionText = filters.regions.length === 0 ? 'tất cả vùng' : filters.regions.map(r => {
+    if (r === 'south') return 'Miền Nam';
+    if (r === 'central') return 'Miền Trung';
+    if (r === 'north') return 'Miền Bắc';
+  }).join(', ');
+  
+  document.getElementById('resultsInfo').textContent = `Tìm thấy ${results.length} ngành học (${methodText} - ${regionText})`;
+}
+
+function clearAllFilters() {
+  document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => {
+    cb.checked = false;
+  });
+  document.getElementById('programSearch').value = '';
+  filterPrograms();
+  applyFilters();
+}
+
+// ===== PHẦN 2: HAMBURGER MENU =====
+document.addEventListener('DOMContentLoaded', () => {
+  // Khởi tạo danh sách ngành học
+  initializeProgramList();
+  applyFilters();
+
+  // Hamburger menu controls
+  const hamburger = document.getElementById('hamburgerBtn');
+  const navMenu = document.getElementById('navMenu');
+  const navOverlay = document.getElementById('navOverlay');
+
+  // Toggle menu khi click hamburger
+  if (hamburger && navMenu && navOverlay) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('active');
+      navOverlay.classList.toggle('active');
+      
+      // Ngăn scroll body khi menu mở
+      document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+    });
+
+    // Đóng menu khi click overlay
+    navOverlay.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      navMenu.classList.remove('active');
+      navOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    // 📂 DROPDOWN CONTROL trong mobile
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(toggle => {
+      toggle.addEventListener('click', (e) => {
+        if (window.innerWidth <= 992) {
+          e.preventDefault();
+          const dropdown = toggle.closest('.dropdown');
+          dropdown.classList.toggle('active');
+        }
+      });
+    });
+
+    // 📂 SUBMENU CONTROL trong mobile
+    const submenuToggles = document.querySelectorAll('.submenu-toggle');
+    submenuToggles.forEach(toggle => {
+      toggle.addEventListener('click', (e) => {
+        if (window.innerWidth <= 992) {
+          e.preventDefault();
+          const parent = toggle.closest('.dropdown-item-with-sub');
+          parent.classList.toggle('active');
+        }
+      });
+    });
+
+    // Đóng menu khi click vào link (trừ dropdown toggles)
+    const navLinks = navMenu.querySelectorAll('a:not(.dropbtn):not(.submenu-toggle)');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 992) {
+          hamburger.classList.remove('active');
+          navMenu.classList.remove('active');
+          navOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // Reset khi resize window
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 992) {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+        navOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+        
+        // Reset dropdowns
+        document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+        document.querySelectorAll('.dropdown-item-with-sub').forEach(d => d.classList.remove('active'));
+      }
+    });
+  }
+});
+</script>
+</body>
+</html>

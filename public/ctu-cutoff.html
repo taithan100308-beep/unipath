@@ -6,7 +6,7 @@
   <title>Tra cứu điểm chuẩn Đại học</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    body {
+ body {
       font-family: 'Poppins', sans-serif;
       background: #ffffff;
       padding-top: 80px;
@@ -49,6 +49,54 @@
       background: #f0f7ff;
       color: #004aad;
     }
+     .result-box {
+      display: none;
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 12px;
+      color: white;
+    }
+    
+    .result-box.show {
+      display: block;
+      animation: fadeIn 0.3s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .result-item {
+      margin-bottom: 0.8rem;
+    }
+    
+    .result-label {
+      font-weight: 600;
+      opacity: 0.9;
+      font-size: 0.9rem;
+    }
+    
+    .result-value {
+      font-size: 1.1rem;
+      margin-top: 0.2rem;
+    }
+    
+    .result-score {
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+      margin: 1rem 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .no-result {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -58,117 +106,99 @@
     <h2 class="nav-logo">UNIPATH</h2>
   </div>
 
-  <div class="nav-right">
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <div class="nav-right" id="navMenu">
     <a href="homepage.html">Trang chủ</a>
 
-    <!-- 🔹 Dropdown Tuyển sinh -->
-<div class="dropdown">
-  <a href="#" class="dropbtn">Tuyển sinh ▾</a>
-  <div class="dropdown-content">
-    <a href="universities.html">Thông tin tuyển sinh</a>
-    <a href="converter.html">Quy đổi điểm</a>
-    <a href="ctu-cutoff.html">Tra cứu điểm</a>
-  </div>
-</div>
+    <div class="dropdown">
+      <a href="#" class="dropbtn dropdown-toggle">Tuyển sinh ▾</a>
+      <div class="dropdown-content">
+        <a href="universities.html">Thông tin tuyển sinh</a>
+        <a href="converter.html">Quy đổi điểm</a>
+        
+        <div class="dropdown-item-with-sub">
+          <a href="#" class="submenu-toggle">Tra cứu điểm ▸</a>
+          <div class="submenu-right">
+            <a href="ctu-cutoff.html">Tra cứu</a>
+            <a href="compare-score.html">So sánh</a>
+          </div>
+        </div>
+        
+        <a href="documents.html">Văn bản</a>
+        <a href="de-minh-hoa.html">Thư viện đề</a>
+      </div>
+    </div>
 
     <a href="biotest.html">Sinh trắc học</a>
     <a href="study-methods.html">Phương pháp học</a>
-    <a href="documents.html">Văn bản</a>
-    <a href="contact.html">Liên hệ</a>
-    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+    
+    <div class="dropdown">
+      <a href="#" class="dropbtn dropdown-toggle">Công cụ học ▾</a>
+      <div class="dropdown-content">
+        <a href="study.html">Time-blocking</a>
+        <a href="flashcard.html">Flashcard</a>
+      </div>
+    </div>
+
+    <a href="document-ai.html">Trợ lý AI</a>
+
+    <button id="logoutNavBtn" class="logout-btn">
+      <img src="log-out.jpg" class="logout-icon">
+    </button>
   </div>
 </nav>
 
   <div class="cutoff-container">
     <h1>📊 Tra cứu điểm chuẩn Đại học</h1>
 
-    <div style="margin-top: 1rem;">
-      <select id="schoolSelect">
-        <option value="">-- Chọn trường --</option>
-        <option value="ctu">Đại học Cần Thơ</option>
-        <!-- sau này bạn có thể thêm nhiều trường -->
-      </select>
+    <div style="margin-top: 1.5rem;">
+      <div class="form-group">
+        <select id="schoolSelect">
+          <option value="">-- Chọn trường --</option>
+          <option value="ctu">Đại học Cần Thơ</option>
+          <option value="HCMUT">ĐH Bách Khoa TP.HCM</option>
+          <option value="HCMUS">ĐH Khoa học Tự nhiên - ĐHQG HCM</option>
+          <option value="UIT">ĐH CNTT - ĐHQG HCM</option>
+          <option value="FTU_CS2">ĐH Ngoại thương - CS2</option>
+          <option value="UEH">ĐH Kinh tế TP.HCM</option>
+          <option value="UMP">ĐH Y Dược TP.HCM</option>
+          <option value="PNT">ĐH Y Khoa Phạm Ngọc Thạch</option>
+        </select>
+      </div>
 
-      <select id="methodSelect">
-        <option value="">-- Chọn phương thức --</option>
-        <option value="thpt">Thi THPT</option>
-        <option value="hocba">Học bạ</option>
-      </select>
+      <div class="form-group">
+        <select id="methodSelect" disabled>
+          <option value="">-- Chọn phương thức --</option>
+        </select>
+      </div>
 
+      <div class="form-group">
+        <select id="majorSelect" disabled>
+          <option value="">-- Chọn ngành --</option>
+        </select>
+      </div>
 
-      <select id="majorSelect">
-        <option value="">-- Chọn ngành --</option>
-      </select>
-
-      <button id="searchBtn">🔍 Tra cứu</button>
+      <button id="searchBtn" disabled>🔍 Tra cứu</button>
     </div>
 
-    <table id="resultTable" style="display:none;">
-      <thead>
-        <tr>
-          <th>Mã ngành</th>
-          <th>Tên ngành</th>
-          <th>Tổ hợp</th>
-          <th>Điểm chuẩn</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+
+      
+<div id="resultBox" class="result-box">
+  <div class="result-item">
+    <div class="result-value" id="schoolName"></div>
+  </div>
+  
+  <div class="result-score" id="majorScore"></div>
+</div>
   </div>
 
-  <!-- ✅ Import dữ liệu -->
-  <script type="module">
-    import { ctuData } from "./ctu-data.js";
-
-    const schoolSelect = document.getElementById("schoolSelect");
-    const methodSelect = document.getElementById("methodSelect");
-    const majorSelect = document.getElementById("majorSelect");
-    const searchBtn = document.getElementById("searchBtn");
-    const table = document.getElementById("resultTable");
-    const tbody = table.querySelector("tbody");
-
-    // Khi chọn phương thức -> hiển thị danh sách ngành
-    methodSelect.addEventListener("change", () => {
-      majorSelect.innerHTML = '<option value="">-- Chọn ngành --</option>';
-
-      const method = methodSelect.value;
-      if (schoolSelect.value === "ctu" && method && ctuData[method]) {
-        ctuData[method].forEach(item => {
-          const opt = document.createElement("option");
-          opt.value = item.code;
-          opt.textContent = item.major;
-          majorSelect.appendChild(opt);
-        });
-      }
-    });
-
-    // Khi nhấn nút Tra cứu
-    searchBtn.addEventListener("click", () => {
-      const method = methodSelect.value;
-      const majorCode = majorSelect.value;
-
-      if (!method || !majorCode) {
-        alert("Vui lòng chọn đủ thông tin!");
-        return;
-      }
-
-      const record = ctuData[method].find(item => item.code === majorCode);
-      if (!record) {
-        alert("Không tìm thấy ngành này!");
-        return;
-      }
-
-      table.style.display = "table";
-      tbody.innerHTML = `
-        <tr>
-          <td>${record.code}</td>
-          <td>${record.major}</td>
-          <td>${record.subjects}</td>
-          <td><strong>${record.cutoff}</strong></td>
-        </tr>
-      `;
-    });
-  </script>
+  <script type="module" src="ctu-cutoff.js"></script>
 </body>
 </html>
-

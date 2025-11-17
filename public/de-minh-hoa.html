@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đề minh họa THPT Quốc Gia 2025</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: #f8f9ff;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+      padding-top: 80px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 320px;
+      background: #4c5fd7;
+      color: white;
+      padding: 20px;
+      position: sticky;
+      top: 80px;
+      height: calc(100vh - 80px);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .sidebar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
+      border-radius: 4px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255,255,255,0.5);
+    }
+
+    .sidebar h2 {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .subtext {
+      font-size: 14px;
+      color: #d1d3ff;
+      margin-bottom: 20px;
+    }
+
+    .menu {
+      list-style: none;
+    }
+
+    .menu-item {
+      margin-bottom: 10px;
+    }
+
+    .dropdown-btn {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 16px;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dropdown-btn:hover {
+      opacity: 0.8;
+    }
+
+    .submenu {
+      list-style: none;
+      padding-left: 16px;
+      display: block;
+    }
+
+    .submenu li {
+      color: #e8eaff;
+      cursor: pointer;
+      padding: 6px 0;
+      transition: all 0.2s;
+    }
+
+    .submenu li:hover {
+      color: white;
+      padding-left: 8px;
+    }
+
+    .subject-btn {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .subject-btn:hover {
+      opacity: 0.8;
+    }
+
+    .subsubmenu {
+      list-style: none;
+      padding-left: 18px;
+      display: none;
+      margin-top: 8px;
+    }
+
+    .subsubmenu.active {
+      display: block;
+    }
+
+    .subsubmenu li {
+      color: #d9dcff;
+      cursor: pointer;
+      padding: 5px 0;
+      transition: all 0.2s;
+    }
+
+    .subsubmenu li:hover {
+      color: white;
+      padding-left: 8px;
+    }
+
+    /* Content */
+    .content {
+      flex: 1;
+      background: white;
+      padding: 40px;
+      text-align: center;
+      overflow-y: auto;
+    }
+
+    .content h1 {
+      color: #4c5fd7;
+      margin-bottom: 10px;
+    }
+
+    .hint {
+      color: #7a7a7a;
+      margin-bottom: 40px;
+    }
+
+    .doc-display {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+    }
+
+    .doc-display img {
+      opacity: 0.3;
+      margin-bottom: 20px;
+    }
+
+    .doc-display iframe {
+      width: 100%;
+      height: 80vh;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+
+    /* Mobile Toggle Button */
+    .sidebar-toggle {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #4c5fd7;
+      color: white;
+      border: none;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(76, 95, 215, 0.4);
+      z-index: 1000;
+      transition: all 0.3s;
+    }
+
+    .sidebar-toggle:active {
+      transform: scale(0.95);
+    }
+
+    /* Overlay for mobile sidebar */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 998;
+    }
+
+    /* ================================================
+       📱 RESPONSIVE MOBILE
+       ================================================ */
+    @media (max-width: 992px) {
+      .container {
+        flex-direction: column;
+        padding-top: 70px;
+      }
+
+      /* Sidebar trở thành slide-in menu */
+      .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        width: 280px;
+        height: 100vh;
+        z-index: 999;
+        transition: left 0.3s ease;
+        padding-top: 80px;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .sidebar-overlay.active {
+        display: block;
+      }
+
+      /* Hiện nút toggle trên mobile */
+      .sidebar-toggle {
+        display: block;
+      }
+
+      /* Content chiếm toàn bộ màn hình */
+      .content {
+        width: 100%;
+        padding: 20px;
+      }
+
+      .content h1 {
+        font-size: 24px;
+      }
+
+      .hint {
+        font-size: 14px;
+        margin-bottom: 30px;
+      }
+
+      .doc-display iframe {
+        height: 70vh;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 260px;
+      }
+
+      .content {
+        padding: 15px;
+      }
+
+      .content h1 {
+        font-size: 20px;
+      }
+
+      .sidebar h2 {
+        font-size: 20px;
+      }
+
+      .subject-btn {
+        font-size: 15px;
+      }
+
+      .subsubmenu li {
+        font-size: 13px;
+      }
+
+      .doc-display iframe {
+        height: 60vh;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .sidebar {
+        width: 240px;
+      }
+
+      .content {
+        padding: 10px;
+      }
+
+      .content h1 {
+        font-size: 18px;
+      }
+
+      .sidebar h2 {
+        font-size: 18px;
+      }
+
+      .sidebar-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        bottom: 15px;
+        right: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">UNIPATH</h2>
+  </div>
+
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <div class="nav-right" id="navMenu">
+    <a href="homepage.html">Trang chủ</a>
+
+    <div class="dropdown">
+      <a href="#" class="dropbtn dropdown-toggle">Tuyển sinh ▾</a>
+      <div class="dropdown-content">
+        <a href="universities.html">Thông tin tuyển sinh</a>
+        <a href="converter.html">Quy đổi điểm</a>
+        
+        <div class="dropdown-item-with-sub">
+          <a href="#" class="submenu-toggle">Tra cứu điểm ▸</a>
+          <div class="submenu-right">
+            <a href="ctu-cutoff.html">Tra cứu</a>
+            <a href="compare-score.html">So sánh</a>
+          </div>
+        </div>
+        
+        <a href="documents.html">Văn bản</a>
+        <a href="de-minh-hoa.html">Thư viện đề</a>
+      </div>
+    </div>
+
+    <a href="biotest.html">Sinh trắc học</a>
+    <a href="study-methods.html">Phương pháp học</a>
+    
+    <div class="dropdown">
+      <a href="#" class="dropbtn dropdown-toggle">Công cụ học ▾</a>
+      <div class="dropdown-content">
+        <a href="study.html">Time-blocking</a>
+        <a href="flashcard.html">Flashcard</a>
+      </div>
+    </div>
+
+    <a href="document-ai.html">Trợ lý AI</a>
+
+    <button id="logoutNavBtn" class="logout-btn">
+      <img src="log-out.jpg" class="logout-icon">
+    </button>
+  </div>
+</nav>
+
+  <!-- Overlay cho sidebar mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Nút mở sidebar trên mobile -->
+  <button class="sidebar-toggle" id="sidebarToggle">📚</button>
+
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <h2>📘 Thư viện đề 2025</h2>
+      <ul class="menu">
+        <ul class="submenu">
+          <li class="subject">
+            <button class="subject-btn">📐 Toán ▾</button>
+            <ul class="subsubmenu">
+              <li data-file="de-minh-hoa/01-toan.pdf">Đề minh họa</li>
+              <li data-file="de-chinh-thuc/01-toan.pdf">Đề chính thức</li>
+            </ul>
+          </li>
+
+          <li class="subject">
+            <button class="subject-btn">📖 Ngữ văn ▾</button>
+            <ul class="subsubmenu">
+              <li data-file="de-minh-hoa/02-nguvan.pdf">Đề minh họa</li>
+              <li data-file="de-chinh-thuc/02-nguvan.pdf">Đề chính thức</li>
+            </ul>
+          </li>
+
+          <li class="subject">
+            <button class="subject-btn">⚡ Vật lí ▾</button>
+            <ul class="subsubmenu">
+              <li data-file="de-minh-hoa/03-vatli.pdf">Đề minh họa</li>
+              <li data-file="de-chinh-thuc/03-vatli.pdf">Đề chính thức</li>
+            </ul>
+          </li>
+
+          <li class="subject">
+            <button class="subject-btn">🧬 Sinh học ▾</button>
+            <ul class="subsubmenu">
+              <li data-file="de-minh-hoa/05-sinhhoc.pdf">Đề minh họa</li>
+              <li data-file="de-chinh-thuc/05-sinhhoc.pdf">Đề chính thức</li>
+            </ul>
+          </li>
+
+          <li class="subject">
+            <button class="subject-btn">🏛️ Lịch sử ▾</button>
+            <ul class="subsubmenu">
+              <li data-file="de-minh-hoa/06-lichsu.pdf">Đề minh họa</li>
+              <li data-file="de-chinh-thuc/06-lichsu.pdf">Đề chính thức</li>
+            </ul>
+          </li>
+
+          <li class="subject">
+            <button class="subject-btn">🗺️ Địa lí ▾</button>
+            <ul class="subsubmenu">
+              <li data-file="de-minh-hoa/07-diali.pdf">Đề minh họa</li>
+              <li data-file="de-chinh-thuc/07-diali.pdf">Đề chính thức</li>
+            </ul>
+          </li>
+
+          <li class="subject">
+            <button class="subject-btn">⚖️ Giáo dục KT & PL ▾</button>
+            <ul class="subsubmenu">
+              <li data-file="de-minh-hoa/08-gdktpl-1.pdf">Đề minh họa</li>
+              <li data-file="de-chinh-thuc/08-gdktpl-1.pdf">Đề chính thức</li>
+            </ul>
+          </li>
+
+          <li class="subject">
+            <button class="subject-btn">💻 Tin học ▾</button>
+            <ul class="subsubmenu">
+              <li data-file="de-minh-hoa/09-tinhoc.pdf">Đề minh họa</li>
+              <li data-file="de-chinh-thuc/09-tinhoc.pdf">Đề chính thức</li>
+            </ul>
+          </li>
+
+          <li class="subject">
+            <button class="subject-btn">🏭 Công nghệ công nghiệp ▾</button>
+            <ul class="subsubmenu">
+              <li data-file="de-minh-hoa/10-cncn.pdf">Đề minh họa</li>
+              <li data-file="de-chinh-thuc/10-ccnn.pdf">Đề chính thức</li>
+            </ul>
+          </li>
+
+          <li class="subject">
+            <button class="subject-btn">🌾 Công nghệ nông nghiệp ▾</button>
+            <ul class="subsubmenu">
+              <li data-file="de-minh-hoa/11-cnnn.pdf">Đề minh họa</li>
+              <li data-file="de-chinh-thuc/10-ccnn.pdf">Đề chính thức</li>
+            </ul>
+          </li>
+
+          <li class="subject">
+            <button class="subject-btn">🇬🇧 Tiếng Anh ▾</button>
+            <ul class="subsubmenu">
+              <li data-file="de-minh-hoa/12-tienganh.pdf">Đề minh họa</li>
+              <li data-file="de-chinh-thuc/12-tienganh.pdf">Đề chính thức</li>
+            </ul>
+          </li>
+
+          <li class="subject">
+            <button class="subject-btn">⚗️ Hóa học ▾</button>
+            <ul class="subsubmenu">
+              <li data-file="de-minh-hoa/04-hoahoc.pdf">Đề minh họa</li>
+              <li data-file="de-chinh-thuc/13-hoahoc.pdf">Đề chính thức</li>
+            </ul>
+          </li>
+        </ul>
+      </ul>
+    </aside>
+
+    <!-- Content -->
+    <main class="content">
+      <h1>Chọn đề minh họa để xem</h1>
+      <p class="hint">Nhấn vào tên môn bên trái để mở file PDF tương ứng.</p>
+
+      <div id="doc-display" class="doc-display">
+        <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="No document" width="60">
+        <p>Chưa có đề nào được chọn</p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // ===== NAVBAR HAMBURGER MENU =====
+    const hamburger = document.getElementById('hamburgerBtn');
+    const navMenu = document.getElementById('navMenu');
+    const navOverlay = document.getElementById('navOverlay');
+
+    if (hamburger && navMenu && navOverlay) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        navOverlay.classList.toggle('active');
+        document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+      });
+
+      navOverlay.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+        navOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+
+      const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+      dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+          if (window.innerWidth <= 992) {
+            e.preventDefault();
+            const dropdown = toggle.closest('.dropdown');
+            dropdown.classList.toggle('active');
+          }
+        });
+      });
+
+      const submenuToggles = document.querySelectorAll('.submenu-toggle');
+      submenuToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+          if (window.innerWidth <= 992) {
+            e.preventDefault();
+            const parent = toggle.closest('.dropdown-item-with-sub');
+            parent.classList.toggle('active');
+          }
+        });
+      });
+
+      const navLinks = navMenu.querySelectorAll('a:not(.dropbtn):not(.submenu-toggle)');
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          if (window.innerWidth <= 992) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            navOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+        });
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 992) {
+          hamburger.classList.remove('active');
+          navMenu.classList.remove('active');
+          navOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+          document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+          document.querySelectorAll('.dropdown-item-with-sub').forEach(d => d.classList.remove('active'));
+        }
+      });
+    }
+
+    // ===== SIDEBAR TOGGLE (for documents menu) =====
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    // Toggle sidebar
+    sidebarToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      sidebarOverlay.classList.toggle('active');
+      document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+    });
+
+    // Close sidebar when clicking overlay
+    sidebarOverlay.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      sidebarOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    // ===== SUBJECT DROPDOWN TOGGLE =====
+    const docDisplay = document.getElementById("doc-display");
+
+    // Mở/đóng submenu khi bấm tên môn
+    document.querySelectorAll(".subject-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const submenu = btn.nextElementSibling;
+        submenu.classList.toggle('active');
+        
+        // Change arrow direction
+        const arrow = btn.textContent.includes('▾') ? '▴' : '▾';
+        btn.innerHTML = btn.innerHTML.replace(/[▾▴]/, arrow);
+      });
+    });
+
+    // Hiển thị PDF khi chọn "Đề minh họa" hoặc "Đề thi thật"
+    document.querySelectorAll(".subsubmenu li").forEach(item => {
+      item.addEventListener("click", () => {
+        const file = item.getAttribute("data-file");
+        if (file) {
+          docDisplay.innerHTML = `
+            <h2 style="color: #4c5fd7; margin-bottom: 20px;">${item.textContent}</h2>
+            <iframe src="${file}" title="${item.textContent}"></iframe>
+          `;
+          
+          // Close sidebar on mobile after selecting document
+          if (window.innerWidth <= 992) {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+        }
+      });
+    });
+
+    // Reset sidebar on window resize
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 992) {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
+</body>
+</html>

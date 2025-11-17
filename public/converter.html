@@ -4,136 +4,1256 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quy đổi điểm V-SAT & ĐGNL</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #e0e0e0; /* ✅ màu xám nhạt giống homepage */
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+/* Nav left */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-top: -8px;
+  margin-bottom: -8px;
+  transition: transform 0.18s ease;
+}
+
+.logo:hover {
+  transform: scale(1.08);
+}
+
+.nav-logo {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #000; /* ✅ chữ đen */
+}
+
+/* Nav right */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-right: 60px;
+}
+
+.nav-right a,
+.nav-right .dropbtn {
+  color: #000; /* ✅ chữ đen */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+  font-size: 0.95rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.nav-right a:hover,
+.nav-right .dropbtn:hover {
+  background: #dcdcdc;
+  color: #004aad;
+}
+
+/* Dropdown styles */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: white;
+  min-width: 200px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  z-index: 1;
+  top: 100%;
+  margin-top: 5px;
+  padding-top: 3px;
+}
+
+.dropdown::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: transparent;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 20px;
+  color: #333;
+  transition: background 0.2s;
+}
+
+.dropdown-content a:hover {
+  background: #f5f5f5;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  color: #667eea;
+}
+
+/* Submenu bên phải */
+.dropdown-item-with-sub {
+  position: relative;
+}
+
+.dropdown-item-with-sub > a {
+  display: block;
+  padding: 10px 14px;
+  color: #333;
+  text-decoration: none;
+}
+
+.submenu-right {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: #fff;
+  min-width: 150px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  z-index: 100;
+  padding: 8px 0;
+}
+
+.dropdown-item-with-sub:hover .submenu-right {
+  display: block;
+}
+
+.submenu-right a {
+  display: block;
+  padding: 10px 14px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.submenu-right a:hover {
+  background-color: #f3f3f3;
+  color: #667eea;
+}
+
+.dropdown-item-with-sub:hover > a {
+  background-color: #f3f3f3;
+  color: #667eea;
+}
+
+/* Logout button - ĐỒNG BỘ */
+.logout-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.logout-btn {
+  background: #ccc; /* ✅ màu xám */
+  border: 1px solid #999;
+  color: #000;
+  padding: 5px 11px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-btn:hover {
+  background: #bbb;
+  color: #000;
+}
+
+/* Body spacing */
+body {
+  padding-top: 70px;
+}
+
+    /* Main Container */
+    .main-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Tab Navigation */
+    .tab-navigation {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .tab-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .tab-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .tab-btn.active {
+      background: white;
+      color: #333;
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Converter Section */
+    .converter-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 968px) {
+      .converter-wrapper {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .converter-box {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    .converter-box h2 {
+      color: #667eea;
+      margin-bottom: 25px;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .converter-box select,
+    .converter-box input {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      transition: border-color 0.3s;
+    }
+
+    .converter-box select:focus,
+    .converter-box input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .converter-box button {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .converter-box button:hover {
+      transform: scale(1.02);
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 18px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* PDF Viewer Section */
+    .pdf-section {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    .pdf-section h2 {
+      color: #667eea;
+      margin-bottom: 25px;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .pdf-selector {
+      margin-bottom: 20px;
+    }
+
+    .pdf-selector label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .pdf-selector select {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    .pdf-viewer {
+      width: 100%;
+      height: 1000px;  /* ← Tăng lên 1000px hoặc cao hơn */
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      background: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+    }
+
+    .pdf-viewer iframe {
+      width: 100%;
+      height: 1000px;  /* ← Tăng lên 1000px */
+      border: none;
+      border-radius: 10px;
+    }
+
+    .pdf-placeholder {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .pdf-placeholder p {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    /* Info Section */
+    .exam-info {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      margin-top: 30px;
+    }
+
+    .exam-info h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 28px;
+      text-align: center;
+    }
+
+    .exam-info h3 {
+      color: #764ba2;
+      margin-top: 25px;
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
+
+    .exam-info h4 {
+      color: #333;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .exam-info p {
+      line-height: 1.8;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .exam-info ul {
+      margin-left: 30px;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    .exam-info ul li {
+      margin-bottom: 10px;
+    }
+
+    .intro {
+      background: #f8f9fa;
+      padding: 20px;
+      border-left: 4px solid #667eea;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin: 30px 0;
+    }
+
+    @media (max-width: 968px) {
+      .grid-two {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .col {
+      background: #f8f9fa;
+      padding: 25px;
+      border-radius: 12px;
+    }
+
+    .small {
+      font-size: 14px;
+      color: #888;
+      font-style: italic;
+      margin-top: 15px;
+    }
+
+    code {
+      background: #f0f0f0;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      color: #d63384;
+    }
+        /* ==== SUBMENU BÊN PHẢI - 2 LINK ==== */
+.dropdown-item-with-sub {
+  position: relative;
+}
+
+.dropdown-item-with-sub > a {
+  display: block;
+  padding: 10px 14px;
+  color: #333;
+  text-decoration: none;
+}
+
+/* Submenu ẩn mặc định */
+.submenu-right {
+  display: none;
+  position: absolute;
+  left: 100%; /* hiện bên phải */
+  top: 0;
+  background-color: #fff;
+  min-width: 150px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  z-index: 100;
+  padding: 8px 0;
+}
+
+/* Hiện submenu khi hover */
+.dropdown-item-with-sub:hover .submenu-right {
+  display: block;
+}
+
+/* Link trong submenu */
+.submenu-right a {
+  display: block;
+  padding: 10px 14px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.submenu-right a:hover {
+  background-color: #f3f3f3;
+  color: #004aad;
+}
+
+/* Highlight item cha khi hover submenu */
+.dropdown-item-with-sub:hover > a {
+  background-color: #f3f3f3;
+  color: #004aad;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 12px;
+}
+
+.dropdown-content {
+      display: none;
+      position: absolute;
+      background: white;
+      min-width: 200px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      z-index: 1;
+      top: 100%;
+      margin-top: 5px;
+      padding-top: 3px;
+    }
+
+        .dropdown::before {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      height: 10px;
+      background: transparent;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 10px 20px;
+      color: #333;
+      transition: background 0.2s;
+    }
+
+    .dropdown-content a:hover {
+      background: #f5f5f5;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+.dropdown:hover .dropbtn {
+  color: #667eea;
+}
+
+/* ==== SUBMENU BÊN PHẢI - 2 LINK ==== */
+.dropdown-item-with-sub {
+  position: relative;
+}
+
+.dropdown-item-with-sub > a {
+  display: block;
+  padding: 10px 14px;
+  color: #333;
+  text-decoration: none;
+}
+
+/* Submenu ẩn mặc định */
+.submenu-right {
+  display: none;
+  position: absolute;
+  left: 100%; /* hiện bên phải */
+  top: 0;
+  background-color: #fff;
+  min-width: 150px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  z-index: 100;
+  padding: 8px 0;
+}
+
+/* Hiện submenu khi hover */
+.dropdown-item-with-sub:hover .submenu-right {
+  display: block;
+}
+
+/* Link trong submenu */
+.submenu-right a {
+  display: block;
+  padding: 10px 14px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.submenu-right a:hover {
+  background-color: #f3f3f3;
+  color: #667eea;
+}
+
+/* Highlight item cha khi hover submenu */
+.dropdown-item-with-sub:hover > a {
+  background-color: #f3f3f3;
+  color: #667eea;
+}
+
+/* ==== NÚT ĐĂNG XUẤT ==== */
+.logout-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+/* Điều chỉnh nút logout để vừa với icon */
+.logout-btn {
+  background: #ccc;
+  border: 1px solid #999;
+  color: #000;
+  padding: 5px 11px;  /* ← giảm padding để nút nhỏ hơn */
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-btn:hover {
+  background: #bbb;
+  color: #000;
+}
+/* ================================================
+   🍔 HAMBURGER & RESPONSIVE NAVBAR - CHUẨN HÓA
+   Thêm vào cuối <style> của converter.html và compare-score.html
+   ================================================ */
+
+/* 🍔 NÚT HAMBURGER - Ẩn mặc định */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 101;
+}
+
+.hamburger span {
+  width: 28px;
+  height: 3px;
+  background-color: #333;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Animation 3 gạch → X */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Overlay tối phía sau menu */
+.nav-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 99;
+}
+.nav-overlay.active {
+  display: block;
+}
+
+/* ================================================
+   📱 RESPONSIVE NAVBAR (≤ 992px)
+   ================================================ */
+@media (max-width: 992px) {
+  
+  /* Navbar chính */
+  .navbar {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    padding: 0.8rem 1rem !important;
+    gap: 0 !important;
+  }
+
+  .nav-left {
+    width: auto !important;
+    justify-content: flex-start !important;
+  }
+
+  .logo {
+    width: 45px;
+    height: 45px;
+  }
+
+  .nav-logo {
+    font-size: 1.1rem !important;
+  }
+
+  /* Hiện hamburger */
+  .hamburger {
+    display: flex !important;
+  }
+
+  /* Menu mobile - Trượt từ phải */
+  .nav-right {
+    position: fixed !important;
+    top: 0 !important;
+    right: -100% !important;
+    width: 280px !important;
+    height: 100vh !important;
+    background: #f5f5f5 !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 80px 0 20px 0 !important;
+    gap: 0 !important;
+    margin-right: 0 !important;
+    box-shadow: -4px 0 15px rgba(0,0,0,0.2) !important;
+    transition: right 0.3s ease !important;
+    overflow-y: auto !important;
+    z-index: 100 !important;
+  }
+
+  .nav-right.active {
+    right: 0 !important;
+  }
+
+  /* Link trong menu mobile - THẲNG HÀNG */
+  .nav-right > a,
+  .nav-right .dropbtn {
+    width: 100% !important;
+    padding: 14px 20px !important;
+    font-size: 0.95rem !important;
+    border-bottom: 1px solid #ddd !important;
+    display: block !important;
+    text-align: left !important;
+    background: transparent !important;
+    margin: 0 !important;
+  }
+
+  .nav-right > a:hover,
+  .nav-right .dropbtn:hover {
+    background: #e0e0e0 !important;
+  }
+
+  /* Dropdown trong mobile - THẲNG HÀNG */
+  .dropdown {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .dropdown-content {
+    position: static !important;
+    display: none !important;
+    box-shadow: none !important;
+    background: #ebebeb !important;
+    width: 100% !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    transform: none !important;
+    left: auto !important;
+    margin: 0 !important;
+  }
+
+  .dropdown.active .dropdown-content {
+    display: block !important;
+  }
+
+  .dropdown-content a {
+    padding: 12px 20px 12px 40px !important;
+    border-bottom: 1px solid #ddd !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* Submenu - THẲNG HÀNG */
+  .dropdown-item-with-sub {
+    width: 100% !important;
+  }
+
+  .dropdown-item-with-sub > a {
+    padding: 12px 20px 12px 40px !important;
+  }
+
+  .dropdown-item-with-sub .submenu-right {
+    position: static !important;
+    display: none !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+    background: #e0e0e0 !important;
+    border-radius: 0 !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+  }
+
+  .dropdown-item-with-sub.active .submenu-right {
+    display: block !important;
+  }
+
+  .submenu-right a {
+    padding: 10px 20px 10px 60px !important;
+    font-size: 0.85rem !important;
+    border-bottom: 1px solid #d0d0d0 !important;
+  }
+
+  /* Logout button - THẲNG HÀNG */
+  .logout-btn {
+    width: calc(100% - 40px) !important;
+    margin: 16px 20px !important;
+    justify-content: center !important;
+    padding: 10px !important;
+  }
+
+  /* Icon mũi tên cho dropdown */
+  .dropdown > .dropbtn::after {
+    content: ' ▾';
+    float: right;
+    transition: transform 0.2s;
+  }
+
+  .dropdown.active > .dropbtn::after {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-item-with-sub > a::after {
+    content: ' ▸';
+    float: right;
+    transition: transform 0.2s;
+  }
+
+  .dropdown-item-with-sub.active > a::after {
+    transform: rotate(90deg);
+  }
+
+  /* Hover effects */
+  .dropdown-content a:hover,
+  .submenu-right a:hover {
+    background: #d5d5d5 !important;
+  }
+
+  /* Điều chỉnh nội dung chính */
+  .main-container,
+  body > div:not(.navbar) {
+    padding-top: 100px;
+  }
+
+  /* Tab navigation mobile */
+  .tab-navigation {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tab-btn {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+
+  /* Converter wrapper mobile */
+  .converter-wrapper {
+    grid-template-columns: 1fr !important;
+  }
+
+  .converter-box {
+    width: 100%;
+  }
+
+  /* PDF viewer mobile */
+  .pdf-viewer,
+  .pdf-viewer iframe {
+    height: 500px;
+  }
+
+  /* Sidebar (compare-score.html) */
+  .container {
+    grid-template-columns: 1fr !important;
+  }
+
+  .sidebar {
+    position: relative !important;
+    top: 0 !important;
+  }
+}
+
+/* ================================================
+   📱 MOBILE NHỎ (≤ 768px)
+   ================================================ */
+@media (max-width: 768px) {
+  .logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .nav-logo {
+    font-size: 1rem !important;
+  }
+
+  .tab-btn {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  .converter-box {
+    padding: 20px;
+  }
+
+  .converter-box h2 {
+    font-size: 20px;
+  }
+
+  .pdf-viewer,
+  .pdf-viewer iframe {
+    height: 400px;
+  }
+
+  .exam-info {
+    padding: 25px;
+  }
+
+  .exam-info h2 {
+    font-size: 22px;
+  }
+
+  .universities-comparison {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ================================================
+   📱 MOBILE RẤT NHỎ (≤ 480px)
+   ================================================ */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.6rem 0.8rem !important;
+  }
+
+  .logo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .nav-logo {
+    font-size: 0.9rem !important;
+  }
+
+  .converter-box,
+  .exam-info {
+    padding: 15px;
+  }
+
+  .converter-box h2 {
+    font-size: 18px;
+  }
+
+  .converter-box select,
+  .converter-box input,
+  .converter-box button {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .result {
+    font-size: 16px;
+  }
+}
+  </style>
 </head>
 <body>
-  <!-- 🟦 Navbar -->
+  <!-- Navbar -->
 <nav class="navbar">
   <div class="nav-left">
     <img src="logo.png" alt="Logo" class="logo">
     <h2 class="nav-logo">UNIPATH</h2>
   </div>
 
-  <div class="nav-right">
+  <!-- 🍔 NÚT HAMBURGER -->
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- OVERLAY TỐI PHÍA SAU -->
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <div class="nav-right" id="navMenu">
     <a href="homepage.html">Trang chủ</a>
 
-    <!-- 🔹 Dropdown Tuyển sinh -->
-<div class="dropdown">
-  <a href="#" class="dropbtn">Tuyển sinh ▾</a>
-  <div class="dropdown-content">
-    <a href="universities.html">Thông tin tuyển sinh</a>
-    <a href="converter.html">Quy đổi điểm</a>
-    <a href="ctu-cutoff.html">Tra cứu điểm</a>
-  </div>
-</div>
+    <!-- Dropdown Tuyển sinh -->
+    <div class="dropdown">
+      <a href="#" class="dropbtn dropdown-toggle">Tuyển sinh ▾</a>
+      <div class="dropdown-content">
+        <a href="universities.html">Thông tin tuyển sinh</a>
+        <a href="converter.html">Quy đổi điểm</a>
+        
+        <div class="dropdown-item-with-sub">
+          <a href="#" class="submenu-toggle">Tra cứu điểm ▸</a>
+          <div class="submenu-right">
+            <a href="ctu-cutoff.html">Tra cứu</a>
+            <a href="compare-score.html">So sánh</a>
+          </div>
+        </div>
+        
+        <a href="documents.html">Văn bản</a>
+        <a href="de-minh-hoa.html">Thư viện đề</a>
+      </div>
+    </div>
 
     <a href="biotest.html">Sinh trắc học</a>
     <a href="study-methods.html">Phương pháp học</a>
-    <a href="documents.html">Văn bản</a>
-    <a href="contact.html">Liên hệ</a>
-    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+    
+    <!-- Dropdown Công cụ -->
+    <div class="dropdown">
+      <a href="#" class="dropbtn dropdown-toggle">Công cụ học ▾</a>
+      <div class="dropdown-content">
+        <a href="study.html">Time-blocking</a>
+        <a href="flashcard.html">Flashcard</a>
+      </div>
+    </div>
+
+    <a href="document-ai.html">Trợ lý AI</a>
+
+    <button id="logoutNavBtn" class="logout-btn">
+      <img src="log-out.jpg" class="logout-icon">
+    </button>
   </div>
 </nav>
 
-
-  <!-- 🧮 Hai hộp quy đổi -->
-<section class="converter-section">
-  <main class="converter-page two-columns">
-    <!-- V-SAT converter -->
-    <div class="converter-box">
-      <h1>Quy đổi điểm V-SAT</h1>
-      <select id="subject">
-        <option value="toan">Toán</option>
-        <option value="ngu_van">Ngữ văn</option>
-        <option value="vat_li">Vật lí</option>
-        <option value="hoa_hoc">Hóa học</option>
-        <option value="dia_li">Địa lí</option>
-        <option value="lich_su">Lịch sử</option>
-        <option value="tieng_anh">Tiếng Anh</option>
-        <option value="sinh_hoc">Sinh học</option>
-      </select>
-      <input type="number" id="vsatScore" placeholder="Nhập điểm V-SAT..." step="0.1" />
-      <button onclick="convertScoreVSAT()">Quy đổi</button>
-      <div id="resultVSAT" class="result"></div>
+  <div class="main-container">
+    <!-- Tab Navigation -->
+    <div class="tab-navigation">
+      <button class="tab-btn active" onclick="switchTab('vsat')">📝 V-SAT</button>
+      <button class="tab-btn" onclick="switchTab('dgnl')">🎯 ĐGNL</button>
     </div>
 
-    <!-- V-ACT / ĐGNL converter -->
-    <div class="converter-box">
-      <h1>Quy đổi điểm ĐGNL</h1>
-      <input type="number" id="vactScore" placeholder="Nhập điểm ĐGNL (V-ACT)..." step="1" />
-      <button onclick="convertScoreVACT()">Quy đổi</button>
-      <div id="resultVACT" class="result"></div>
-    </div>
+    <!-- V-SAT Tab -->
+    <div id="vsat-tab" class="tab-content active">
+      <div class="converter-wrapper">
+        <div class="converter-box">
+          <h2>Quy đổi điểm V-SAT</h2>
+          <select id="vsatSubject">
+            <option value="toan">Toán</option>
+            <option value="ngu_van">Ngữ văn</option>
+            <option value="vat_li">Vật lí</option>
+            <option value="hoa_hoc">Hóa học</option>
+            <option value="dia_li">Địa lí</option>
+            <option value="lich_su">Lịch sử</option>
+            <option value="tieng_anh">Tiếng Anh</option>
+            <option value="sinh_hoc">Sinh học</option>
+          </select>
+          <input type="number" id="vsatScore" placeholder="Nhập điểm V-SAT..." step="0.1" />
+          <button onclick="convertScoreVSAT()">Quy đổi</button>
+          <div id="resultVSAT" class="result"></div>
+        </div>
 
-    <div class="loading-container">
-      <img src="loading.png" alt="Loading" class="loading-img">
-    </div>
-  </main>
-</section>
-
-<!-- ====== INFO BLOCK: Thông tin về kỳ thi (đặt ngay dưới 2 converters) ====== -->
-<section class="exam-info" aria-labelledby="exam-info-title">
-  <div class="exam-info-inner">
-    <h2 id="exam-info-title">Thông tin nhanh về các kỳ thi (Phân biệt V-SAT và ĐGNL)</h2>
-
-    <p class="intro">
-      Lưu ý: <strong>V-SAT</strong> và <strong>ĐGNL / V-ACT</strong> là hai loại kỳ thi khác nhau về mục đích, cấu trúc và thang điểm.
-      Dưới đây là tóm tắt riêng cho từng kỳ thi — đọc kỹ phần tương ứng với kỳ thi bạn quan tâm.
-    </p>
-
-    <div class="grid-two">
-      <!-- V-SAT -->
-      <div class="col">
-        <h3>V-SAT (Kỳ thi đánh giá theo môn)</h3>
-        <p>
-          V-SAT là kỳ thi đánh giá theo từng môn, thường tổ chức trên máy tính, cho phép thí sinh thi độc lập từng môn (Toán, Ngữ văn, Tiếng Anh, Vật lí, Hóa học, Sinh học, Lịch sử, Địa lí).
-          Kết quả V-SAT được một số trường sử dụng để xét tuyển theo quy định riêng của từng trường.
-        </p>
-
-        <h4>Các điểm cần biết về V-SAT</h4>
-        <ul>
-          <li>Các môn: Toán, Ngữ văn, Tiếng Anh, Vật lí, Hóa học, Sinh học, Lịch sử, Địa lí (thi độc lập theo môn).</li>
-          <li>Thời gian: thường Toán & Ngữ văn 90 phút; các môn còn lại ~60 phút (tham khảo đề minh họa/ BTC từng năm).</li>
-          <li>Quy đổi: nhiều trường cung cấp bảng quy đổi V-SAT → điểm THPT; khi cần nội suy tuyến tính theo khoảng (a,b) → (c,d).</li>
-        </ul>
-
-        <p class="small">Nguồn: trang chính thức V-SAT / đề minh họa của đơn vị tổ chức (hãy kiểm tra trang đơn vị tổ chức để lấy bảng quy đổi chính xác cho năm bạn dự thi).</p>
+        <div class="pdf-section">
+          <h2>Đề minh họa V-SAT</h2>
+          <div class="pdf-selector">
+            <label>Chọn môn xem đề:</label>
+            <select id="vsatPdfSelect" onchange="loadVSATPdf()">
+              <option value="">-- Chọn môn --</option>
+              <option value="toan">Toán</option>
+              <option value="ngu_van">Ngữ văn</option>
+              <option value="vat_li">Vật lí</option>
+              <option value="hoa_hoc">Hóa học</option>
+              <option value="dia_li">Địa lí</option>
+              <option value="lich_su">Lịch sử</option>
+              <option value="tieng_anh">Tiếng Anh</option>
+              <option value="sinh_hoc">Sinh học</option>
+            </select>
+          </div>
+          <div class="pdf-viewer" id="vsatPdfViewer">
+            <div class="pdf-placeholder">
+              <p>📄 Vui lòng chọn môn để xem đề minh họa</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- ĐGNL / V-ACT -->
-      <div class="col">
-        <h3>ĐGNL (Ví dụ: V-ACT / Bài đánh giá năng lực)</h3>
-        <p>
-          ĐGNL (đánh giá năng lực) là dạng bài thi tổng hợp/chuẩn hoá, thường do một số tổ chức/đại học thiết kế (ví dụ bài đánh giá năng lực của ĐHQG hoặc các bài gọi tắt như V-ACT). Thang điểm và cách quy đổi khác với V-SAT.
+      <!-- V-SAT Info -->
+      <div class="exam-info">
+        <h2>Thông tin về kỳ thi V-SAT</h2>
+        <p class="intro">
+          <strong>V-SAT</strong> là kỳ thi đánh giá theo từng môn, cho phép thí sinh chọn lựa và thi độc lập các môn phù hợp với nguyện vọng đăng ký của mình.
         </p>
 
-        <h4>Các điểm cần biết về ĐGNL</h4>
+        <h3>Tổng quan về V-SAT</h3>
+        <p>
+          V-SAT (Vietnam Scholastic Aptitude Test) là kỳ thi đánh giá năng lực học tập theo môn, thường được tổ chức trên máy tính. Kết quả V-SAT được nhiều trường đại học sử dụng để xét tuyển sinh viên.
+        </p>
+
+        <h4>Các môn thi V-SAT</h4>
         <ul>
-          <li>Thang điểm thô của ĐGNL khác (ví dụ bảng bạn gửi dùng khoảng 0–~1200 hoặc dạng điểm quy chuẩn) — cần dùng bảng phân vị để quy đổi sang điểm THPT.</li>
-          <li>Cách quy đổi: dùng các khoảng (a < x ≤ b) tương ứng (c < y ≤ d) và nội suy tuyến tính trong khoảng đó.</li>
-          <li>ĐGNL thường dùng IRT / mô hình chuẩn hoá khi ước lượng năng lực, nên điểm thô bị quy chuẩn trước khi quy đổi.</li>
+          <li><strong>Toán:</strong> 90 phút - Đánh giá năng lực tư duy logic và giải quyết vấn đề</li>
+          <li><strong>Ngữ văn:</strong> 90 phút - Đánh giá năng lực đọc hiểu và sử dụng ngôn ngữ</li>
+          <li><strong>Tiếng Anh:</strong> 60 phút - Đánh giá kỹ năng giao tiếp và hiểu biết tiếng Anh</li>
+          <li><strong>Vật lí:</strong> 60 phút - Kiến thức và tư duy vật lý</li>
+          <li><strong>Hóa học:</strong> 60 phút - Kiến thức và tư duy hóa học</li>
+          <li><strong>Sinh học:</strong> 60 phút - Kiến thức và tư duy sinh học</li>
+          <li><strong>Lịch sử:</strong> 60 phút - Kiến thức lịch sử và tư duy phản biện</li>
+          <li><strong>Địa lí:</strong> 60 phút - Kiến thức địa lý và phân tích không gian</li>
         </ul>
 
-        <p class="small">Nguồn: bảng phân vị/ hướng dẫn quy đổi do đơn vị tổ chức.</p>
+        <h4>Cách quy đổi điểm V-SAT</h4>
+        <p>
+          Điểm V-SAT được quy đổi sang thang điểm THPT (0-10) theo bảng phân vị do đơn vị tổ chức công bố. 
+          Phương pháp quy đổi sử dụng kỹ thuật <strong>nội suy tuyến tính</strong> trong các khoảng điểm tương ứng:
+        </p>
+        <p>
+          <code>Điểm THPT = c + ((Điểm V-SAT - a) / (b - a)) × (d - c)</code>
+        </p>
+        <p>
+          Trong đó (a, b] là khoảng điểm V-SAT và (c, d] là khoảng điểm THPT tương ứng.
+        </p>
+
+        <h4>Lịch thi và đăng ký</h4>
+        <p>
+          V-SAT thường được tổ chức nhiều đợt trong năm, cho phép thí sinh có nhiều cơ hội cải thiện điểm số. 
+          Thí sinh cần theo dõi thông tin chính thức từ đơn vị tổ chức để biết lịch thi cụ thể, điều kiện đăng ký và hồ sơ cần thiết.
+        </p>
+
+        <p class="small">
+          <strong>Lưu ý:</strong> Thông tin trên mang tính chất tham khảo. Vui lòng kiểm tra trang web chính thức của V-SAT để có thông tin chính xác và cập nhật nhất.
+        </p>
       </div>
     </div>
 
-    <h3>Cách tính điểm (tóm tắt IRT & nội suy)</h3>
-    <p>
-      - <strong>IRT (Item Response Theory)</strong>: phương pháp ước lượng năng lực dựa trên xác suất trả lời đúng từng câu, cân nhắc độ khó và độ phân biệt của câu hỏi. Kết quả IRT thường cho điểm ước lượng (theta) rồi được chuẩn hoá sang thang thích hợp. <br>
-      - <strong>Nội suy tuyến tính</strong>: khi có bảng phân khoảng (a,b) → (c,d), nếu điểm thô x nằm trong (a, b] ta áp dụng:
-      <br><code>y = c + ((x - a) / (b - a)) * (d - c)</code>
-    </p>
+    <!-- ĐGNL Tab -->
+    <div id="dgnl-tab" class="tab-content">
+      <div class="converter-wrapper">
+        <div class="converter-box">
+          <h2>Quy đổi điểm ĐGNL</h2>
+          <input type="number" id="dgnlScore" placeholder="Nhập điểm ĐGNL (V-ACT)..." step="1" />
+          <button onclick="convertScoreDGNL()">Quy đổi</button>
+          <div id="resultDGNL" class="result"></div>
+        </div>
 
-    <h3>Thời gian & Đợt thi (tóm tắt)</h3>
-    <p>
-      - Lịch thi và số đợt do từng đơn vị công bố; một số kỳ có nhiều đợt trong năm. <br>
-      - Luôn kiểm tra trang chính thức của kỳ thi hoặc trang tuyển sinh trường bạn nộp để biết đợt thi, điều kiện đăng ký và hồ sơ.
-    </p>
+        <div class="pdf-section">
+          <h2>Đề minh họa ĐGNL (V-ACT)</h2>
+          <div class="pdf-viewer" id="dgnlPdfViewer">
+            <iframe src="de-minh-hoa-vact.pdf#zoom=80" type="application/pdf"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- ĐGNL Info -->
+      <div class="exam-info">
+        <h2>Thông tin về kỳ thi ĐGNL</h2>
+        <p class="intro">
+          <strong>ĐGNL (Đánh giá Năng lực)</strong> là bài thi tổng hợp đánh giá năng lực học tập và tư duy của thí sinh, sử dụng phương pháp chuẩn hóa hiện đại.
+        </p>
+
+        <h3>Tổng quan về ĐGNL</h3>
+        <p>
+          Bài thi Đánh giá Năng lực (ví dụ V-ACT) là dạng kỳ thi tổng hợp được thiết kế để đánh giá năng lực học tập và tư duy của thí sinh thông qua các câu hỏi chuẩn hóa. Khác với V-SAT, ĐGNL không thi theo từng môn riêng lẻ mà tích hợp nhiều mảng kiến thức và kỹ năng.
+        </p>
+
+        <h4>Cấu trúc bài thi ĐGNL</h4>
+        <ul>
+          <li><strong>Tư duy định lượng:</strong> Đánh giá khả năng làm việc với số liệu, toán học và logic</li>
+          <li><strong>Tư duy định tính:</strong> Đánh giá năng lực đọc hiểu, phân tích và suy luận</li>
+          <li><strong>Giải quyết vấn đề:</strong> Đánh giá khả năng ứng dụng kiến thức vào tình huống thực tế</li>
+          <li><strong>Khoa học tự nhiên & xã hội:</strong> Kiến thức tích hợp đa lĩnh vực</li>
+        </ul>
+
+        <h4>Phương pháp tính điểm</h4>
+        <p>
+          ĐGNL sử dụng <strong>IRT (Item Response Theory)</strong> - lý thuyết đáp ứng câu hỏi để tính điểm. 
+          Phương pháp này không chỉ dựa vào số câu đúng mà còn xem xét độ khó và độ phân biệt của từng câu hỏi.
+        </p>
+        <p>
+          Điểm thô sau đó được chuẩn hóa và quy đổi sang thang điểm THPT theo bảng phân vị, sử dụng công thức nội suy tương tự V-SAT:
+        </p>
+        <p>
+          <code>Điểm THPT = c + ((Điểm ĐGNL - a) / (b - a)) × (d - c)</code>
+        </p>
+
+        <h4>Ưu điểm của ĐGNL</h4>
+        <ul>
+          <li>Đánh giá toàn diện năng lực thí sinh, không chỉ kiến thức thuộc lòng</li>
+          <li>Giảm áp lực học nhiều môn riêng lẻ</li>
+          <li>Phương pháp tính điểm khoa học, công bằng</li>
+          <li>Được nhiều trường đại học uy tín công nhận</li>
+        </ul>
+
+        <h4>Lưu ý khi thi ĐGNL</h4>
+        <p>
+          Thí sinh cần chuẩn bị kỹ năng tư duy tổng hợp, không chỉ tập trung vào kiến thức môn học. 
+          Nên luyện tập với các đề thi thử và làm quen với dạng câu hỏi chuẩn hóa.
+        </p>
+
+        <p class="small">
+          <strong>Lưu ý:</strong> Thông tin trên mang tính chất tham khảo. Vui lòng kiểm tra trang web chính thức của đơn vị tổ chức ĐGNL để có thông tin chính xác và cập nhật nhất.
+        </p>
+      </div>
+    </div>
   </div>
-</section>
-<!-- ========== END INFO BLOCK ========== -->
-
   <script src="converter.js"></script>
 </body>
 </html>

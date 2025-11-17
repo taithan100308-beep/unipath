@@ -1,4 +1,3 @@
-<!-- 🌟 FILE MỚI: stats.html -->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Thống kê học tập - Unipath</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="module" src="stats.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script type="module" src="stats.js"></script>
 </head>
 <body class="test-body">
 <nav class="navbar">
@@ -19,32 +18,52 @@
   <div class="nav-right">
     <a href="homepage.html">Trang chủ</a>
 
-    <!-- 🔹 Dropdown Tuyển sinh -->
-<div class="dropdown">
-  <a href="#" class="dropbtn">Tuyển sinh ▾</a>
-  <div class="dropdown-content">
-    <a href="universities.html">Thông tin tuyển sinh</a>
-    <a href="converter.html">Quy đổi điểm</a>
-    <a href="ctu-cutoff.html">Tra cứu điểm</a>
-  </div>
-</div>
+    <div class="dropdown">
+      <a href="#" class="dropbtn">Tuyển sinh ▾</a>
+      <div class="dropdown-content">
+        <a href="universities.html">Thông tin tuyển sinh</a>
+        <a href="converter.html">Quy đổi điểm</a>
+        
+        <div class="dropdown-item-with-sub">
+          <a href="#">Tra cứu điểm ▸</a>
+          <div class="submenu-right">
+            <a href="ctu-cutoff.html">Tra cứu</a>
+            <a href="compare-score.html">So sánh</a>
+          </div>
+        </div>
+        
+        <a href="documents.html">Văn bản</a>
+        <a href="de-minh-hoa.html">Thư viện đề</a>
+      </div>
+    </div>
 
     <a href="biotest.html">Sinh trắc học</a>
     <a href="study-methods.html">Phương pháp học</a>
-    <a href="documents.html">Văn bản</a>
-    <a href="contact.html">Liên hệ</a>
-    <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+    
+    <div class="dropdown">
+      <a href="#" class="dropbtn">Công cụ học ▾</a>
+      <div class="dropdown-content">
+        <a href="study.html">Time-blocking</a>
+        <a href="flashcard.html">Flashcard</a>
+      </div>
+    </div>
+
+    <a href="document-ai.html">Trợ lý AI</a>
+
+    <button id="logoutNavBtn" class="logout-btn">
+      <img src="log-out.jpg" class="logout-icon">
+    </button>
   </div>
 </nav>
 
-  <div class="test-container">
-    <h1>📊 Thống kê thời gian học tập</h1>
+<div class="test-container">
+  <h1>📊 Thống kê thời gian học tập</h1>
 
-    <canvas id="barChart"></canvas>
-    <h2 style="margin-top:2rem;">🥧 Tỉ lệ giữa các môn</h2>
-    <canvas id="pieChart"></canvas>
+  <canvas id="barChart"></canvas>
+  <h2 style="margin-top:2rem;">🥧 Tỉ lệ giữa các môn</h2>
+  <canvas id="pieChart"></canvas>
 
-    <button onclick="window.location.href='study.html'" class="back-btn">⬅ Quay lại</button>
-  </div>
+  <button onclick="window.location.href='study.html'" class="back-btn">⬅ Quay lại</button>
+</div>
 </body>
 </html>

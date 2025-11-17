@@ -81,21 +81,66 @@
 </head>
 <body>
 
-  <nav class="navbar">
-    <div class="nav-left">
-      <img src="logo.png" alt="Logo" class="logo">
-      <h2 class="nav-logo">UNIPATH</h2>
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h2 class="nav-logo">UNIPATH</h2>
+  </div>
+
+  <!-- 🍔 NÚT HAMBURGER MỚI -->
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- OVERLAY TỐI PHÍA SAU (thêm mới) -->
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <div class="nav-right" id="navMenu">
+    <a href="homepage.html">Trang chủ</a>
+
+    <!-- Dropdown Tuyển sinh -->
+    <div class="dropdown">
+      <a href="#" class="dropbtn dropdown-toggle">Tuyển sinh ▾</a>
+      <div class="dropdown-content">
+        <a href="universities.html">Thông tin tuyển sinh</a>
+        <a href="converter.html">Quy đổi điểm</a>
+        
+        <div class="dropdown-item-with-sub">
+          <a href="#" class="submenu-toggle">Tra cứu điểm ▸</a>
+          <div class="submenu-right">
+            <a href="ctu-cutoff.html">Tra cứu</a>
+            <a href="compare-score.html">So sánh</a>
+          </div>
+        </div>
+        
+        <a href="documents.html">Văn bản</a>
+        <a href="de-minh-hoa.html">Thư viện đề</a>
+      </div>
     </div>
 
-    <div class="nav-right">
-      <a href="homepage.html">Trang chủ</a>
-      <a href="study-methods.html">Phương pháp học</a>
-      <a href="documents.html">Văn bản</a>
-      <a href="contact.html">Liên hệ</a>
-      <button id="logoutNavBtn" class="logout-btn">Đăng xuất</button>
+    <a href="biotest.html">Sinh trắc học</a>
+    <a href="study-methods.html">Phương pháp học</a>
+    
+    <!-- Dropdown Công cụ -->
+    <div class="dropdown">
+      <a href="#" class="dropbtn dropdown-toggle">Công cụ học ▾</a>
+      <div class="dropdown-content">
+        <a href="study.html">Time-blocking</a>
+        <a href="flashcard.html">Flashcard</a>
+      </div>
     </div>
-  </nav>
 
+    <a href="document-ai.html">Trợ lý AI</a>
+
+    <button id="logoutNavBtn" class="logout-btn">
+      <img src="log-out.jpg" class="logout-icon">
+    </button>
+  </div>
+</nav>
+
+</nav>
   <div class="method-detail-container">
     <h1>⏰ Time Blocking – Phương pháp quản lý thời gian thông minh</h1>
 
