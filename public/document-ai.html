@@ -469,49 +469,74 @@
     let isFirstMessage = true;
 
     async function sendMessage() {
-      const text = input.value.trim();
-      if (!text) return;
+  const text = input.value.trim();
+  if (!text) return;
 
-      if (isFirstMessage) {
-        document.querySelector('.welcome').remove();
-        isFirstMessage = false;
-      }
+  if (isFirstMessage) {
+    document.querySelector('.welcome').remove();
+    isFirstMessage = false;
+  }
 
-      setInputState(false);
-      addMessage(text, "user");
-      input.value = "";
+  setInputState(false);
+  addMessage(text, "user");
+  input.value = "";
 
-      const botMsg = addLoadingMessage();
+  const botMsg = addLoadingMessage();
+  const requestStartTime = performance.now(); // ← THÊM: Track start time
 
-      try {
-        const response = await fetch(API_URL, {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify({ message: text }),
-        });
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ message: text }),
+    });
 
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-
-        const data = await response.json();
-        
-        botMsg.remove();
-        await addTypingMessage(data.reply);
-
-      } catch (error) {
-        console.error("Error:", error);
-        botMsg.remove();
-        const errorMsg = addMessage("⚠️ Đã có lỗi xảy ra. Vui lòng thử lại!", "bot");
-        errorMsg.classList.add("error-message");
-      } finally {
-        setInputState(true);
-        scrollToBottom();
-      }
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
     }
+
+    const data = await response.json();
+    const requestEndTime = performance.now(); // ← THÊM: Track end time
+    const totalRequestTime = Math.round(requestEndTime - requestStartTime);
+    
+    // ← THÊM: Performance logging
+    console.log('\n⏱️ PERFORMANCE METRICS:');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log(`📝 Question: "${text.substring(0, 50)}${text.length > 50 ? '...' : ''}"`);
+    console.log(`🌐 Total Request Time: ${totalRequestTime}ms`);
+    
+    if (data.metadata) {
+      console.log(`⚙️  Backend Processing: ${data.metadata.processingTimeMs}ms`);
+      console.log(`🤖 AI Call Time: ${data.metadata.aiCallTimeMs}ms`);
+      console.log(`🔧 Model Used: ${data.metadata.aiUsed}`);
+      console.log(`📁 Category: ${data.metadata.category}`);
+      console.log(`🔍 Search Mode: ${data.metadata.searchMode ? 'YES (Perplexity)' : 'NO (Gemini)'}`);
+      console.log(`📦 PDF Cached: ${data.metadata.pdfCached ? 'YES' : 'NO'}`);
+      console.log(`🌍 Network Overhead: ${totalRequestTime - data.metadata.processingTimeMs}ms`);
+      
+      // Breakdown percentages
+      const aiPercent = ((data.metadata.aiCallTimeMs / data.metadata.processingTimeMs) * 100).toFixed(1);
+      const networkPercent = (((totalRequestTime - data.metadata.processingTimeMs) / totalRequestTime) * 100).toFixed(1);
+      console.log(`📊 AI Time: ${aiPercent}% | Network: ${networkPercent}%`);
+    }
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+    
+    botMsg.remove();
+    await addTypingMessage(data.reply, data.metadata); // ← Pass metadata
+
+  } catch (error) {
+    console.error("❌ Error:", error);
+    botMsg.remove();
+    const errorMsg = addMessage("⚠️ Đã có lỗi xảy ra. Vui lòng thử lại!", "bot");
+    errorMsg.classList.add("error-message");
+  } finally {
+    setInputState(true);
+    scrollToBottom();
+  }
+}
 
     function addMessage(text, type) {
       const msg = document.createElement("div");

@@ -207,14 +207,16 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  background: #e0e0e0; /* ✅ nền xám nhạt */
-  color: #000;          /* ✅ chữ đen */
+  background: rgba(249, 250, 251, 0.95); /* 🎨 nền trắng trong suốt nhẹ */
+  backdrop-filter: blur(8px); /* 🎨 hiệu ứng blur hiện đại */
+  color: #1f2937;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.8rem 1.5rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* 🎨 shadow mềm mại hơn */
   z-index: 100;
+  transition: all 0.3s ease;
 }
 
 .nav-left .nav-logo {
@@ -233,31 +235,40 @@ header {
 }
 
 .nav-right a {
-  color: #000; /* ✅ chữ đen */
+  color: #374151; /* 🎨 xám đậm sang trọng */
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.2s;
+  transition: all 0.3s ease;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
 }
 
 .nav-right a:hover {
-  color: #333; /* hover hơi đậm hơn */
+  color: #6366f1; /* 🎨 màu tím xanh khi hover */
+  background: rgba(99, 102, 241, 0.1);
 }
 
 .logout-btn {
-  background: #ccc;       /* ✅ nền xám trung bình */
-  border: 1px solid #999;
-  color: #000;            /* chữ đen */
-  padding: 0.4rem 0.8rem;
-  border-radius: 1.2rem;
+  background: transparent;
+  border: 1px solid #e5e7eb; /* 🎨 viền mỏng nhạt */
+  color: #6b7280;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .logout-btn:hover {
-  background: #bbb; /* hover đậm hơn chút */
-  color: #000;
+  background: #f3f4f6;
+  border-color: #d1d5db;
+  color: #374151;
+  transform: translateY(-1px);
 }
 
 /* Để nội dung bên dưới không bị navbar che */
@@ -647,9 +658,9 @@ body {
 
 /* ==== FOOTER ==== */
 .footer {
-  background-color: #14295E; /* màu xanh đậm */
-  color: white;
-  padding: 50px 0;
+  background-color: #1f2937; /* 🎨 xám đậm thay vì xanh đậm */
+  color: #e5e7eb; /* 🎨 chữ xám nhạt */
+  padding: 3rem 0 2rem;
   font-family: 'Segoe UI', sans-serif;
 }
 
@@ -683,8 +694,9 @@ body {
 }
 
 .footer-title {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff; /* 🎨 chữ trắng cho tiêu đề */
 }
 
 .footer-slogan {
@@ -711,9 +723,9 @@ body {
    ======================================== */
 
 .stats-section {
-  background-color: #f3f3f3;
+  background: linear-gradient(to bottom, #f9fafb, #ffffff); /* 🎨 gradient nhẹ */
   text-align: center;
-  padding: 30px 0;
+  padding: 3rem 0;
   font-family: 'Segoe UI', sans-serif;
 }
 
@@ -735,7 +747,17 @@ body {
 .stat-box {
   text-align: center;
   min-width: 150px;
-  padding: 15px; /* ✅ thêm padding */
+  padding: 2rem 1.5rem;
+  background: white; /* 🎨 nền trắng nổi bật */
+  border-radius: 1rem;
+  border: 1px solid #f3f4f6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.stat-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
 .stat-box h3 {
@@ -960,14 +982,17 @@ body {
 /* Thẻ tin tức */
 .news-item {
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem; /* 🎨 bo góc mềm mại hơn */
+  border: 1px solid #f3f4f6; /* 🎨 thêm viền nhẹ */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* 🎨 shadow nhẹ hơn */
   overflow: hidden;
-  transition: transform 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .news-item:hover {
-  transform: translateY(-4px);
+  transform: translateY(-8px); /* 🎨 nâng cao hơn khi hover */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  border-color: #e5e7eb;
 }
 
 /* Hình ảnh */
@@ -984,18 +1009,22 @@ body {
 
 /* Tiêu đề */
 .news-title {
-  font-size: 1.25rem; /* text-xl */
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+  font-size: 1.125rem; /* 🎨 nhỏ hơn chút để cân đối */
+  font-weight: 600; /* 🎨 đậm vừa phải */
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+  color: #1f2937;
 }
 
 .news-title a {
-  color: #2563eb; /* text-blue-600 */
+  color: #1f2937; /* 🎨 màu đen nhẹ thay vì xanh */
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .news-title a:hover {
-  text-decoration: underline;
+  color: #6366f1; /* 🎨 chuyển sang tím khi hover */
+  text-decoration: none;
 }
 
 /* Đoạn mô tả */
@@ -1004,14 +1033,31 @@ body {
   margin-bottom: 1rem;
 }
 
-/* Link "Xem thêm" */
 .news-link {
-  color: #3b82f6; /* text-blue-500 */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6366f1; /* 🎨 tím xanh */
   text-decoration: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
 }
 
 .news-link:hover {
-  text-decoration: underline;
+  color: #4f46e5;
+  gap: 0.75rem; /* 🎨 dịch icon sang phải khi hover */
+  text-decoration: none;
+}
+
+/* 🎨 Thêm icon mũi tên cho link */
+.news-link::after {
+  content: '→';
+  transition: transform 0.3s ease;
+}
+
+.news-link:hover::after {
+  transform: translateX(4px);
 }
 
 /* Responsive cho màn hình nhỏ */
@@ -2406,4 +2452,211 @@ img {
 
 .news-item:hover::before {
   opacity: 1;
+}
+
+/* ========================================
+   🎨 FEATURES SECTION - TÍNH NĂNG NỔI BẬT
+   ======================================== */
+
+.features-section {
+  background: linear-gradient(to bottom, #ffffff, #f9fafb);
+  padding: 4rem 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.features-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.features-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.features-subtitle {
+  font-size: 1.125rem;
+  text-align: center;
+  color: #6b7280;
+  max-width: 42rem;
+  margin: 0 auto 3rem;
+  line-height: 1.6;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.feature-card {
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  border-color: #e5e7eb;
+}
+
+/* Icon gradients */
+.feature-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.1);
+}
+
+.feature-icon svg {
+  color: white;
+}
+
+/* Gradient colors for icons */
+.blue-gradient {
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+}
+
+.purple-gradient {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+}
+
+.green-gradient {
+  background: linear-gradient(135deg, #10b981, #14b8a6);
+}
+
+.orange-gradient {
+  background: linear-gradient(135deg, #f97316, #ef4444);
+}
+
+.indigo-gradient {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+
+.pink-gradient {
+  background: linear-gradient(135deg, #ec4899, #f43f5e);
+}
+
+/* Text styles */
+.feature-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.75rem;
+}
+
+.feature-desc {
+  font-size: 0.9375rem;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* ========================================
+   📱 RESPONSIVE - FEATURES SECTION
+   ======================================== */
+
+/* Tablet */
+@media (max-width: 992px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .features-title {
+    font-size: 1.75rem;
+  }
+
+  .features-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .features-section {
+    padding: 3rem 0;
+  }
+
+  .features-container {
+    padding: 0 1rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .features-title {
+    font-size: 1.5rem;
+  }
+
+  .features-subtitle {
+    font-size: 0.9375rem;
+    margin-bottom: 2rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  .feature-icon {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .feature-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .features-title {
+    font-size: 1.25rem;
+  }
+
+  .feature-title {
+    font-size: 1.125rem;
+  }
+
+  .feature-desc {
+    font-size: 0.875rem;
+  }
+}
+
+/* Profile button styling */
+.profile-btn-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #8498f2 0%, #5654e3 100%);
+  color: white !important;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.profile-btn-link svg {
+  stroke: white;
+}
+
+.profile-btn-link:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
 }

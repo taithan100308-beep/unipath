@@ -4,107 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flashcard SRS - Unipath</title>
+    <link rel="stylesheet" href="navbar.css">
   <style>
     * {
       box-sizing: border-box;
     }
     
-    body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-      margin: 0;
-      padding-bottom: 3rem;
-      min-height: 100vh;
-    }
+body {
+  background: linear-gradient(135deg, #e8f4f8 0%, #d1e7f0 100%); /* 🎨 xanh nhạt dễ nhìn */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding-bottom: 3rem;
+  min-height: 100vh;
+  padding-top: 90px;
+}
 
-    .navbar {
-      background: white;
-      padding: 15px 30px;
-      border-radius: 15px;
-      margin-bottom: 30px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .logo {
-      width: 40px;
-      height: 40px;
-    }
-
-    .nav-logo {
-      color: #667eea;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .nav-right {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .nav-right a, .dropdown .dropbtn {
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    .nav-right a:hover {
-      color: #667eea;
-    }
-
-    .dropdown {
-      position: relative;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background: white;
-      min-width: 200px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      border-radius: 8px;
-      z-index: 1;
-      top: 100%;
-      margin-top: 5px;
-      padding-top: 5px;
-    }
-
-        .dropdown::before {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      height: 10px;
-      background: transparent;
-    }
-
-    .dropdown-content a {
-      display: block;
-      padding: 12px 20px;
-      color: #333;
-      transition: background 0.2s;
-    }
-
-    .dropdown-content a:hover {
-      background: #f5f5f5;
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
+/* Responsive */
+@media (max-width: 992px) {
+  .hamburger {
+    display: flex !important;
+  }
+  
+  .nav-right {
+    position: fixed !important;
+    top: 0 !important;
+    right: -100% !important;
+    width: 280px !important;
+    height: 100vh !important;
+    background: #f5f5f5 !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 80px 0 20px 0 !important;
+    gap: 0 !important;
+    margin-right: 0 !important;
+    box-shadow: -4px 0 15px rgba(0,0,0,0.2) !important;
+    transition: right 0.3s ease !important;
+    overflow-y: auto !important;
+    z-index: 100 !important;
+  }
+  
+  .nav-right.active {
+    right: 0 !important;
+  }
+}
 
     .flashcard-container {
       max-width: 1200px;
@@ -115,17 +57,17 @@
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     }
 
-    h1 {
-      text-align: center;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 2rem;
-      font-size: 2.5rem;
-    }
+h1 {
+  text-align: center;
+  background: linear-gradient(135deg, #0360b2 0%, #023080 100%); /* 🎨 xanh dương */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+}
 
     .stats-banner {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      background: linear-gradient(135deg, #0a2cb0 0%, #031766 100%);
       color: white;
       padding: 1.5rem;
       border-radius: 1rem;
@@ -779,31 +721,30 @@
 
   <script>
 // ========================================
-// PHẦN 1: HỆ THỐNG LƯU TRỮ ĐÃ FIX
+// HỆ THỐNG LƯU TRỮ - FIXED VERSION
+// ========================================
+
+// ========================================
+// HỆ THỐNG LƯU TRỮ - FIXED VERSION
 // ========================================
 
 const FlashcardStorage = {
   STORAGE_KEY: 'flashcardSets',
   
-  // Lưu dữ liệu - LUÔN lưu vào localStorage trước
   async save(key, data) {
     try {
       const jsonData = JSON.stringify(data);
-      
-      // 1. Lưu vào localStorage (đảm bảo luôn có backup)
       localStorage.setItem(key, jsonData);
       console.log('✅ Đã lưu vào localStorage');
       
-      // 2. Thử lưu vào persistent storage nếu có
       if (window.storage && typeof window.storage.set === 'function') {
         try {
-          await window.storage.set(key, jsonData, false); // false = personal data
+          await window.storage.set(key, jsonData, false);
           console.log('✅ Đã lưu vào persistent storage');
         } catch (error) {
-          console.log('⚠️ Persistent storage không khả dụng, chỉ dùng localStorage');
+          console.log('⚠️ Persistent storage không khả dụng');
         }
       }
-      
       return true;
     } catch (error) {
       console.error('❌ Lỗi khi lưu:', error);
@@ -811,86 +752,48 @@ const FlashcardStorage = {
     }
   },
 
-  // Load dữ liệu - ƯU TIÊN localStorage
   async load(key) {
     try {
       console.log('🔍 Đang tìm kiếm dữ liệu...');
       
-      // 1. Thử load từ localStorage TRƯỚC (nhanh và luôn có)
       const localData = localStorage.getItem(key);
-      console.log('📦 localStorage data:', localData ? 'CÓ DỮ LIỆU' : 'TRỐNG');
+      console.log('📦 localStorage:', localData ? 'CÓ DỮ LIỆU' : 'TRỐNG');
       
       if (localData) {
-        console.log('✅ Đã load từ localStorage');
-        console.log('📊 Số ký tự:', localData.length);
+        console.log('✅ Load từ localStorage, số ký tự:', localData.length);
         return JSON.parse(localData);
       }
       
-      // 2. Nếu localStorage trống, thử persistent storage
-      console.log('🔍 Đang kiểm tra persistent storage...');
       if (window.storage && typeof window.storage.get === 'function') {
         try {
           const result = await window.storage.get(key, false);
-          console.log('📦 Persistent storage result:', result);
-          
           if (result && result.value) {
             const data = JSON.parse(result.value);
-            // Đồng bộ ngược lại localStorage
             localStorage.setItem(key, result.value);
-            console.log('✅ Đã load từ persistent storage và đồng bộ về localStorage');
-            console.log('📊 Số bộ flashcard:', Object.keys(data).length);
+            console.log('✅ Load từ persistent storage');
             return data;
-          } else {
-            console.log('⚠️ Persistent storage trống hoặc không có dữ liệu');
           }
         } catch (error) {
-          console.log('⚠️ Lỗi khi load từ persistent storage:', error.message);
+          console.log('⚠️ Không load được từ persistent storage');
         }
-      } else {
-        console.log('⚠️ window.storage không khả dụng');
       }
       
-      // 3. Không có dữ liệu nào
-      console.log('ℹ️ Không có dữ liệu, khởi tạo mới');
+      console.log('ℹ️ Không có dữ liệu');
       return null;
       
     } catch (error) {
       console.error('❌ Lỗi khi load:', error);
       return null;
     }
-  },
-
-  // Xóa dữ liệu
-  async delete(key) {
-    try {
-      localStorage.removeItem(key);
-      
-      if (window.storage && typeof window.storage.delete === 'function') {
-        try {
-          await window.storage.delete(key, false);
-        } catch (error) {
-          console.log('⚠️ Không xóa được persistent storage');
-        }
-      }
-      
-      console.log('✅ Đã xóa dữ liệu');
-    } catch (error) {
-      console.error('❌ Lỗi khi xóa:', error);
-    }
   }
 };
 
 // ========================================
-// PHẦN 2: SRS ALGORITHM (GIỮ NGUYÊN)
+// SRS ALGORITHM
 // ========================================
 
 const SRSAlgorithm = {
-  intervals: {
-    again: 1 / 1440,
-    hard: 1,
-    good: 3,
-    easy: 7
-  },
+  intervals: { again: 1 / 1440, hard: 1, good: 3, easy: 7 },
 
   calculateNextReview(card, difficulty) {
     const now = Date.now();
@@ -934,7 +837,6 @@ const SRSAlgorithm = {
     card.dueDate = now + (interval * 24 * 60 * 60 * 1000);
     card.reviewCount = (card.reviewCount || 0) + 1;
     card.lastReviewed = now;
-
     return card;
   },
 
@@ -943,8 +845,7 @@ const SRSAlgorithm = {
     const easeFactor = card.easeFactor || 2.5;
 
     switch (difficulty) {
-      case 'hard':
-        return Math.max(1, Math.round(interval * 1.2));
+      case 'hard': return Math.max(1, Math.round(interval * 1.2));
       case 'good':
         if (card.state === 'new') return 3;
         if (card.state === 'learning') return Math.max(3, Math.round(interval * easeFactor));
@@ -952,8 +853,7 @@ const SRSAlgorithm = {
       case 'easy':
         if (interval < 7) return 7;
         return Math.round(interval * easeFactor * 1.3);
-      default:
-        return 1;
+      default: return 1;
     }
   },
 
@@ -961,13 +861,12 @@ const SRSAlgorithm = {
     if (days < 1) return '<1 ngày';
     if (days === 1) return '1 ngày';
     if (days < 30) return `${Math.round(days)} ngày`;
-    const months = Math.round(days / 30);
-    return `${months} tháng`;
+    return `${Math.round(days / 30)} tháng`;
   }
 };
 
 // ========================================
-// PHẦN 3: APP STATE & INIT
+// APP STATE & DOM ELEMENTS
 // ========================================
 
 let flashcardSets = {};
@@ -977,7 +876,6 @@ let studyQueue = [];
 let currentCardIndex = 0;
 let isFlipped = false;
 
-// DOM Elements
 const studyMode = document.getElementById('studyMode');
 const createMode = document.getElementById('createMode');
 const statsMode = document.getElementById('statsMode');
@@ -992,22 +890,29 @@ const hintText = document.getElementById('hintText');
 const difficultyButtons = document.getElementById('difficultyButtons');
 const cardProgress = document.getElementById('cardProgress');
 const backToStudySetsBtn = document.getElementById('backToStudySetsBtn');
+const createSetBtn = document.getElementById('createSetBtn');
+const setNameInput = document.getElementById('setName');
+const flashcardArea = document.getElementById('flashcardArea');
+const setTitle = document.getElementById('setTitle');
+const addCardBtn = document.getElementById('addCardBtn');
+const termInput = document.getElementById('termInput');
+const definitionInput = document.getElementById('definitionInput');
+const flashcardList = document.getElementById('flashcardList');
+const setList = document.getElementById('setList');
+const backToSetsBtn = document.getElementById('backToSetsBtn');
 
 // ========================================
-// KHỞI TẠO APP - ĐÃ FIX
+// KHỞI TẠO APP
 // ========================================
 
 async function init() {
-  console.log('🚀 Đang khởi tạo app...');
+  console.log('🚀 Khởi tạo app...');
   
-  // Load dữ liệu
   const savedSets = await FlashcardStorage.load(FlashcardStorage.STORAGE_KEY);
   flashcardSets = savedSets || {};
   
-  console.log('📦 Dữ liệu đã load:', flashcardSets);
   console.log('📊 Số bộ flashcard:', Object.keys(flashcardSets).length);
   
-  // Khởi tạo SRS data cho cards cũ
   let needsSave = false;
   Object.keys(flashcardSets).forEach(setId => {
     flashcardSets[setId].cards = flashcardSets[setId].cards.map(card => {
@@ -1024,13 +929,10 @@ async function init() {
     });
   });
   
-  // Lưu lại nếu có thay đổi
   if (needsSave) {
     await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
-    console.log('💾 Đã cập nhật SRS data cho cards cũ');
   }
   
-  // Render UI
   updateStats();
   renderStudySetList();
   renderSetList();
@@ -1041,7 +943,7 @@ async function init() {
 }
 
 // ========================================
-// PHẦN 4: MODE SWITCHING
+// MODE SWITCHING
 // ========================================
 
 modeTabs.forEach(tab => {
@@ -1050,9 +952,7 @@ modeTabs.forEach(tab => {
     modeTabs.forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     
-    studyMode.classList.remove('active');
-    createMode.classList.remove('active');
-    statsMode.classList.remove('active');
+    [studyMode, createMode, statsMode].forEach(m => m.classList.remove('active'));
     
     if (mode === 'study') {
       studyMode.classList.add('active');
@@ -1069,16 +969,12 @@ modeTabs.forEach(tab => {
 });
 
 // ========================================
-// PHẦN 5: STATS & NOTIFICATIONS
+// STATS & NOTIFICATIONS
 // ========================================
 
 function updateStats() {
   const now = Date.now();
-  let due = 0;
-  let total = 0;
-  let mastered = 0;
-  let totalReviews = 0;
-  let successfulReviews = 0;
+  let due = 0, total = 0, mastered = 0, totalReviews = 0, successfulReviews = 0;
 
   Object.values(flashcardSets).forEach(set => {
     set.cards.forEach(card => {
@@ -1101,20 +997,16 @@ function updateStats() {
 function checkDueCards() {
   const now = Date.now();
   let dueCount = 0;
-
   Object.values(flashcardSets).forEach(set => {
     set.cards.forEach(card => {
       if (card.dueDate <= now) dueCount++;
     });
   });
-
-  if (dueCount > 0) {
-    console.log(`🔔 Bạn có ${dueCount} thẻ cần ôn hôm nay!`);
-  }
+  if (dueCount > 0) console.log(`🔔 Có ${dueCount} thẻ cần ôn!`);
 }
 
 // ========================================
-// PHẦN 6: STUDY MODE
+// STUDY MODE
 // ========================================
 
 function renderStudySetList() {
@@ -1122,14 +1014,13 @@ function renderStudySetList() {
   const sets = Object.entries(flashcardSets);
   
   if (sets.length === 0) {
-    studySetList.innerHTML = '<div class="empty-state">Chưa có bộ flashcard nào. Hãy tạo bộ đầu tiên! 🚀</div>';
+    studySetList.innerHTML = '<div class="empty-state">Chưa có bộ flashcard nào 🚀</div>';
     return;
   }
 
   const now = Date.now();
   sets.forEach(([id, set]) => {
     const dueCards = set.cards.filter(c => c.dueDate <= now).length;
-    
     const div = document.createElement('div');
     div.className = 'set-card';
     div.innerHTML = `
@@ -1179,8 +1070,7 @@ function showStudyCard() {
   reviewTerm.textContent = card.term;
   reviewDefinition.textContent = card.definition;
   
-  const statusText = card.state === 'new' ? 'Mới' : 
-                    card.state === 'learning' ? 'Đang học' : 'Ôn tập';
+  const statusText = card.state === 'new' ? 'Mới' : card.state === 'learning' ? 'Đang học' : 'Ôn tập';
   cardStatus.textContent = statusText;
   cardStatus.className = `card-status ${card.state}`;
   
@@ -1192,13 +1082,9 @@ function showStudyCard() {
 }
 
 function updateDifficultyTimes(card) {
-  const hardDays = SRSAlgorithm.getNextIntervalDays(card, 'hard');
-  const goodDays = SRSAlgorithm.getNextIntervalDays(card, 'good');
-  const easyDays = SRSAlgorithm.getNextIntervalDays(card, 'easy');
-  
-  document.getElementById('hardTime').textContent = SRSAlgorithm.formatInterval(hardDays);
-  document.getElementById('goodTime').textContent = SRSAlgorithm.formatInterval(goodDays);
-  document.getElementById('easyTime').textContent = SRSAlgorithm.formatInterval(easyDays);
+  document.getElementById('hardTime').textContent = SRSAlgorithm.formatInterval(SRSAlgorithm.getNextIntervalDays(card, 'hard'));
+  document.getElementById('goodTime').textContent = SRSAlgorithm.formatInterval(SRSAlgorithm.getNextIntervalDays(card, 'good'));
+  document.getElementById('easyTime').textContent = SRSAlgorithm.formatInterval(SRSAlgorithm.getNextIntervalDays(card, 'easy'));
 }
 
 reviewCard.addEventListener('click', () => {
@@ -1210,28 +1096,19 @@ reviewCard.addEventListener('click', () => {
   }
 });
 
-// ========================================
-// XỬ LÝ DIFFICULTY - ĐÃ FIX LƯU DỮ LIỆU
-// ========================================
-
 document.querySelectorAll('.difficulty-btn').forEach(btn => {
   btn.addEventListener('click', async (e) => {
     e.stopPropagation();
     const difficulty = btn.dataset.difficulty;
     const { card, index } = studyQueue[currentCardIndex];
     
-    // Cập nhật card với SRS
     const updatedCard = SRSAlgorithm.calculateNextReview(card, difficulty);
     flashcardSets[currentStudySetId].cards[index] = updatedCard;
     
-    // LƯU NGAY LẬP TỨC
-    const saved = await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
-    if (saved) {
-      console.log('✅ Đã lưu tiến độ học');
-    }
+    await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
+    console.log('✅ Lưu tiến độ');
     
     updateStats();
-    
     currentCardIndex++;
     showStudyCard();
   });
@@ -1245,19 +1122,8 @@ backToStudySetsBtn.addEventListener('click', () => {
 });
 
 // ========================================
-// PHẦN 7: CREATE MODE
+// CREATE MODE
 // ========================================
-
-const createSetBtn = document.getElementById('createSetBtn');
-const setNameInput = document.getElementById('setName');
-const flashcardArea = document.getElementById('flashcardArea');
-const setTitle = document.getElementById('setTitle');
-const addCardBtn = document.getElementById('addCardBtn');
-const termInput = document.getElementById('termInput');
-const definitionInput = document.getElementById('definitionInput');
-const flashcardList = document.getElementById('flashcardList');
-const setList = document.getElementById('setList');
-const backToSetsBtn = document.getElementById('backToSetsBtn');
 
 createSetBtn.addEventListener('click', async () => {
   const setName = setNameInput.value.trim();
@@ -1268,10 +1134,7 @@ createSetBtn.addEventListener('click', async () => {
 
   currentSetId = `set_${Date.now()}`;
   flashcardSets[currentSetId] = { name: setName, cards: [] };
-  
-  // LƯU NGAY
   await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
-  console.log('✅ Đã tạo bộ mới:', setName);
 
   setTitle.textContent = `📘 ${setName}`;
   flashcardArea.style.display = 'block';
@@ -1283,7 +1146,7 @@ createSetBtn.addEventListener('click', async () => {
 
 addCardBtn.addEventListener('click', async () => {
   if (!currentSetId) {
-    alert('Hãy tạo một bộ flashcard trước!');
+    alert('Hãy tạo bộ flashcard trước!');
     return;
   }
 
@@ -1291,26 +1154,17 @@ addCardBtn.addEventListener('click', async () => {
   const def = definitionInput.value.trim();
 
   if (!term || !def) {
-    alert('Vui lòng nhập đầy đủ thuật ngữ và định nghĩa!');
+    alert('Vui lòng nhập đầy đủ!');
     return;
   }
 
   const card = {
-    term,
-    definition: def,
-    state: 'new',
-    dueDate: Date.now(),
-    interval: 0,
-    easeFactor: 2.5,
-    reviewCount: 0,
-    lapses: 0
+    term, definition: def, state: 'new', dueDate: Date.now(),
+    interval: 0, easeFactor: 2.5, reviewCount: 0, lapses: 0
   };
   
   flashcardSets[currentSetId].cards.push(card);
-  
-  // LƯU NGAY
   await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
-  console.log('✅ Đã thêm thẻ mới');
 
   renderCard(card, flashcardSets[currentSetId].cards.length - 1);
   termInput.value = '';
@@ -1327,13 +1181,10 @@ function renderCard(card, index) {
     <hr style="width: 100%; border: none; border-top: 1px solid #e0e0e0; margin: 0.5rem 0;">
     <small>${card.definition}</small>
   `;
-  
-  const deleteBtn = div.querySelector('.delete-card');
-  deleteBtn.addEventListener('click', (e) => {
+  div.querySelector('.delete-card').addEventListener('click', (e) => {
     e.stopPropagation();
     deleteCard(index);
   });
-  
   flashcardList.appendChild(div);
 }
 
@@ -1341,7 +1192,6 @@ async function deleteCard(index) {
   if (confirm('Xóa thẻ này?')) {
     flashcardSets[currentSetId].cards.splice(index, 1);
     await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
-    console.log('✅ Đã xóa thẻ');
     renderCurrentSet();
     updateStats();
   }
@@ -1352,7 +1202,7 @@ function renderSetList() {
   const sets = Object.entries(flashcardSets);
   
   if (sets.length === 0) {
-    setList.innerHTML = '<div class="empty-state">Chưa có bộ flashcard nào. Tạo bộ đầu tiên của bạn! 🚀</div>';
+    setList.innerHTML = '<div class="empty-state">Chưa có bộ nào 🚀</div>';
     return;
   }
 
@@ -1362,21 +1212,16 @@ function renderSetList() {
     div.innerHTML = `
       <button class="delete-set" data-id="${id}">×</button>
       <h3>${set.name}</h3>
-      <div class="set-stats">
-        <span>📚 ${set.cards.length} thẻ</span>
-      </div>
+      <div class="set-stats"><span>📚 ${set.cards.length} thẻ</span></div>
     `;
     
-    const deleteBtn = div.querySelector('.delete-set');
-    deleteBtn.addEventListener('click', (e) => {
+    div.querySelector('.delete-set').addEventListener('click', (e) => {
       e.stopPropagation();
       deleteSet(id);
     });
     
     div.addEventListener('click', (e) => {
-      if (!e.target.classList.contains('delete-set')) {
-        openSet(id);
-      }
+      if (!e.target.classList.contains('delete-set')) openSet(id);
     });
     
     setList.appendChild(div);
@@ -1401,10 +1246,9 @@ function renderCurrentSet() {
 }
 
 async function deleteSet(id) {
-  if (confirm('Xóa toàn bộ bộ flashcard này?')) {
+  if (confirm('Xóa bộ flashcard?')) {
     delete flashcardSets[id];
     await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
-    console.log('✅ Đã xóa bộ flashcard');
     
     renderSetList();
     renderStudySetList();
@@ -1427,14 +1271,11 @@ backToSetsBtn.addEventListener('click', () => {
 });
 
 // ========================================
-// PHẦN 8: STATS MODE
+// STATS MODE
 // ========================================
 
 function updateStatsCharts() {
-  let newCount = 0;
-  let learningCount = 0;
-  let reviewCount = 0;
-  let total = 0;
+  let newCount = 0, learningCount = 0, reviewCount = 0, total = 0;
 
   Object.values(flashcardSets).forEach(set => {
     set.cards.forEach(card => {
@@ -1451,10 +1292,8 @@ function updateStatsCharts() {
 
   document.getElementById('newProgress').style.width = `${newPercent}%`;
   document.getElementById('newProgress').textContent = newCount;
-  
   document.getElementById('learningProgress').style.width = `${learningPercent}%`;
   document.getElementById('learningProgress').textContent = learningCount;
-  
   document.getElementById('reviewProgress').style.width = `${reviewPercent}%`;
   document.getElementById('reviewProgress').textContent = reviewCount;
 }
@@ -1465,7 +1304,7 @@ function renderStatsSetList() {
   const sets = Object.entries(flashcardSets);
   
   if (sets.length === 0) {
-    statsSetList.innerHTML = '<div class="empty-state">Chưa có dữ liệu thống kê</div>';
+    statsSetList.innerHTML = '<div class="empty-state">Chưa có dữ liệu</div>';
     return;
   }
 
@@ -1489,58 +1328,115 @@ function renderStatsSetList() {
 }
 
 // ========================================
-// PHẦN 9: XỬ LÝ ĐĂNG XUẤT - LƯU DỮ LIỆU
+// BẢO VỆ DỮ LIỆU KHI ĐĂNG XUẤT
 // ========================================
 
-// Lắng nghe nút đăng xuất
+// Override localStorage.clear để bảo vệ flashcardSets
+const originalClear = Storage.prototype.clear;
+Storage.prototype.clear = function() {
+  const backup = this.getItem('flashcardSets');
+  console.log('🛡️ Bảo vệ dữ liệu...');
+  originalClear.call(this);
+  if (backup) {
+    this.setItem('flashcardSets', backup);
+    console.log('✅ Đã khôi phục flashcardSets');
+  }
+};
+
+// Xử lý nút đăng xuất
 const logoutBtn = document.getElementById('logoutNavBtn');
 if (logoutBtn) {
   logoutBtn.addEventListener('click', async (e) => {
     e.preventDefault();
     
-    // Lưu dữ liệu trước khi đăng xuất
-    console.log('💾 Đang lưu dữ liệu trước khi đăng xuất...');
-    const saved = await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
-    
-    if (saved) {
-      console.log('✅ Đã lưu thành công!');
+    try {
+      console.log('💾 Lưu dữ liệu trước khi logout...');
       
-      // Chờ 500ms để đảm bảo dữ liệu đã được lưu
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // 1. Lưu flashcardSets
+      await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
       
-      // Thực hiện đăng xuất
-      alert('Dữ liệu của bạn đã được lưu!');
+      // 2. Backup vào sessionStorage
+      const flashcardData = localStorage.getItem('flashcardSets');
+      if (flashcardData) {
+        sessionStorage.setItem('flashcardBackup', flashcardData);
+        console.log('💾 Backup vào sessionStorage');
+      }
       
-      // KHÔNG xóa localStorage khi đăng xuất để test
-      // localStorage.clear(); 
+      // 3. Khởi tạo Firebase và đăng xuất
+      const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js");
+      const { getAuth, signOut } = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js");
       
-      // Redirect về trang đăng nhập hoặc trang chủ
-      // window.location.href = 'login.html';
-    } else {
-      alert('Lỗi khi lưu dữ liệu! Vui lòng thử lại.');
+      // Import config
+      const { firebaseConfig } = await import("./firebase-config.js");
+      
+      // Khởi tạo Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      
+      // Đăng xuất Firebase
+      await signOut(auth);
+      console.log('🚪 Đã đăng xuất Firebase');
+      
+      // 4. Xóa CHỈ auth data, GIỮ LẠI flashcardSets
+      localStorage.removeItem('uid');
+      localStorage.removeItem('name');
+      localStorage.removeItem('photo');
+      
+      // 5. Đảm bảo flashcardSets vẫn còn
+      if (flashcardData) {
+        localStorage.setItem('flashcardSets', flashcardData);
+        console.log('✅ Flashcard data đã được bảo vệ');
+      }
+      
+      alert('Đã đăng xuất thành công! Dữ liệu học tập của bạn đã được lưu.');
+      window.location.href = 'index.html';
+      
+    } catch (error) {
+      console.error('❌ Lỗi khi đăng xuất:', error);
+      
+      // Nếu Firebase lỗi, vẫn thực hiện logout đơn giản
+      localStorage.removeItem('uid');
+      localStorage.removeItem('name');
+      localStorage.removeItem('photo');
+      
+      // Đảm bảo giữ flashcardSets
+      const flashcardData = localStorage.getItem('flashcardSets');
+      if (flashcardData) {
+        localStorage.setItem('flashcardSets', flashcardData);
+      }
+      
+      alert('Đã đăng xuất. Dữ liệu đã được lưu.');
+      window.location.href = 'index.html';
     }
   });
 }
 
-// Tự động lưu mỗi 30 giây
+// Auto-save mỗi 30s
 setInterval(async () => {
   if (Object.keys(flashcardSets).length > 0) {
     await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
-    console.log('🔄 Auto-save: Đã lưu dữ liệu');
+    console.log('🔄 Auto-save');
   }
 }, 30000);
 
-// Lưu trước khi tắt trang
-window.addEventListener('beforeunload', async (e) => {
+// Lưu trước khi đóng trang
+window.addEventListener('beforeunload', async () => {
   if (Object.keys(flashcardSets).length > 0) {
     await FlashcardStorage.save(FlashcardStorage.STORAGE_KEY, flashcardSets);
   }
 });
 
-// ========================================
-// KHỞI ĐỘNG APP
-// ========================================
+// Khôi phục từ sessionStorage nếu có
+window.addEventListener('load', () => {
+  const backup = sessionStorage.getItem('flashcardBackup');
+  if (backup && !localStorage.getItem('flashcardSets')) {
+    localStorage.setItem('flashcardSets', backup);
+    console.log('🔄 Đã khôi phục từ sessionStorage');
+    location.reload();
+  }
+});
 
+// KHỞI ĐỘNG
 init();
   </script>
 </body>

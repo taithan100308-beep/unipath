@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quy đổi điểm V-SAT & ĐGNL</title>
+  
+  <!-- 🎨 LINK FILE NAVBAR CHUNG -->
+  <link rel="stylesheet" href="navbar.css">
+  
   <style>
     * {
       margin: 0;
@@ -13,208 +17,11 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #e8f4f8 0%, #d1e7f0 100%); /* Xanh nhạt dễ nhìn */
       min-height: 100vh;
       padding: 20px;
+      padding-top: 90px; /* Để không bị navbar che */
     }
-
-    .navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #e0e0e0; /* ✅ màu xám nhạt giống homepage */
-  color: #000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.8rem 1.5rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-}
-
-/* Nav left */
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-  border-radius: 6px;
-  margin-top: -8px;
-  margin-bottom: -8px;
-  transition: transform 0.18s ease;
-}
-
-.logo:hover {
-  transform: scale(1.08);
-}
-
-.nav-logo {
-  margin: 0;
-  font-size: 1.3rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  color: #000; /* ✅ chữ đen */
-}
-
-/* Nav right */
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-  margin-right: 60px;
-}
-
-.nav-right a,
-.nav-right .dropbtn {
-  color: #000; /* ✅ chữ đen */
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
-  font-size: 0.95rem;
-  padding: 6px 10px;
-  border-radius: 6px;
-}
-
-.nav-right a:hover,
-.nav-right .dropbtn:hover {
-  background: #dcdcdc;
-  color: #004aad;
-}
-
-/* Dropdown styles */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background: white;
-  min-width: 200px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  border-radius: 8px;
-  z-index: 1;
-  top: 100%;
-  margin-top: 5px;
-  padding-top: 3px;
-}
-
-.dropdown::before {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 10px;
-  background: transparent;
-}
-
-.dropdown-content a {
-  display: block;
-  padding: 10px 20px;
-  color: #333;
-  transition: background 0.2s;
-}
-
-.dropdown-content a:hover {
-  background: #f5f5f5;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown:hover .dropbtn {
-  color: #667eea;
-}
-
-/* Submenu bên phải */
-.dropdown-item-with-sub {
-  position: relative;
-}
-
-.dropdown-item-with-sub > a {
-  display: block;
-  padding: 10px 14px;
-  color: #333;
-  text-decoration: none;
-}
-
-.submenu-right {
-  display: none;
-  position: absolute;
-  left: 100%;
-  top: 0;
-  background-color: #fff;
-  min-width: 150px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  border-radius: 6px;
-  z-index: 100;
-  padding: 8px 0;
-}
-
-.dropdown-item-with-sub:hover .submenu-right {
-  display: block;
-}
-
-.submenu-right a {
-  display: block;
-  padding: 10px 14px;
-  color: #333;
-  text-decoration: none;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-.submenu-right a:hover {
-  background-color: #f3f3f3;
-  color: #667eea;
-}
-
-.dropdown-item-with-sub:hover > a {
-  background-color: #f3f3f3;
-  color: #667eea;
-}
-
-/* Logout button - ĐỒNG BỘ */
-.logout-icon {
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
-  vertical-align: middle;
-}
-
-.logout-btn {
-  background: #ccc; /* ✅ màu xám */
-  border: 1px solid #999;
-  color: #000;
-  padding: 5px 11px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logout-btn:hover {
-  background: #bbb;
-  color: #000;
-}
-
-/* Body spacing */
-body {
-  padding-top: 70px;
-}
 
     /* Main Container */
     .main-container {
@@ -231,7 +38,7 @@ body {
     }
 
     .tab-btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
       color: white;
       border: none;
       padding: 15px 40px;
@@ -250,7 +57,7 @@ body {
 
     .tab-btn.active {
       background: white;
-      color: #333;
+      color: #2d9cdb;
     }
 
     /* Tab Content */
@@ -284,7 +91,7 @@ body {
     }
 
     .converter-box h2 {
-      color: #667eea;
+      color: #2d9cdb;
       margin-bottom: 25px;
       font-size: 24px;
       text-align: center;
@@ -304,13 +111,13 @@ body {
     .converter-box select:focus,
     .converter-box input:focus {
       outline: none;
-      border-color: #667eea;
+      border-color: #4facfe;
     }
 
     .converter-box button {
       width: 100%;
       padding: 15px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
       color: white;
       border: none;
       border-radius: 10px;
@@ -346,7 +153,7 @@ body {
     }
 
     .pdf-section h2 {
-      color: #667eea;
+      color: #2d9cdb;
       margin-bottom: 25px;
       font-size: 24px;
       text-align: center;
@@ -373,7 +180,7 @@ body {
 
     .pdf-viewer {
       width: 100%;
-      height: 1000px;  /* ← Tăng lên 1000px hoặc cao hơn */
+      height: 1000px;
       border: 2px solid #e0e0e0;
       border-radius: 10px;
       background: #f8f9fa;
@@ -385,7 +192,7 @@ body {
 
     .pdf-viewer iframe {
       width: 100%;
-      height: 1000px;  /* ← Tăng lên 1000px */
+      height: 1000px;
       border: none;
       border-radius: 10px;
     }
@@ -411,14 +218,14 @@ body {
     }
 
     .exam-info h2 {
-      color: #667eea;
+      color: #2d9cdb;
       margin-bottom: 20px;
       font-size: 28px;
       text-align: center;
     }
 
     .exam-info h3 {
-      color: #764ba2;
+      color: #0077b6;
       margin-top: 25px;
       margin-bottom: 15px;
       font-size: 22px;
@@ -450,7 +257,7 @@ body {
     .intro {
       background: #f8f9fa;
       padding: 20px;
-      border-left: 4px solid #667eea;
+      border-left: 4px solid #4facfe;
       border-radius: 8px;
       margin-bottom: 30px;
     }
@@ -488,602 +295,135 @@ body {
       font-family: 'Courier New', monospace;
       color: #d63384;
     }
-        /* ==== SUBMENU BÊN PHẢI - 2 LINK ==== */
-.dropdown-item-with-sub {
-  position: relative;
-}
 
-.dropdown-item-with-sub > a {
-  display: block;
-  padding: 10px 14px;
-  color: #333;
-  text-decoration: none;
-}
+    /* Responsive cho tab navigation */
+    @media (max-width: 768px) {
+      .tab-navigation {
+        flex-direction: column;
+        gap: 10px;
+      }
 
-/* Submenu ẩn mặc định */
-.submenu-right {
-  display: none;
-  position: absolute;
-  left: 100%; /* hiện bên phải */
-  top: 0;
-  background-color: #fff;
-  min-width: 150px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  border-radius: 6px;
-  z-index: 100;
-  padding: 8px 0;
-}
+      .tab-btn {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 16px;
+      }
 
-/* Hiện submenu khi hover */
-.dropdown-item-with-sub:hover .submenu-right {
-  display: block;
-}
+      .converter-box {
+        padding: 20px;
+      }
 
-/* Link trong submenu */
-.submenu-right a {
-  display: block;
-  padding: 10px 14px;
-  color: #333;
-  text-decoration: none;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
+      .converter-box h2 {
+        font-size: 20px;
+      }
 
-.submenu-right a:hover {
-  background-color: #f3f3f3;
-  color: #004aad;
-}
+      .pdf-viewer,
+      .pdf-viewer iframe {
+        height: 500px;
+      }
 
-/* Highlight item cha khi hover submenu */
-.dropdown-item-with-sub:hover > a {
-  background-color: #f3f3f3;
-  color: #004aad;
-}
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
+      .exam-info {
+        padding: 25px;
+      }
 
-.dropbtn {
-  background: none;
-  border: none;
-  color: #333;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 8px 12px;
-}
-
-.dropdown-content {
-      display: none;
-      position: absolute;
-      background: white;
-      min-width: 200px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      border-radius: 8px;
-      z-index: 1;
-      top: 100%;
-      margin-top: 5px;
-      padding-top: 3px;
+      .exam-info h2 {
+        font-size: 22px;
+      }
     }
 
-        .dropdown::before {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      height: 10px;
-      background: transparent;
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+        padding-top: 80px;
+      }
+
+      .converter-box,
+      .exam-info {
+        padding: 15px;
+      }
+
+      .converter-box h2 {
+        font-size: 18px;
+      }
+
+      .converter-box select,
+      .converter-box input,
+      .converter-box button {
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      .result {
+        font-size: 16px;
+      }
+
+      .pdf-viewer,
+      .pdf-viewer iframe {
+        height: 400px;
+      }
     }
-
-    .dropdown-content a {
-      display: block;
-      padding: 10px 20px;
-      color: #333;
-      transition: background 0.2s;
-    }
-
-    .dropdown-content a:hover {
-      background: #f5f5f5;
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-.dropdown:hover .dropbtn {
-  color: #667eea;
-}
-
-/* ==== SUBMENU BÊN PHẢI - 2 LINK ==== */
-.dropdown-item-with-sub {
-  position: relative;
-}
-
-.dropdown-item-with-sub > a {
-  display: block;
-  padding: 10px 14px;
-  color: #333;
-  text-decoration: none;
-}
-
-/* Submenu ẩn mặc định */
-.submenu-right {
-  display: none;
-  position: absolute;
-  left: 100%; /* hiện bên phải */
-  top: 0;
-  background-color: #fff;
-  min-width: 150px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  border-radius: 6px;
-  z-index: 100;
-  padding: 8px 0;
-}
-
-/* Hiện submenu khi hover */
-.dropdown-item-with-sub:hover .submenu-right {
-  display: block;
-}
-
-/* Link trong submenu */
-.submenu-right a {
-  display: block;
-  padding: 10px 14px;
-  color: #333;
-  text-decoration: none;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-.submenu-right a:hover {
-  background-color: #f3f3f3;
-  color: #667eea;
-}
-
-/* Highlight item cha khi hover submenu */
-.dropdown-item-with-sub:hover > a {
-  background-color: #f3f3f3;
-  color: #667eea;
-}
-
-/* ==== NÚT ĐĂNG XUẤT ==== */
-.logout-icon {
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
-  vertical-align: middle;
-}
-
-/* Điều chỉnh nút logout để vừa với icon */
-.logout-btn {
-  background: #ccc;
-  border: 1px solid #999;
-  color: #000;
-  padding: 5px 11px;  /* ← giảm padding để nút nhỏ hơn */
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logout-btn:hover {
-  background: #bbb;
-  color: #000;
-}
-/* ================================================
-   🍔 HAMBURGER & RESPONSIVE NAVBAR - CHUẨN HÓA
-   Thêm vào cuối <style> của converter.html và compare-score.html
-   ================================================ */
-
-/* 🍔 NÚT HAMBURGER - Ẩn mặc định */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  z-index: 101;
-}
-
-.hamburger span {
-  width: 28px;
-  height: 3px;
-  background-color: #333;
-  border-radius: 3px;
-  transition: all 0.3s ease;
-}
-
-/* Animation 3 gạch → X */
-.hamburger.active span:nth-child(1) {
-  transform: rotate(45deg) translate(8px, 8px);
-}
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-.hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -6px);
-}
-
-/* Overlay tối phía sau menu */
-.nav-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0,0,0,0.5);
-  z-index: 99;
-}
-.nav-overlay.active {
-  display: block;
-}
-
-/* ================================================
-   📱 RESPONSIVE NAVBAR (≤ 992px)
-   ================================================ */
-@media (max-width: 992px) {
-  
-  /* Navbar chính */
-  .navbar {
-    flex-direction: row !important;
-    justify-content: space-between !important;
-    padding: 0.8rem 1rem !important;
-    gap: 0 !important;
-  }
-
-  .nav-left {
-    width: auto !important;
-    justify-content: flex-start !important;
-  }
-
-  .logo {
-    width: 45px;
-    height: 45px;
-  }
-
-  .nav-logo {
-    font-size: 1.1rem !important;
-  }
-
-  /* Hiện hamburger */
-  .hamburger {
-    display: flex !important;
-  }
-
-  /* Menu mobile - Trượt từ phải */
-  .nav-right {
-    position: fixed !important;
-    top: 0 !important;
-    right: -100% !important;
-    width: 280px !important;
-    height: 100vh !important;
-    background: #f5f5f5 !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    padding: 80px 0 20px 0 !important;
-    gap: 0 !important;
-    margin-right: 0 !important;
-    box-shadow: -4px 0 15px rgba(0,0,0,0.2) !important;
-    transition: right 0.3s ease !important;
-    overflow-y: auto !important;
-    z-index: 100 !important;
-  }
-
-  .nav-right.active {
-    right: 0 !important;
-  }
-
-  /* Link trong menu mobile - THẲNG HÀNG */
-  .nav-right > a,
-  .nav-right .dropbtn {
-    width: 100% !important;
-    padding: 14px 20px !important;
-    font-size: 0.95rem !important;
-    border-bottom: 1px solid #ddd !important;
-    display: block !important;
-    text-align: left !important;
-    background: transparent !important;
-    margin: 0 !important;
-  }
-
-  .nav-right > a:hover,
-  .nav-right .dropbtn:hover {
-    background: #e0e0e0 !important;
-  }
-
-  /* Dropdown trong mobile - THẲNG HÀNG */
-  .dropdown {
-    width: 100% !important;
-    margin: 0 !important;
-  }
-
-  .dropdown-content {
-    position: static !important;
-    display: none !important;
-    box-shadow: none !important;
-    background: #ebebeb !important;
-    width: 100% !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;
-  }
-
-  .dropdown.active .dropdown-content {
-    display: block !important;
-  }
-
-  .dropdown-content a {
-    padding: 12px 20px 12px 40px !important;
-    border-bottom: 1px solid #ddd !important;
-    font-size: 0.9rem !important;
-  }
-
-  /* Submenu - THẲNG HÀNG */
-  .dropdown-item-with-sub {
-    width: 100% !important;
-  }
-
-  .dropdown-item-with-sub > a {
-    padding: 12px 20px 12px 40px !important;
-  }
-
-  .dropdown-item-with-sub .submenu-right {
-    position: static !important;
-    display: none !important;
-    box-shadow: none !important;
-    width: 100% !important;
-    padding: 0 !important;
-    background: #e0e0e0 !important;
-    border-radius: 0 !important;
-    left: auto !important;
-    top: auto !important;
-    transform: none !important;
-    margin: 0 !important;
-  }
-
-  .dropdown-item-with-sub.active .submenu-right {
-    display: block !important;
-  }
-
-  .submenu-right a {
-    padding: 10px 20px 10px 60px !important;
-    font-size: 0.85rem !important;
-    border-bottom: 1px solid #d0d0d0 !important;
-  }
-
-  /* Logout button - THẲNG HÀNG */
-  .logout-btn {
-    width: calc(100% - 40px) !important;
-    margin: 16px 20px !important;
-    justify-content: center !important;
-    padding: 10px !important;
-  }
-
-  /* Icon mũi tên cho dropdown */
-  .dropdown > .dropbtn::after {
-    content: ' ▾';
-    float: right;
-    transition: transform 0.2s;
-  }
-
-  .dropdown.active > .dropbtn::after {
-    transform: rotate(180deg);
-  }
-
-  .dropdown-item-with-sub > a::after {
-    content: ' ▸';
-    float: right;
-    transition: transform 0.2s;
-  }
-
-  .dropdown-item-with-sub.active > a::after {
-    transform: rotate(90deg);
-  }
-
-  /* Hover effects */
-  .dropdown-content a:hover,
-  .submenu-right a:hover {
-    background: #d5d5d5 !important;
-  }
-
-  /* Điều chỉnh nội dung chính */
-  .main-container,
-  body > div:not(.navbar) {
-    padding-top: 100px;
-  }
-
-  /* Tab navigation mobile */
-  .tab-navigation {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .tab-btn {
-    width: 100%;
-    padding: 12px 20px;
-    font-size: 16px;
-  }
-
-  /* Converter wrapper mobile */
-  .converter-wrapper {
-    grid-template-columns: 1fr !important;
-  }
-
-  .converter-box {
-    width: 100%;
-  }
-
-  /* PDF viewer mobile */
-  .pdf-viewer,
-  .pdf-viewer iframe {
-    height: 500px;
-  }
-
-  /* Sidebar (compare-score.html) */
-  .container {
-    grid-template-columns: 1fr !important;
-  }
-
-  .sidebar {
-    position: relative !important;
-    top: 0 !important;
-  }
-}
-
-/* ================================================
-   📱 MOBILE NHỎ (≤ 768px)
-   ================================================ */
-@media (max-width: 768px) {
-  .logo {
-    width: 40px;
-    height: 40px;
-  }
-
-  .nav-logo {
-    font-size: 1rem !important;
-  }
-
-  .tab-btn {
-    font-size: 14px;
-    padding: 10px 15px;
-  }
-
-  .converter-box {
-    padding: 20px;
-  }
-
-  .converter-box h2 {
-    font-size: 20px;
-  }
-
-  .pdf-viewer,
-  .pdf-viewer iframe {
-    height: 400px;
-  }
-
-  .exam-info {
-    padding: 25px;
-  }
-
-  .exam-info h2 {
-    font-size: 22px;
-  }
-
-  .universities-comparison {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* ================================================
-   📱 MOBILE RẤT NHỎ (≤ 480px)
-   ================================================ */
-@media (max-width: 480px) {
-  .navbar {
-    padding: 0.6rem 0.8rem !important;
-  }
-
-  .logo {
-    width: 35px;
-    height: 35px;
-  }
-
-  .nav-logo {
-    font-size: 0.9rem !important;
-  }
-
-  .converter-box,
-  .exam-info {
-    padding: 15px;
-  }
-
-  .converter-box h2 {
-    font-size: 18px;
-  }
-
-  .converter-box select,
-  .converter-box input,
-  .converter-box button {
-    padding: 10px;
-    font-size: 14px;
-  }
-
-  .result {
-    font-size: 16px;
-  }
-}
   </style>
 </head>
 <body>
   <!-- Navbar -->
-<nav class="navbar">
-  <div class="nav-left">
-    <img src="logo.png" alt="Logo" class="logo">
-    <h2 class="nav-logo">UNIPATH</h2>
-  </div>
-
-  <!-- 🍔 NÚT HAMBURGER -->
-  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-
-  <!-- OVERLAY TỐI PHÍA SAU -->
-  <div class="nav-overlay" id="navOverlay"></div>
-
-  <div class="nav-right" id="navMenu">
-    <a href="homepage.html">Trang chủ</a>
-
-    <!-- Dropdown Tuyển sinh -->
-    <div class="dropdown">
-      <a href="#" class="dropbtn dropdown-toggle">Tuyển sinh ▾</a>
-      <div class="dropdown-content">
-        <a href="universities.html">Thông tin tuyển sinh</a>
-        <a href="converter.html">Quy đổi điểm</a>
-        
-        <div class="dropdown-item-with-sub">
-          <a href="#" class="submenu-toggle">Tra cứu điểm ▸</a>
-          <div class="submenu-right">
-            <a href="ctu-cutoff.html">Tra cứu</a>
-            <a href="compare-score.html">So sánh</a>
-          </div>
-        </div>
-        
-        <a href="documents.html">Văn bản</a>
-        <a href="de-minh-hoa.html">Thư viện đề</a>
-      </div>
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="logo.png" alt="Logo" class="logo">
+      <h2 class="nav-logo">UNIPATH</h2>
     </div>
 
-    <a href="biotest.html">Sinh trắc học</a>
-    <a href="study-methods.html">Phương pháp học</a>
-    
-    <!-- Dropdown Công cụ -->
-    <div class="dropdown">
-      <a href="#" class="dropbtn dropdown-toggle">Công cụ học ▾</a>
-      <div class="dropdown-content">
-        <a href="study.html">Time-blocking</a>
-        <a href="flashcard.html">Flashcard</a>
-      </div>
-    </div>
-
-    <a href="document-ai.html">Trợ lý AI</a>
-
-    <button id="logoutNavBtn" class="logout-btn">
-      <img src="log-out.jpg" class="logout-icon">
+    <!-- 🍔 NÚT HAMBURGER -->
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
     </button>
-  </div>
-</nav>
+
+    <!-- OVERLAY TỐI PHÍA SAU -->
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <div class="nav-right" id="navMenu">
+      <a href="homepage.html">Trang chủ</a>
+
+      <!-- Dropdown Tuyển sinh -->
+      <div class="dropdown">
+        <a href="#" class="dropbtn dropdown-toggle">Tuyển sinh ▾</a>
+        <div class="dropdown-content">
+          <a href="universities.html">Thông tin tuyển sinh</a>
+          <a href="converter.html">Quy đổi điểm</a>
+          
+          <div class="dropdown-item-with-sub">
+            <a href="#" class="submenu-toggle">Tra cứu điểm ▸</a>
+            <div class="submenu-right">
+              <a href="ctu-cutoff.html">Tra cứu</a>
+              <a href="compare-score.html">So sánh</a>
+            </div>
+          </div>
+          
+          <a href="documents.html">Văn bản</a>
+          <a href="de-minh-hoa.html">Thư viện đề</a>
+        </div>
+      </div>
+
+      <a href="biotest.html">Sinh trắc học</a>
+      <a href="study-methods.html">Phương pháp học</a>
+      
+      <!-- Dropdown Công cụ -->
+      <div class="dropdown">
+        <a href="#" class="dropbtn dropdown-toggle">Công cụ học ▾</a>
+        <div class="dropdown-content">
+          <a href="study.html">Time-blocking</a>
+          <a href="flashcard.html">Flashcard</a>
+        </div>
+      </div>
+
+      <a href="document-ai.html">Trợ lý AI</a>
+
+      <button id="logoutNavBtn" class="logout-btn">
+        <img src="log-out.jpg" class="logout-icon">
+      </button>
+    </div>
+  </nav>
 
   <div class="main-container">
     <!-- Tab Navigation -->
@@ -1254,6 +594,5 @@ body {
       </div>
     </div>
   </div>
-  <script src="converter.js"></script>
-</body>
+  </body>
 </html>

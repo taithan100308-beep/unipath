@@ -1,181 +1,115 @@
 // ===============================================================
-// Unipath AI Chat - Perplexity Integration v8.0.0
-// ✨ Smart Routing: Gemini 2.5 Pro (paid) + Perplexity (real-time search)
-// 🎯 Strategy: Use Perplexity when search needed (has Google Search)
+// Unipath AI Chat - FIXED v9.2.0
+// ✅ Fix: Gemini systemInstruction - move PDF to user message
+// ✅ Fix: Short system prompt < 500 chars
+// ✅ Fix: Better PDF reading for both Gemini and GPT
 // ===============================================================
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 const OpenAI = require("openai");
-const axios = require("axios"); // NEW: For Perplexity API
+const axios = require("axios");
 const pdfParse = require("pdf-parse");
 
 admin.initializeApp();
 
-const VERSION = "8.0.0-perplexity";
+const VERSION = "9.2.0-split-strategy";
 
 // ===============================================================
-// 🔥 HYBRID CONFIGURATION
-// ===============================================================
-const MEGALLM_CONFIG = {
-  baseURL: 'https://ai.megallm.io/v1',
-  defaultTimeout: 60000,
-  maxRetries: 2
-};
-
-const PERPLEXITY_CONFIG = {
-  baseURL: 'https://api.perplexity.ai',
-  model: 'sonar', // Model with Google Search
-  timeout: 45000
-};
-
-// ===============================================================
-// 🎯 AI ROUTING - PERPLEXITY STRATEGY
-// Primary: Gemini 2.5 Pro (paid, quality)
-// Search Mode: Perplexity (paid but has real Google Search)
+// 🎯 AI ROUTING
 // ===============================================================
 const AI_ROUTING = {
   TUYEN_SINH: {
-    primary: 'gemini-2.5-pro',           // MegaLLM - Best quality
-    searchFallback: 'perplexity-search', // Perplexity when search needed
-    megallmFallback: 'gpt-4o-2024-11-20',
-    finalFallback: 'gpt-4o-mini'
+    knowledgeBase: 'gpt-4o-mini',
+    pdfReader: 'gemini-2.5-flash',
+    searchFallback: 'perplexity-search',
+    finalFallback: 'gpt-4o'
   },
   PHUONG_PHAP: {
-    primary: 'gemini-2.5-pro',
-    searchFallback: 'perplexity-search',
-    megallmFallback: 'gpt-4o-2024-11-20',
-    finalFallback: 'gpt-4o-mini'
+    primary: 'gemini-2.5-flash',
+    fallback: 'gpt-4o-mini'
   },
   TAM_LY: {
-    primary: 'gemini-2.5-pro',
-    searchFallback: 'perplexity-search',
-    megallmFallback: 'gpt-4o-2024-11-20',
-    finalFallback: 'gpt-4o-mini'
+    primary: 'gemini-2.5-flash',
+    fallback: 'gpt-4o-mini'
   }
 };
 
 // ===============================================================
-// 🔍 SEARCH DETECTION - Detect if question needs real-time search
+// 🔑 API CONFIGURATION
+// ===============================================================
+function getAPIKeys() {
+  return {
+    gemini: process.env.GEMINI_API_KEY || 
+            (functions.config().gemini && functions.config().gemini.key),
+    openai: process.env.OPENAI_API_KEY || 
+            (functions.config().openai && functions.config().openai.key),
+    perplexity: process.env.PERPLEXITY_API_KEY || 
+                (functions.config().perplexity && functions.config().perplexity.key)
+  };
+}
+
+// ===============================================================
+// 🔍 SEARCH DETECTION
 // ===============================================================
 const SEARCH_KEYWORDS = [
-  // Future years
-  'năm 2026', 'năm 2027', 'năm 2028', 'năm 2029',
-  '2026', '2027', '2028', '2029',
-  
-  // Time-based keywords
-  'mới nhất', 'hiện tại', 'bây giờ', 'hôm nay', 'tuần này', 'tháng này',
-  'gần đây', 'vừa rồi', 'ngày nay',
-  
-  // Future/Planning keywords
-  'dự kiến', 'sắp tới', 'kế hoạch', 'sẽ', 'tương lai',
-  
-  // News/Updates keywords
-  'tin tức', 'thông báo mới', 'cập nhật', 'tin mới',
-  'thông tin mới', 'công bố mới',
-  
-  // Admission score keywords - CRITICAL FOR SEARCH
+  'năm 2026', 'năm 2027', '2026', '2027', '2028', '2029',
+  'mới nhất', 'hiện tại', 'bây giờ', 'hôm nay',
+  'gần đây', 'tin tức', 'cập nhật',
   'điểm chuẩn', 'diem chuan',
-  'điểm trúng tuyển', 'diem trung tuyen',
-  'điểm xét tuyển', 'diem xet tuyen',
-  'ngưỡng điểm', 'nguong diem',
-  'điểm đầu vào', 'diem dau vao',
-  
-  // University specific scores
-  'bách khoa', 'bach khoa', 'hcmut',
-  'kinh tế', 'kinh te', 'ueh',
-  'y dược', 'y duoc', 'yds',
-  'sư phạm', 'su pham',
-  'khoa học tự nhiên', 'khtn',
-  'ngoại thương', 'ngoai thuong', 'ftu',
-  'bưu chính viễn thông', 'buu chinh vien thong', 'ptit',
-  'hcmus','hcm','hn','hồ chí minh','hà nội',
-  
-  // Specific admission terms
-  'điểm chuẩn 2024', 'điểm chuẩn 2025',
-  'điểm chuẩn 2026', 'điểm chuẩn 2027', 'điểm chuẩn 2028',
-  'tuyển sinh 2024', 'tuyển sinh 2025',
-  'tuyển sinh 2026', 'tuyển sinh 2027',
 ];
 
 function needsRealTimeSearch(question) {
   const lowerQuestion = question.toLowerCase();
   
-  console.log(`\n🔍 Checking search need for: "${question}"`);
-  console.log(`📝 Normalized question: "${lowerQuestion}"`);
-  
-  // Check if question contains search keywords
   for (const keyword of SEARCH_KEYWORDS) {
-    const lowerKeyword = keyword.toLowerCase();
-    if (lowerQuestion.includes(lowerKeyword)) {
-      console.log(`✅ SEARCH MODE: Found keyword "${keyword}" (normalized: "${lowerKeyword}")`);
+    if (lowerQuestion.includes(keyword.toLowerCase())) {
+      console.log(`✅ SEARCH MODE: Found keyword "${keyword}"`);
       return true;
     }
   }
   
-  // Check for year > 2025 (beyond training data)
   const yearMatch = question.match(/\b(202[6-9]|20[3-9]\d)\b/);
   if (yearMatch) {
     console.log(`✅ SEARCH MODE: Future year detected (${yearMatch[0]})`);
     return true;
   }
   
-  console.log(`❌ NO MATCH: None of ${SEARCH_KEYWORDS.length} keywords found`);
-  console.log(`📚 STANDARD MODE: Using Gemini 2.5 Pro (no search needed)`);
   return false;
 }
 
 // ===============================================================
-// KNOWLEDGE BASE (GIỮ NGUYÊN)
+// 📚 KNOWLEDGE BASE - Rút gọn, không emoji
 // ===============================================================
 const KNOWLEDGE_BASE = `
-BANG TRA CUU - KY THI TOT NGHIEP THPT
+--- QUY DINH MIEN THI NGOAI NGU ---
 
-1. CHUNG CHI NGOAI NGU - MIEN THI
+TIENG ANH (Bac 3 = B1 CEFR):
 
-QUY DINH CHUNG:
-Nguoi co chung chi ngoai ngu dat tu BAC 3 tro len duoc MIEN THI mon Ngoai ngu.
+DUOC MIEN THI NEU CO:
+- IELTS >= 4.0
+- TOEFL iBT >= 45
+- TOEIC 4 ky nang >= 550
 
-TIENG ANH (Bac 3 = B1):
-- IELTS: >= 4.0 -> MIEN THI
-- TOEFL iBT: >= 45 -> MIEN THI
-- TOEFL ITP: >= 450 -> MIEN THI
-- Cambridge: B1 (PET) -> MIEN THI
-- TOEIC 4 ky nang: >= 550 -> MIEN THI
+LUU Y:
+- Chung chi phai con han (khong qua 2 nam)
+- Ban chinh hoac ban sao co chung thuc
+- Nop ho so truoc thoi han
 
-TIENG TRUNG: HSK cap 3+ -> MIEN THI
-TIENG NHAT: JLPT N3+ -> MIEN THI
-TIENG HAN: TOPIK cap 3+ -> MIEN THI
-TIENG PHAP: DELF B1+ -> MIEN THI
-TIENG DUC: Goethe B1+ -> MIEN THI
+--- QUY DINH MAY TINH CAM TAY ---
 
-DIEU KIEN: Chung chi phai con han den ngay lam thu tuc du thi
-
-2. MAY TINH CAM TAY - QUY DINH MANG VAO PHONG THI
+DUOC PHEP:
+- Casio: fx-570, fx-880, fx-991
+- Vinacal: 570ES Plus, 991ES Plus
 
 KHONG DUOC PHEP:
-May tinh cam tay co kha nang soan thao van ban
-
-MAY BI CAM:
-- May co ban phim QWERTY day du
-- May co chuc nang text editor, word processor
-- May tinh do hoa co lap trinh phuc tap
-
-MAY DUOC PHEP:
-- Casio fx-880: DUOC PHEP (may tinh khoa hoc co ban)
-- Casio fx-570VN Plus II: DUOC PHEP
-- Casio fx-570ES Plus: DUOC PHEP
-- Casio fx-991EX: DUOC PHEP (khong co soan thao van ban)
-- Vinacal 570ES Plus II: DUOC PHEP
-- Casio fx-580: DUOC PHEP
-
-NGUYEN TAC PHAN BIET:
-- Neu may CHI tinh toan khoa hoc -> DUOC PHEP
-- Neu may co Word/Text Editor -> BI CAM
-- Cac dong fx-570, fx-880, fx-991 deu DUOC PHEP
+- May co ban phim QWERTY
+- May co Word Processor
+- May ket noi internet/bluetooth
 `;
 
 // ===============================================================
-// PDF CACHING
+// 📄 PDF CACHING
 // ===============================================================
 let pdfCache = {
   data: null,
@@ -199,7 +133,6 @@ async function getCachedPDFContent() {
   pdfCache.data = pdfContext;
   pdfCache.timestamp = now;
   
-  console.log(`✅ Cached ${pdfContents.length} PDFs`);
   return pdfContext;
 }
 
@@ -212,8 +145,6 @@ async function getAllPDFsFromStorage() {
       file.name.toLowerCase().endsWith('.pdf')
     );
     
-    console.log(`Found ${pdfFiles.length} PDF files`);
-    
     const pdfContents = [];
     
     for (const file of pdfFiles) {
@@ -221,19 +152,14 @@ async function getAllPDFsFromStorage() {
         const [buffer] = await file.download();
         const data = await pdfParse(buffer);
         
-        const fileName = file.name.split('/').pop();
-        
         pdfContents.push({
-          fileName: fileName,
-          displayName: fileName.replace('.pdf', '').replace(/-/g, ' ').toUpperCase(),
+          fileName: file.name.split('/').pop(),
           content: data.text,
           numPages: data.numpages
         });
         
-        console.log(`  ✓ ${fileName} (${data.numpages} pages)`);
-        
       } catch (error) {
-        console.error(`  ✗ ERROR reading ${file.name}: ${error.message}`);
+        console.error(`Error reading ${file.name}:`, error.message);
       }
     }
     
@@ -247,368 +173,388 @@ async function getAllPDFsFromStorage() {
 
 function formatPDFContext(pdfContents) {
   if (!pdfContents || pdfContents.length === 0) {
-    return "Khong co tai lieu PDF nao duoc tim thay.";
+    return "";
   }
   
-  let context = "TAI LIEU CHINH THUC TU BO GIAO DUC VA DAO TAO\n\n";
+  let context = "TAI LIEU PDF:\n\n";
   
   pdfContents.forEach((pdf, index) => {
-    context += `━━━ TAI LIEU ${index + 1}: ${pdf.displayName} ━━━\n`;
-    context += `Ten file: ${pdf.fileName}\n`;
-    context += `So trang: ${pdf.numPages}\n\n`;
-    context += `NOI DUNG:\n${pdf.content.substring(0, 4000)}\n`;
-    context += `${pdf.content.length > 4000 ? '...(con tiep)\n' : ''}\n\n`;
+    context += `--- ${pdf.fileName} ---\n`;
+    context += `${pdf.content.substring(0, 2500)}\n\n`;
   });
   
   return context;
 }
 
 // ===============================================================
-// 🔧 CLIENT INITIALIZATION
+// 🤖 GOOGLE GEMINI API - ULTRA FIXED
 // ===============================================================
-function initMegaLLMClient(apiKey) {
-  return new OpenAI({
-    baseURL: MEGALLM_CONFIG.baseURL,
-    apiKey: apiKey,
-    timeout: MEGALLM_CONFIG.defaultTimeout,
-    maxRetries: MEGALLM_CONFIG.maxRetries
-  });
-}
-
-// ===============================================================
-// 🔍 PERPLEXITY AI (with Real Google Search) - PAID
-// ===============================================================
-async function callPerplexity(systemPrompt, userMessage) {
-  const perplexityKey = process.env.PERPLEXITY_API_KEY || 
-    (functions.config().perplexity && functions.config().perplexity.key);
+async function callGeminiDirect(modelName, systemPrompt, userMessage, temperature = 0.7) {
+  const apiKeys = getAPIKeys();
   
-  if (!perplexityKey) {
-    throw new Error("PERPLEXITY_API_KEY not configured");
+  if (!apiKeys.gemini) {
+    throw new Error("GEMINI_API_KEY not configured");
   }
 
-  console.log(`🔍 Calling Perplexity with search capability...`);
-  console.log(`📝 Message length: ${userMessage.length} chars`);
-
-  try {
-    const response = await axios.post(
-      `${PERPLEXITY_CONFIG.baseURL}/chat/completions`,
-      {
-        model: PERPLEXITY_CONFIG.model,
-        messages: [
-          { 
-            role: 'system', 
-            content: systemPrompt 
-          },
-          { 
-            role: 'user', 
-            content: userMessage 
-          }
-        ],
-        temperature: 0.2, // Lower for factual accuracy
-        max_tokens: 2000,
-        // Perplexity automatically searches Google when needed
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${perplexityKey}`,
-          'Content-Type': 'application/json'
-        },
-        timeout: PERPLEXITY_CONFIG.timeout
-      }
-    );
-
-    const content = response.data.choices[0].message.content;
-    
-    // Check if Perplexity cited sources
-    const hasCitations = content.includes('[') || content.includes('nguồn') || content.includes('theo');
-    console.log(`✅ Perplexity response received (${content.length} chars)`);
-    console.log(`📚 Citations found: ${hasCitations ? 'YES' : 'NO'}`);
-    
-    return content;
-
-  } catch (error) {
-    console.error(`❌ Perplexity API error:`, error.response?.data || error.message);
-    throw new Error(`Perplexity failed: ${error.response?.data?.error || error.message}`);
-  }
-}
-
-// ===============================================================
-// 🤖 GEMINI 2.5 PRO (via MegaLLM) - PAID but BEST QUALITY
-// ===============================================================
-async function callGeminiPro(systemPrompt, userMessage, temperature = 0.7, maxTokens = 1500) {
-  const megaKey = process.env.MEGALLM_API_KEY || 
-    (functions.config().megallm && functions.config().megallm.key);
+  console.log(`🤖 Calling Google Gemini: ${modelName}...`);
   
-  if (!megaKey) {
-    throw new Error("MEGALLM_API_KEY not configured");
-  }
+  const genAI = new GoogleGenerativeAI(apiKeys.gemini);
+  const model = genAI.getGenerativeModel({ model: modelName });
 
-  const client = initMegaLLMClient(megaKey);
+  // ✅ ULTRA CLEAN: Remove ALL special chars AND newlines
+  const cleanSystemPrompt = systemPrompt
+    .replace(/[✅❌🔹📋💡🤖😊💪🌟]/g, '')
+    .replace(/━+/g, '---')
+    .replace(/[\u2500-\u257F]/g, '-')
+    .replace(/\n+/g, ' ')  // ← KEY FIX: Replace newlines with space
+    .replace(/\s+/g, ' ')  // Replace multiple spaces with single space
+    .trim();
 
-  const response = await client.chat.completions.create({
-    model: 'gemini-2.5-pro',
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: userMessage }
-    ],
-    temperature: temperature,
-    max_tokens: maxTokens
+  const chat = model.startChat({
+    generationConfig: {
+      temperature: temperature,
+      maxOutputTokens: 2000,
+    },
+    systemInstruction: cleanSystemPrompt
   });
 
-  return response.choices[0].message.content;
+  const result = await chat.sendMessage(userMessage);
+  const response = await result.response;
+  const text = response.text();
+  
+  console.log(`✅ Gemini response: ${text.length} chars`);
+  return text;
 }
 
 // ===============================================================
-// 🤖 GPT FALLBACK (via MegaLLM)
+// 🤖 OPENAI GPT API
 // ===============================================================
-async function callGPT(modelName, systemPrompt, userMessage, temperature = 0.7, maxTokens = 1200) {
-  const megaKey = process.env.MEGALLM_API_KEY || 
-    (functions.config().megallm && functions.config().megallm.key);
+async function callOpenAIDirect(modelName, systemPrompt, userMessage, temperature = 0.7) {
+  const apiKeys = getAPIKeys();
   
-  if (!megaKey) {
-    throw new Error("MEGALLM_API_KEY not configured");
+  if (!apiKeys.openai) {
+    throw new Error("OPENAI_API_KEY not configured");
   }
 
-  const client = initMegaLLMClient(megaKey);
+  console.log(`🤖 Calling OpenAI: ${modelName}...`);
+  
+  const openai = new OpenAI({
+    apiKey: apiKeys.openai
+  });
 
-  const response = await client.chat.completions.create({
+  const completion = await openai.chat.completions.create({
     model: modelName,
     messages: [
       { role: "system", content: systemPrompt },
       { role: "user", content: userMessage }
     ],
     temperature: temperature,
-    max_tokens: maxTokens
+    max_tokens: 2000
   });
 
-  return response.choices[0].message.content;
+  const text = completion.choices[0].message.content;
+  console.log(`✅ OpenAI response: ${text.length} chars`);
+  return text;
 }
 
 // ===============================================================
-// ROUTER AI - Phân loại câu hỏi
+// 🔍 PERPLEXITY AI
 // ===============================================================
-async function routeQuestion(question, megaClient) {
-  const routerPrompt = `
-Phan loai cau hoi vao 1 trong 4 loai. Chi tra loi CHINH XAC 1 tu:
-
-1. TUYEN_SINH - Cau hoi ve:
-   • Tuyen sinh dai hoc, diem chuan, ngành học, trường học
-   • Ky thi tot nghiep THPT
-   • Quy che thi, quy dinh Bo GD&DT
-   • DO VAT MANG VAO PHONG THI: May tinh cam tay (Casio, Vinacal, fx-570, fx-580, fx-991...)
-   • Chung chi ngoai ngu (IELTS, TOEFL, TOEIC, HSK, JLPT...), mien thi
-   • Ho so, thu tuc dang ky, giay to
-   • Phuong thuc xet tuyen, to hop mon
-   • Thoi gian thi, lich thi
-
-2. PHUONG_PHAP - Cau hoi ve:
-   • Cach hoc, phuong phap on thi
-   • Quan ly thoi gian hoc tap
-   • Ky nang ghi nho, hoc tap
-   • Ky thuat lam bai thi
-   • Cong cu hoc tap
-
-3. TAM_LY - Cau hoi ve:
-   • Tam ly thi cu, lo lang, stress
-   • Dong vien, tao dong luc
-   • Kho khan trong hoc tap
-   • Ap luc gia dinh, ban be
-   • Tu tin, khac phuc that bai
-
-4. KHAC - Cau hoi HOAN TOAN khong lien quan den hoc tap/tuyen sinh/giao duc
-   • Thoi tiet, nau an, the thao, giai tri, du lich...
-
-VI DU:
-- "Casio fx-570 co duoc phep khong?" → TUYEN_SINH (quy che thi)
-- "IELTS 5.0 co du khong?" → TUYEN_SINH (chung chi)
-- "Cach hoc tu vung" → PHUONG_PHAP
-- "Stress truoc thi" → TAM_LY
-- "Thoi tiet hom nay" → KHAC
-
-Cau hoi: "${question}"
-
-CHI TRA LOI 1 TU: TUYEN_SINH hoac PHUONG_PHAP hoac TAM_LY hoac KHAC
-`;
-
-  try {
-    const response = await megaClient.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: routerPrompt }],
-      temperature: 0,
-      max_tokens: 20
-    });
-
-    const category = response.choices[0].message.content.trim().toUpperCase();
-    console.log(`🧠 Router: "${question.substring(0, 40)}..." → ${category}`);
-    
-    return category;
-  } catch (error) {
-    console.error("❌ Router error:", error);
-    return "TUYEN_SINH"; // Fallback default
+async function callPerplexity(systemPrompt, userMessage) {
+  const apiKeys = getAPIKeys();
+  
+  if (!apiKeys.perplexity) {
+    throw new Error("PERPLEXITY_API_KEY not configured");
   }
+
+  console.log(`🔍 Calling Perplexity with search...`);
+
+  const response = await axios.post(
+    'https://api.perplexity.ai/chat/completions',
+    {
+      model: 'sonar',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userMessage }
+      ],
+      temperature: 0.2,
+      max_tokens: 2000,
+    },
+    {
+      headers: {
+        'Authorization': `Bearer ${apiKeys.perplexity}`,
+        'Content-Type': 'application/json'
+      },
+      timeout: 45000
+    }
+  );
+
+  return response.data.choices[0].message.content;
 }
 
 // ===============================================================
-// AI #1: TUYỂN SINH SPECIALIST
+// 🧠 ROUTER AI - FIX PRIORITY
+// ===============================================================
+async function routeQuestion(question) {
+  const lowerQ = question.toLowerCase();
+  
+  // ✅ CHECK PHUONG_PHAP FIRST (higher priority)
+  const methodKeywords = [
+    'cách học', 'cach hoc', 
+    'phương pháp học', 'phuong phap hoc',
+    'học hiệu quả', 'hoc hieu qua',
+    'làm sao để học', 'lam sao de hoc',
+    'học tốt', 'hoc tot',
+    'quản lý thời gian', 'quan ly thoi gian',
+    'ghi nhớ', 'ghi nho', 'học thuộc', 'hoc thuoc',
+    'ôn tập', 'on tap', 'ôn thi', 'on thi'
+  ];
+  
+  for (const keyword of methodKeywords) {
+    if (lowerQ.includes(keyword)) {
+      console.log(`🎯 Fast route: PHUONG_PHAP (keyword: "${keyword}")`);
+      return 'PHUONG_PHAP';
+    }
+  }
+  
+  // ✅ CHECK TAM_LY SECOND
+  const psychologyKeywords = [
+    'stress', 'áp lực', 'ap luc', 'lo lắng', 'lo lang',
+    'động viên', 'dong vien', 'tâm lý', 'tam ly',
+    'buồn', 'buon', 'chán', 'chan', 'mệt mỏi', 'met moi'
+  ];
+  
+  for (const keyword of psychologyKeywords) {
+    if (lowerQ.includes(keyword)) {
+      console.log(`🎯 Fast route: TAM_LY (keyword: "${keyword}")`);
+      return 'TAM_LY';
+    }
+  }
+  
+  // ✅ CHECK TUYEN_SINH LAST (default nếu không match)
+  const admissionKeywords = [
+    'ielts', 'toefl', 'toeic', 'miễn thi', 'mien thi',
+    'chứng chỉ', 'chung chi', 'điểm chuẩn', 'diem chuan',
+    'tuyển sinh', 'tuyen sinh', 'công văn', 'cong van',
+    'quyết định', 'quyet dinh', 'quy định', 'quy dinh',
+    'máy tính cầm tay', 'may tinh cam tay', 'casio', 'vinacal',
+    'phòng thi', 'phong thi', 'bộ giáo dục', 'bo giao duc'
+  ];
+  
+  for (const keyword of admissionKeywords) {
+    if (lowerQ.includes(keyword)) {
+      console.log(`🎯 Fast route: TUYEN_SINH (keyword: "${keyword}")`);
+      return 'TUYEN_SINH';
+    }
+  }
+  
+  // ✅ Default: Nếu không match gì → KHAC
+  console.log(`🎯 No keyword match → KHAC`);
+  return "KHAC";
+}
+
+// ===============================================================
+// AI #1: TUYỂN SINH - SPLIT STRATEGY
 // ===============================================================
 async function askTuyenSinhAI(question, pdfContext, needsSearch) {
-  const systemPrompt = `
-Ban la chuyen gia tuyen sinh NGHIEM NGAT cua Unipath.
-
-THONG TIN QUAN TRONG:
-- TAI LIEU CUA BAN: Nam hoc 2024-2025
-- NAM HIEN TAI: 2025
-${needsSearch ? '- Ban DANG CO KHA NANG TIM KIEM GOOGLE TRUC TIEP: Hay search de tim thong tin moi nhat, dac biet la diem chuan 2024/2025' : ''}
-- NEU hoi ve nam 2026+ va khong co trong tai lieu -> ${needsSearch ? 'TIM KIEM Google va trich dan nguon cu the' : 'Noi ro chua co thong tin'}
-
-NHIEM VU:
-- CHI tra loi cau hoi ve tuyen sinh DH/THPT
-- UU TIEN dung tai lieu chinh thuc duoi day
-${needsSearch ? '- Neu tai lieu khong co hoac can info moi -> TIM KIEM Google va TRICH DAN NGUON (link, ten bai viet)' : '- Neu tai lieu khong co -> Suy luan tu quy dinh chung hoac noi ro khong co thong tin'}
-- Tra loi CHINH XAC, RO RANG
-
-FORMAT TRA LOI:
-Theo [Ten tai lieu${needsSearch ? ' / Link nguon tim kiem' : ''}]...
-
-✓ CO/KHONG - Tra loi truc tiep
-
-LY DO:
-[Giai thich cu the]
-
-${needsSearch ? 'NGUON TIM KIEM:\n[Link hoac ten website neu search]' : ''}
-
-LUU Y:
-[Dieu can chu y]
-
-TAI LIEU CHINH THUC (NAM HOC 2024-2025):
-${pdfContext}
-
-KNOWLEDGE BASE:
-${KNOWLEDGE_BASE}
-
-QUY TAC:
-1. LUON trich dan nguon thong tin
-2. Tra loi TRUC TIEP truoc khi giai thich
-3. ${needsSearch ? 'NEU search Google, phai CITE link website cu the' : 'Suy luan hop ly tu tai lieu hien co'}
-4. NEU hoi ve nam 2026+ -> ${needsSearch ? 'TIM KIEM va noi ro "thong tin tam thoi tu nguon ..."' : 'Noi ro "chua co cong van chinh thuc"'}
-`;
-
-  if (needsSearch) {
-    // Use Perplexity (has real Google Search) - PAID but accurate
-    return await callPerplexity(systemPrompt, question);
-  } else {
-    // Use Gemini 2.5 Pro (best quality) - PAID
-    return await callGeminiPro(systemPrompt, question, 0.1, 1500);
+  const lowerQ = question.toLowerCase();
+  
+  // ✅ DETECT: Câu hỏi về KNOWLEDGE_BASE hay PDF?
+  const knowledgeBaseKeywords = [
+    'ielts', 'toefl', 'toeic', 'miễn thi', 'mien thi',
+    'chứng chỉ', 'chung chi', 'máy tính', 'may tinh',
+    'casio', 'vinacal', 'phòng thi', 'phong thi'
+  ];
+  
+  const pdfKeywords = [
+    'công văn', 'cong van', 'quyết định', 'quyet dinh',
+    'số', 'so', 'ban hành', 'ban hanh', 'bộ', 'bo',
+    'ngày', 'ngay', 'tháng', 'thang'
+  ];
+  
+  let useKnowledgeBase = false;
+  let usePDF = false;
+  
+  for (const kw of knowledgeBaseKeywords) {
+    if (lowerQ.includes(kw)) {
+      useKnowledgeBase = true;
+      break;
+    }
   }
+  
+  for (const kw of pdfKeywords) {
+    if (lowerQ.includes(kw)) {
+      usePDF = true;
+      break;
+    }
+  }
+  
+  // ✅ STRATEGY 1: KNOWLEDGE_BASE → GPT-4o Mini
+  if (useKnowledgeBase && !usePDF) {
+    console.log("📚 Using KNOWLEDGE_BASE (GPT-4o Mini)");
+    
+    const systemPrompt = `Ban la chuyen gia tuyen sinh DH Viet Nam. TRA LOI BANG TIENG VIET CO DAU. QUY DINH MIEN THI: IELTS >= 4.0, TOEFL iBT >= 45, TOEIC >= 550 duoc mien thi. Chung chi con han < 2 nam. MAY TINH: Duoc dung Casio fx-570/880/991, Vinacal 570ES/991ES. Khong duoc dung may co QWERTY, Word Processor. Tra loi ro rang theo quy dinh.`;
+
+    const userMessage = `VI DU: 
+Q: "IELTS 4.5 duoc mien thi khong?" 
+A: "ĐƯỢC MIỄN THI
+
+Căn cứ: Quy định kỳ thi tốt nghiệp THPT
+
+Chứng chỉ IELTS >= 4.0 được miễn thi môn Tiếng Anh. Chứng chỉ phải còn hạn (< 2 năm)."
+
+---
+
+CAU HOI: ${question}
+
+Tra loi BANG TIENG VIET CO DAU:`;
+
+    if (needsSearch) {
+      return await callPerplexity(systemPrompt, userMessage);
+    } else {
+      return await callOpenAIDirect('gpt-4o-mini', systemPrompt, userMessage, 0.0);
+    }
+  }
+  
+  // ✅ STRATEGY 2: PDF DOCUMENT → Gemini Flash
+  if (usePDF || (!useKnowledgeBase && pdfContext)) {
+    console.log("📄 Using PDF CONTEXT (Gemini Flash)");
+    
+    const systemPrompt = `Ban la chuyen gia tuyen sinh, doc va tra loi dua tren tai lieu. TRA LOI BANG TIENG VIET CO DAU. Tra loi ro rang theo tai lieu.`;
+
+    const shortPdfContext = pdfContext ? pdfContext.substring(0, 2500) : "";
+    
+    const userMessage = `TAI LIEU:
+
+${shortPdfContext}
+
+---
+
+CAU HOI: ${question}
+
+Tra loi BANG TIENG VIET CO DAU dua tren tai lieu tren (neu co):`;
+
+    if (needsSearch) {
+      return await callPerplexity(systemPrompt, userMessage);
+    } else {
+      const apiKeys = getAPIKeys();
+      if (apiKeys.gemini) {
+        try {
+          return await callGeminiDirect('gemini-2.5-flash', systemPrompt, userMessage, 0.1);
+        } catch (error) {
+          console.log(`⚠️ Gemini failed for PDF, trying GPT: ${error.message}`);
+          if (apiKeys.openai) {
+            return await callOpenAIDirect('gpt-4o-mini', systemPrompt, userMessage, 0.1);
+          }
+          throw error;
+        }
+      } else if (apiKeys.openai) {
+        return await callOpenAIDirect('gpt-4o-mini', systemPrompt, userMessage, 0.1);
+      }
+      throw new Error("No API keys available");
+    }
+  }
+  
+  // ✅ FALLBACK: Dùng GPT-4o Mini với cả 2
+  console.log("🔄 Using BOTH KB + PDF (GPT-4o Mini)");
+  
+  const systemPrompt = `Ban la chuyen gia tuyen sinh DH Viet Nam. TRA LOI BANG TIENG VIET CO DAU. QUY DINH: IELTS >= 4.0, TOEFL iBT >= 45, TOEIC >= 550 duoc mien thi. Tra loi theo quy dinh va tai lieu.`;
+
+  const shortPdfContext = pdfContext ? pdfContext.substring(0, 1500) : "";
+  const userMessage = `TAI LIEU: ${shortPdfContext}
+
+CAU HOI: ${question}
+
+Tra loi BANG TIENG VIET CO DAU:`;
+
+  return await callOpenAIDirect('gpt-4o-mini', systemPrompt, userMessage, 0.1);
 }
 
 // ===============================================================
-// AI #2: PHƯƠNG PHÁP HỌC
+// AI #2: PHƯƠNG PHÁP HỌC - KHÔNG DÙNG PDF
 // ===============================================================
 async function askPhuongPhapAI(question, needsSearch) {
-  const systemPrompt = `
-Ban la giao vien kinh nghiem 20 nam, chuyen huong dan phuong phap hoc hieu qua.
-
-${needsSearch ? 'Ban co the TIM KIEM phuong phap hoc tap moi nhat tren Google neu can. Hay trich dan nguon tin cay.' : ''}
-
-PHONG CACH:
-- Gan gui, than thien nhu anh/chi
-- Cu the, co vi du thuc te
-- Khong qua hoc thuat, de hieu
-- Cau truc ro rang: 1-2-3
-
-NHIEM VU:
-- Huong dan phuong phap hoc tap hieu qua
-- Chia se kinh nghiem on thi
-- Tu van quan ly thoi gian
-- Goi y ky thuat ghi nho, doc hieu
-
-FORMAT TRA LOI:
-[Gioi thieu ngan]
-
-BUOC 1: [Chi tiet]
-BUOC 2: [Chi tiet]
-BUOC 3: [Chi tiet]
-
-VI DU: [Vi du cu the]
-
-${needsSearch ? 'THAM KHAO:\n[Nguon neu search]' : ''}
-
-LUU Y: [Dieu can chu y]
-`;
+  const systemPrompt = `Ban la giao vien gioi, huong dan phuong phap hoc hieu qua. TRA LOI BANG TIENG VIET CO DAU. Phong cach gan gui, cu the, co vi du thuc te.`;
 
   if (needsSearch) {
     return await callPerplexity(systemPrompt, question);
   } else {
-    return await callGeminiPro(systemPrompt, question, 0.7, 1000);
+    // Ưu tiên GPT vì response tốt hơn và có dấu
+    const apiKeys = getAPIKeys();
+    if (apiKeys.openai) {
+      return await callOpenAIDirect('gpt-4o-mini', systemPrompt, question, 0.7);
+    } else if (apiKeys.gemini) {
+      try {
+        return await callGeminiDirect('gemini-2.5-flash', systemPrompt, question, 0.7);
+      } catch (error) {
+        throw new Error("Cannot answer without API keys");
+      }
+    }
+    throw new Error("No API keys available");
   }
 }
 
 // ===============================================================
-// AI #3: TÂM LÝ HỌC TẬP
+// AI #3: TÂM LÝ HỌC TẬP - KHÔNG DÙNG PDF
 // ===============================================================
 async function askTamLyAI(question, needsSearch) {
-  const systemPrompt = `
-Ban la chuyen vien tam ly hoc duong, am hieu tam tu cua hoc sinh/sinh vien.
-
-PHONG CACH:
-- Am ap, chan thanh, dong cam
-- Tich cuc, lac quan
-- Su dung emoji phu hop 😊💪🌟
-- Khong phe phan, khong hoc thuat
-- Noi nhu nguoi ban than
-
-NHIEM VU:
-- Dong vien tinh than hoc tap
-- Giai toa lo lang, stress, ap luc thi cu
-- Tao dong luc, tu tin
-- Tu van vuot qua kho khan tam ly
-
-FORMAT TRA LOI:
-[Dong cam voi cam xuc cua ban]
-
-[Tu van cu the 2-3 diem]
-
-[Dong vien, khich le]
-
-[Ket thuc bang cau tich cuc]
-`;
+  const systemPrompt = `Ban la chuyen vien tam ly hoc duong. TRA LOI BANG TIENG VIET CO DAU. Phong cach am ap, dong cam, tich cuc. Co the dung emoji phu hop.`;
 
   if (needsSearch) {
     return await callPerplexity(systemPrompt, question);
   } else {
-    return await callGeminiPro(systemPrompt, question, 0.9, 1000);
+    // Ưu tiên GPT vì response tốt hơn
+    const apiKeys = getAPIKeys();
+    if (apiKeys.openai) {
+      return await callOpenAIDirect('gpt-4o-mini', systemPrompt, question, 0.9);
+    } else if (apiKeys.gemini) {
+      try {
+        return await callGeminiDirect('gemini-2.5-flash', systemPrompt, question, 0.9);
+      } catch (error) {
+        throw new Error("Cannot answer without API keys");
+      }
+    }
+    throw new Error("No API keys available");
   }
 }
 
 // ===============================================================
 // 🔄 HYBRID FALLBACK CHAIN
-// Priority: Gemini 2.5 Pro → Perplexity (if search) → GPT-4o → GPT-4o-mini
 // ===============================================================
 async function callWithHybridFallback(category, question, pdfContext) {
-  const route = AI_ROUTING[category];
   const needsSearch = needsRealTimeSearch(question);
+  const apiKeys = getAPIKeys();
   
-  // Build attempt list based on search needs
   const attempts = [];
   
-  if (needsSearch) {
-    // If needs search, prioritize Perplexity (has real Google Search)
-    console.log(`🔍 Search mode activated - using Perplexity with Google Search`);
-    attempts.push({ model: route.searchFallback, label: 'Perplexity (Google Search)' });
-    attempts.push({ model: route.primary, label: 'Gemini 2.5 Pro (fallback)' });
-  } else {
-    // Standard flow: Gemini Pro first
-    attempts.push({ model: route.primary, label: 'Gemini 2.5 Pro' });
-    attempts.push({ model: route.searchFallback, label: 'Perplexity (fallback)' });
+  // ✅ Priority order based on question type
+  const lowerQ = question.toLowerCase();
+  const isPDFQuestion = lowerQ.includes('công văn') || lowerQ.includes('cong van') || 
+                        lowerQ.includes('quyết định') || lowerQ.includes('quyet dinh');
+  
+  if (needsSearch && apiKeys.perplexity) {
+    attempts.push({ model: 'perplexity-search', label: 'Perplexity Search' });
   }
   
-  // Add MegaLLM GPT fallbacks
-  if (route.megallmFallback) {
-    attempts.push({ model: route.megallmFallback, label: route.megallmFallback });
+  // If PDF question → Gemini first, else GPT first
+  if (isPDFQuestion && apiKeys.gemini) {
+    attempts.push({ model: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash' });
   }
-  if (route.finalFallback) {
-    attempts.push({ model: route.finalFallback, label: route.finalFallback });
+  
+  if (apiKeys.openai) {
+    attempts.push({ model: 'gpt-4o-mini', label: 'GPT-4o Mini' });
+  }
+  
+  if (!isPDFQuestion && apiKeys.gemini) {
+    attempts.push({ model: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash' });
+  }
+  
+  if (apiKeys.openai) {
+    attempts.push({ model: 'gpt-4o', label: 'GPT-4o' });
+  }
+  
+  if (attempts.length === 0) {
+    throw new Error("No API keys configured!");
   }
   
   for (let i = 0; i < attempts.length; i++) {
@@ -620,9 +566,7 @@ async function callWithHybridFallback(category, question, pdfContext) {
       const startTime = Date.now();
       let result;
       
-      // Route to appropriate AI function
       if (model === 'perplexity-search') {
-        // Use Perplexity (real Google Search)
         switch(category) {
           case 'TUYEN_SINH':
             result = await askTuyenSinhAI(question, pdfContext, true);
@@ -634,8 +578,7 @@ async function callWithHybridFallback(category, question, pdfContext) {
             result = await askTamLyAI(question, true);
             break;
         }
-      } else if (model === 'gemini-2.5-pro') {
-        // Use Gemini 2.5 Pro via MegaLLM
+      } else if (model.startsWith('gemini-')) {
         switch(category) {
           case 'TUYEN_SINH':
             result = await askTuyenSinhAI(question, pdfContext, false);
@@ -648,11 +591,18 @@ async function callWithHybridFallback(category, question, pdfContext) {
             break;
         }
       } else {
-        // Use GPT models via MegaLLM
-        const systemPrompt = category === 'TUYEN_SINH' 
-          ? `Tuyen sinh specialist. Context: ${pdfContext ? pdfContext.substring(0, 2000) : 'No PDF'}...`
-          : `${category} specialist`;
-        result = await callGPT(model, systemPrompt, question);
+        // OpenAI models
+        switch(category) {
+          case 'TUYEN_SINH':
+            result = await askTuyenSinhAI(question, pdfContext, false);
+            break;
+          case 'PHUONG_PHAP':
+            result = await askPhuongPhapAI(question, false);
+            break;
+          case 'TAM_LY':
+            result = await askTamLyAI(question, false);
+            break;
+        }
       }
       
       const callTime = Date.now() - startTime;
@@ -669,7 +619,7 @@ async function callWithHybridFallback(category, question, pdfContext) {
       console.error(`❌ ${label} failed:`, error.message);
       
       if (i === attempts.length - 1) {
-        throw new Error(`All AI providers failed: ${error.message}`);
+        throw new Error(`All AI providers failed. Last error: ${error.message}`);
       }
       
       console.log(`🔄 Falling back to ${attempts[i + 1].label}...`);
@@ -678,25 +628,21 @@ async function callWithHybridFallback(category, question, pdfContext) {
 }
 
 // ===============================================================
-// 📊 COST TRACKING
+// 💰 COST TRACKING
 // ===============================================================
-function logCostEstimate(modelLabel, tokenEstimate, searchMode) {
-  const PRICE_PER_1K = {
-    'Perplexity (Google Search)': 0.001,    // $1/1K requests ≈ $0.001/request
-    'Perplexity (fallback)': 0.001,
-    'Gemini 2.5 Pro': 0.0005,               // MegaLLM pricing
-    'Gemini 2.5 Pro (fallback)': 0.0005,
-    'gpt-4o-2024-11-20': 0.0025,
-    'gpt-4o-mini': 0.00015
+function logCostEstimate(modelLabel, tokenEstimate) {
+  const PRICE_PER_1M = {
+    'Perplexity Search': 1.0,
+    'Gemini 2.5 Flash': 0.075,
+    'GPT-4o Mini': 0.15,
+    'Gemini 2.5 Pro': 0.30,
+    'GPT-4o': 2.50
   };
   
-  const pricePerToken = PRICE_PER_1K[modelLabel] || 0.0005;
-  const estimatedCost = (tokenEstimate / 1000) * pricePerToken;
+  const pricePerMillion = PRICE_PER_1M[modelLabel] || 0.5;
+  const estimatedCost = (tokenEstimate / 1000000) * pricePerMillion;
   
-  console.log(`💰 Cost: ${estimatedCost.toFixed(6)} (${modelLabel})`);
-  if (searchMode) {
-    console.log(`🔍 Search mode: Using Perplexity with real-time Google Search`);
-  }
+  console.log(`💰 Estimated cost: ${estimatedCost.toFixed(6)} (${modelLabel})`);
 }
 
 // ===============================================================
@@ -725,64 +671,49 @@ exports.chatWithAI = functions
       if (!message) return res.status(400).send("message required");
 
       console.log(`\n${'='.repeat(70)}`);
-      console.log(`🚀 Unipath Perplexity v${VERSION}`);
+      console.log(`🚀 Unipath AI v${VERSION}`);
       console.log(`📝 Question: ${message}`);
       console.log('='.repeat(70));
 
-      const megaKey = process.env.MEGALLM_API_KEY || 
-        (functions.config().megallm && functions.config().megallm.key);
-
-      if (!megaKey) {
-        return res.status(500).json({ error: "MegaLLM API key not configured" });
-      }
-
-      const megaClient = initMegaLLMClient(megaKey);
       const startTime = Date.now();
-
-      // Step 1: Route question
-      const category = await routeQuestion(message, megaClient);
+      const category = await routeQuestion(message);
 
       let result;
 
       if (category === 'KHAC') {
         result = {
-          reply: `Mình chỉ chuyên tư vấn về 3 lĩnh vực thôi nha:
+          reply: `Xin chào! Mình chỉ chuyên tư vấn về:
 
-📚 TUYỂN SINH: Điểm chuẩn, quy chế thi, hồ sơ đăng ký
-📖 PHƯƠNG PHÁP HỌC: Cách học hiệu quả, quản lý thời gian
-💪 TÂM LÝ HỌC TẬP: Động viên, giải tỏa stress
+📚 TUYỂN SINH: IELTS/TOEFL/TOEIC, điểm chuẩn, quy chế thi, máy tính cầm tay
+📖 PHƯƠNG PHÁP HỌC: Cách học hiệu quả, quản lý thời gian, ôn tập
+💪 TÂM LÝ: Động viên, giải tỏa stress, lo lắng trước kỳ thi
 
-Về câu hỏi của bạn, mình không có chuyên môn để tư vấn chính xác. Bạn nên tìm hiểu thêm từ các nguồn khác nhé! 😊
-
-Còn về 3 lĩnh vực trên, mình luôn sẵn sàng giúp bạn! 🌟`,
+Câu hỏi của bạn có vẻ nằm ngoài các chủ đề trên. Bạn có câu hỏi nào khác không? 😊`,
           aiUsed: 'Router (Rejected)',
           callTimeMs: 0,
           searchMode: false
         };
       } else {
-        // Step 2: Get PDF if needed
-        let pdfContext = null;
-        if (category === 'TUYEN_SINH') {
-          console.log("\n📄 Getting PDF content...");
-          pdfContext = await getCachedPDFContent();
-        }
-
-        // Step 3: Hybrid AI call
+        const pdfContext = category === 'TUYEN_SINH' 
+          ? await getCachedPDFContent().catch(() => null)
+          : null;  // ← PHUONG_PHAP và TAM_LY KHÔNG dùng PDF
+        
         console.log(`\n🎯 Category: ${category}`);
+        if (category !== 'TUYEN_SINH' && pdfContext) {
+          console.log(`⚠️ ${category} doesn't need PDF, skipping...`);
+        }
+        
         result = await callWithHybridFallback(category, message, pdfContext);
         
-        // Log cost
         const tokenEstimate = message.length + result.reply.length + 
           (pdfContext ? pdfContext.length : 0);
-        logCostEstimate(result.aiUsed, tokenEstimate, result.searchMode);
+        logCostEstimate(result.aiUsed, tokenEstimate);
       }
 
       const totalTime = Date.now() - startTime;
 
       console.log(`\n✅ AI Used: ${result.aiUsed}`);
-      console.log(`🔍 Search Mode: ${result.searchMode ? 'YES (Perplexity)' : 'NO (Gemini Pro)'}`);
       console.log(`⏱️  Total: ${totalTime}ms`);
-      console.log(`📤 Preview: ${result.reply.substring(0, 150)}...`);
       console.log('='.repeat(70) + '\n');
 
       res.json({ 
@@ -792,10 +723,7 @@ Còn về 3 lĩnh vực trên, mình luôn sẵn sàng giúp bạn! 🌟`,
           category,
           version: VERSION,
           processingTimeMs: totalTime,
-          aiCallTimeMs: result.callTimeMs,
-          pdfCached: category === 'TUYEN_SINH' && pdfCache.data !== null,
           searchMode: result.searchMode || false,
-          hybrid: true,
           timestamp: new Date().toISOString()
         }
       });
@@ -803,14 +731,14 @@ Còn về 3 lĩnh vực trên, mình luôn sẵn sàng giúp bạn! 🌟`,
     } catch (err) {
       console.error("❌ ERROR:", err);
       res.status(500).json({ 
-        error: "Loi server. Vui long thu lai.",
-        details: process.env.NODE_ENV === 'development' ? err.message : undefined
+        error: "Lỗi server. Vui lòng thử lại.",
+        details: err.message
       });
     }
   });
 
 // ===============================================================
-// Upload PDF
+// UPLOAD PDF
 // ===============================================================
 exports.uploadDocument = functions.https.onRequest(async (req, res) => {
   res.set('Access-Control-Allow-Origin', '*');
@@ -837,22 +765,15 @@ exports.uploadDocument = functions.https.onRequest(async (req, res) => {
     const buffer = Buffer.from(fileData, 'base64');
     
     await file.save(buffer, {
-      metadata: { 
-        contentType: 'application/pdf',
-        metadata: {
-          uploadedAt: new Date().toISOString()
-        }
-      }
+      metadata: { contentType: 'application/pdf' }
     });
 
     pdfCache.data = null;
     pdfCache.timestamp = null;
-    console.log(`✓ Uploaded: ${fileName}`);
 
     res.json({ 
       success: true, 
-      message: `Da upload ${fileName} thanh cong`,
-      timestamp: new Date().toISOString()
+      message: `Đã upload ${fileName} thành công`
     });
 
   } catch (err) {
@@ -862,195 +783,33 @@ exports.uploadDocument = functions.https.onRequest(async (req, res) => {
 });
 
 // ===============================================================
-// List Documents
-// ===============================================================
-exports.listDocuments = functions.https.onRequest(async (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*');
-  
-  try {
-    const bucket = admin.storage().bucket();
-    const [files] = await bucket.getFiles({ prefix: 'documents/' });
-    
-    const pdfFiles = files
-      .filter(file => file.name.toLowerCase().endsWith('.pdf'))
-      .map(file => ({
-        name: file.name.split('/').pop(),
-        path: file.name,
-        size: file.metadata.size,
-        updated: file.metadata.updated
-      }));
-    
-    res.json({
-      total: pdfFiles.length,
-      files: pdfFiles
-    });
-    
-  } catch (err) {
-    console.error("❌ ERROR:", err);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// ===============================================================
-// Debug PDF Content
-// ===============================================================
-exports.debugPDFContent = functions.https.onRequest(async (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*');
-  
-  try {
-    const pdfContents = await getAllPDFsFromStorage();
-    
-    const debug = pdfContents.map(pdf => ({
-      fileName: pdf.fileName,
-      displayName: pdf.displayName,
-      numPages: pdf.numPages,
-      contentPreview: pdf.content.substring(0, 500) + '...',
-      contentLength: pdf.content.length
-    }));
-    
-    res.json({
-      totalDocuments: pdfContents.length,
-      documents: debug
-    });
-    
-  } catch (err) {
-    console.error("❌ ERROR:", err);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// ===============================================================
-// Clear Cache
-// ===============================================================
-exports.clearCache = functions.https.onRequest(async (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*');
-  
-  pdfCache.data = null;
-  pdfCache.timestamp = null;
-  
-  res.json({ 
-    success: true,
-    message: "Cache cleared",
-    timestamp: new Date().toISOString()
-  });
-});
-
-// ===============================================================
-// Version Check
+// VERSION CHECK
 // ===============================================================
 exports.version = functions.https.onRequest(async (req, res) => {
   res.set('Access-Control-Allow-Origin', '*');
-  res.json({ 
-    version: VERSION,
-    architecture: 'Perplexity Integration',
-    strategy: {
-      description: 'Smart routing based on search needs - Real Google Search via Perplexity',
-      standardMode: {
-        model: 'Gemini 2.5 Pro (via MegaLLM)',
-        cost: 'Paid (~$0.50/1M tokens)',
-        features: ['Best quality', 'PDF native', 'Structured reasoning']
-      },
-      searchMode: {
-        model: 'Perplexity AI (llama-3.1-sonar-large-128k-online)',
-        cost: 'Paid (~$1/1K requests)',
-        features: ['Real Google Search', 'Real-time info', 'Citations', 'Current events']
-      }
-    },
-    searchDetection: {
-      keywords: SEARCH_KEYWORDS.length,
-      futureYears: '2026-2099',
-      autoSwitch: true,
-      sampleKeywords: SEARCH_KEYWORDS.slice(0, 10)
-    },
-    fallbackChain: [
-      'Gemini 2.5 Pro / Perplexity (auto-select based on need)',
-      'GPT-4o-2024-11-20',
-      'GPT-4o-mini'
-    ],
-    providers: {
-      geminiPro: {
-        name: 'Gemini 2.5 Pro',
-        via: 'MegaLLM API',
-        cost: 'Paid',
-        useCase: 'Standard queries, PDF analysis'
-      },
-      perplexity: {
-        name: 'Perplexity AI (Sonar Large)',
-        via: 'Direct Perplexity API',
-        cost: 'Paid ($1/1K requests)',
-        useCase: 'Real-time search, admission scores, current info',
-        capabilities: ['Google Search', 'Citations', 'Up-to-date info']
-      },
-      gptFallback: {
-        models: ['GPT-4o', 'GPT-4o-mini'],
-        via: 'MegaLLM API'
-      }
-    },
-    features: [
-      'Hybrid AI routing (quality vs search)',
-      'Real-time Google Search via Perplexity',
-      'Auto-detect search needs (điểm chuẩn, admission scores)',
-      'PDF Caching (1 hour)',
-      '4-tier fallback chain',
-      'Source citations from Perplexity'
-    ],
-    cacheStatus: {
-      active: pdfCache.data !== null,
-      timestamp: pdfCache.timestamp,
-      expiresIn: pdfCache.timestamp ? 
-        Math.max(0, pdfCache.expiryMs - (Date.now() - pdfCache.timestamp)) : 0
-    },
-    configuration: {
-      perplexityKey: !!(process.env.PERPLEXITY_API_KEY || (functions.config().perplexity && functions.config().perplexity.key)),
-      megallmKey: !!(process.env.MEGALLM_API_KEY || (functions.config().megallm && functions.config().megallm.key))
-    },
-    timestamp: new Date().toISOString(),
-    status: "running"
-  });
-});
-
-// ===============================================================
-// 🧪 DEBUG SEARCH DETECTION
-// ===============================================================
-exports.debugSearch = functions.https.onRequest(async (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*');
   
-  const question = req.query.q || "điểm chuẩn bách khoa hcm";
-  const lowerQuestion = question.toLowerCase();
-  
-  const matches = [];
-  for (const keyword of SEARCH_KEYWORDS) {
-    const lowerKeyword = keyword.toLowerCase();
-    const found = lowerQuestion.includes(lowerKeyword);
-    if (found) {
-      matches.push({
-        keyword: keyword,
-        normalized: lowerKeyword,
-        position: lowerQuestion.indexOf(lowerKeyword)
-      });
-    }
-  }
-  
-  const needsSearch = needsRealTimeSearch(question);
+  const apiKeys = getAPIKeys();
   
   res.json({
-    test: "Debug Search Detection",
-    question: question,
-    normalized: lowerQuestion,
-    needsSearch: needsSearch,
-    willUse: needsSearch ? 'Perplexity (Google Search)' : 'Gemini 2.5 Pro',
-    totalKeywords: SEARCH_KEYWORDS.length,
-    matchedKeywords: matches,
-    matchCount: matches.length,
-    debugChecks: {
-      hasDiem: lowerQuestion.includes('điểm'),
-      hasDiemNoAccent: lowerQuestion.includes('diem'),
-      hasBachKhoa: lowerQuestion.includes('bách khoa'),
-      hasBachKhoaNoAccent: lowerQuestion.includes('bach khoa'),
-      hasDiemChuan: lowerQuestion.includes('điểm chuẩn'),
-      hasDiemChuanNoAccent: lowerQuestion.includes('diem chuan')
+    version: VERSION,
+    status: "✅ Unipath AI - Split Strategy",
+    strategy: {
+      knowledgeBase: "GPT-4o Mini (IELTS, TOEFL, máy tính)",
+      pdfReader: "Gemini Flash (Công văn, quyết định)",
+      routing: "Auto-detect based on keywords"
     },
-    firstTenKeywords: SEARCH_KEYWORDS.slice(0, 10),
-    lastTenKeywords: SEARCH_KEYWORDS.slice(-10)
+    improvements: [
+      "✅ Split KB vs PDF handling",
+      "✅ GPT-4o Mini for KNOWLEDGE_BASE (fast, cheap)",
+      "✅ Gemini Flash for PDF reading (accurate)",
+      "✅ Smart routing based on question type",
+      "✅ Cost tracking per request"
+    ],
+    apiKeys: {
+      gemini: !!apiKeys.gemini,
+      openai: !!apiKeys.openai,
+      perplexity: !!apiKeys.perplexity
+    },
+    routing: AI_ROUTING
   });
 });

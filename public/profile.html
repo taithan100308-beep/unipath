@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hồ sơ của tôi - Unipath</title>
+  <link rel="stylesheet" href="navbar.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a2463 0%, #1e3a8a 50%, #3b5998 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      padding-top: 90px;
+      padding-bottom: 3rem;
+    }
+
+    .profile-container {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Profile Header */
+    .profile-header {
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      border-radius: 2rem;
+      padding: 3rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .profile-avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: white;
+    }
+
+    .profile-info {
+      flex: 1;
+      min-width: 250px;
+      color: white;
+    }
+
+    .profile-name {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-email {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 1rem;
+    }
+
+    .profile-stats-quick {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .quick-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 1rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .quick-stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .quick-stat-label {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-top: 0.3rem;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .stat-card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, #3b82f6, #1e40af);
+      color: white;
+    }
+
+    .stat-card-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #1e40af;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #0a2463;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+
+    /* Progress Bars */
+    .progress-section {
+      margin-top: 2rem;
+    }
+
+    .progress-item {
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-name {
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .progress-percent {
+      font-weight: 600;
+      color: #3b82f6;
+    }
+
+    .progress-bar-bg {
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #1e40af);
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
+
+    /* Subject List */
+    .subject-list {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .subject-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background: #f8fafc;
+      border-radius: 1rem;
+      border-left: 4px solid #3b82f6;
+    }
+
+    .subject-name {
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .subject-time {
+      font-weight: 600;
+      color: #3b82f6;
+    }
+
+    /* Flashcard Stats */
+    .flashcard-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .flashcard-stat-item {
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border-radius: 1rem;
+      text-align: center;
+      border: 2px solid #bfdbfe;
+    }
+
+    .flashcard-stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1e40af;
+      margin-bottom: 0.3rem;
+    }
+
+    .flashcard-stat-label {
+      font-size: 0.85rem;
+      color: #475569;
+    }
+
+    /* Activity Calendar */
+    .activity-calendar {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .calendar-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1e40af;
+      margin-bottom: 1.5rem;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      border-radius: 0.5rem;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: #64748b;
+      transition: all 0.2s;
+    }
+
+    .calendar-day.active {
+      background: linear-gradient(135deg, #3b82f6, #1e40af);
+      color: white;
+      font-weight: 600;
+    }
+
+    .calendar-day.today {
+      border: 2px solid #3b82f6;
+    }
+
+    /* Achievements */
+    .achievements-section {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin-top: 2rem;
+    }
+
+    .achievements-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1e40af;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .achievement-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border-radius: 1rem;
+      border: 2px solid #bfdbfe;
+      transition: transform 0.3s;
+    }
+
+    .achievement-badge:hover {
+      transform: scale(1.05);
+    }
+
+    .achievement-badge.locked {
+      opacity: 0.4;
+      filter: grayscale(100%);
+    }
+
+    .achievement-icon {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .achievement-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1e40af;
+      text-align: center;
+    }
+
+    .logout-icon {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+      vertical-align: middle;
+    }
+
+    .logout-btn {
+      background: #ccc;
+      border: 1px solid #999;
+      color: #000;
+      padding: 5px 11px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logout-btn:hover {
+      background: #bbb;
+    }
+
+    @media (max-width: 768px) {
+      .profile-header {
+        padding: 2rem;
+      }
+
+      .profile-avatar {
+        width: 100px;
+        height: 100px;
+        font-size: 3rem;
+      }
+
+      .profile-name {
+        font-size: 1.8rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .calendar-grid {
+        grid-template-columns: repeat(7, 1fr);
+        gap: 0.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="profile-container">
+    <!-- Profile Header -->
+    <div class="profile-header">
+      <div class="profile-avatar" id="profileAvatar">👤</div>
+      <div class="profile-info">
+        <h1 class="profile-name" id="profileName">Người dùng</h1>
+        <p class="profile-email" id="profileEmail">user@example.com</p>
+        <div class="profile-stats-quick">
+          <div class="quick-stat">
+            <div class="quick-stat-number" id="totalDaysActive">0</div>
+            <div class="quick-stat-label">Ngày hoạt động</div>
+          </div>
+          <div class="quick-stat">
+            <div class="quick-stat-number" id="currentStreak">0</div>
+            <div class="quick-stat-label">Chuỗi ngày liên tiếp</div>
+          </div>
+          <div class="quick-stat">
+            <div class="quick-stat-number" id="totalXP">0</div>
+            <div class="quick-stat-label">Điểm kinh nghiệm</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <!-- Study Time Card -->
+      <div class="stat-card">
+        <div class="stat-card-header">
+          <div class="stat-icon">⏱️</div>
+          <div class="stat-card-title">Thời gian học</div>
+        </div>
+        <div class="stat-value" id="totalStudyTime">0h 0m</div>
+        <div class="stat-label">Tổng thời gian</div>
+        <div class="progress-section">
+          <div class="progress-item">
+            <div class="progress-header">
+              <span class="progress-name">Tuần này</span>
+              <span class="progress-percent" id="weekProgress">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="weekProgressBar" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flashcard Card -->
+      <div class="stat-card">
+        <div class="stat-card-header">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-card-title">Flashcard</div>
+        </div>
+        <div class="flashcard-stats-grid">
+          <div class="flashcard-stat-item">
+            <div class="flashcard-stat-number" id="totalFlashcards">0</div>
+            <div class="flashcard-stat-label">Tổng số thẻ</div>
+          </div>
+          <div class="flashcard-stat-item">
+            <div class="flashcard-stat-number" id="dueFlashcards">0</div>
+            <div class="flashcard-stat-label">Cần ôn hôm nay</div>
+          </div>
+          <div class="flashcard-stat-item">
+            <div class="flashcard-stat-number" id="masteredFlashcards">0</div>
+            <div class="flashcard-stat-label">Đã thành thạo</div>
+          </div>
+          <div class="flashcard-stat-item">
+            <div class="flashcard-stat-number" id="retentionRate">0%</div>
+            <div class="flashcard-stat-label">Tỷ lệ nhớ</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subjects Card -->
+      <div class="stat-card">
+        <div class="stat-card-header">
+          <div class="stat-icon">📚</div>
+          <div class="stat-card-title">Môn học</div>
+        </div>
+        <div class="subject-list" id="subjectList">
+          <div class="subject-item">
+            <span class="subject-name">Chưa có dữ liệu</span>
+            <span class="subject-time">0m</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Calendar -->
+    <div class="activity-calendar">
+      <h2 class="calendar-title">📅 Lịch hoạt động 30 ngày gần nhất</h2>
+      <div class="calendar-grid" id="activityCalendar"></div>
+    </div>
+
+    <!-- Achievements -->
+    <div class="achievements-section">
+      <h2 class="achievements-title">🏆 Thành tựu</h2>
+      <div class="achievements-grid" id="achievementsGrid"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+    import { firebaseConfig } from "./firebase-config.js";
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+
+    // Achievements definitions
+    const achievements = [
+      { id: 'first_day', icon: '🎉', name: 'Ngày đầu tiên', condition: (data) => data.totalDays >= 1 },
+      { id: 'week_warrior', icon: '💪', name: 'Chiến binh 1 tuần', condition: (data) => data.streak >= 7 },
+      { id: 'flashcard_master', icon: '🎓', name: 'Chuyên gia Flashcard', condition: (data) => data.totalFlashcards >= 50 },
+      { id: 'time_keeper', icon: '⏰', name: 'Người giữ thời gian', condition: (data) => data.totalMinutes >= 600 },
+      { id: 'perfect_week', icon: '✨', name: 'Tuần hoàn hảo', condition: (data) => data.weeklyStudy >= 1000 },
+      { id: 'dedication', icon: '🔥', name: 'Sự cống hiến', condition: (data) => data.streak >= 30 },
+      { id: 'knowledge_seeker', icon: '📖', name: 'Người tìm kiếm tri thức', condition: (data) => data.masteredCards >= 100 },
+      { id: 'consistent', icon: '🎯', name: 'Nhất quán', condition: (data) => data.totalDays >= 50 }
+    ];
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUser = user;
+        document.getElementById('profileName').textContent = user.displayName || 'Người dùng';
+        document.getElementById('profileEmail').textContent = user.email || '';
+        
+        if (user.photoURL) {
+          document.getElementById('profileAvatar').innerHTML = `<img src="${user.photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+        } else {
+          document.getElementById('profileAvatar').textContent = (user.displayName || 'U')[0].toUpperCase();
+        }
+        
+        await loadAllData();
+      } else {
+        window.location.href = "index.html";
+      }
+    });
+
+    async function loadAllData() {
+      const studyData = await loadStudyData();
+      const flashcardData = await loadFlashcardData();
+      
+      renderStats(studyData, flashcardData);
+      renderActivityCalendar(studyData.dailyStats);
+      renderAchievements(studyData, flashcardData);
+    }
+
+    async function loadStudyData() {
+      const ref = doc(db, "studyTime", currentUser.uid);
+      try {
+        const snap = await getDoc(ref);
+        if (snap.exists()) {
+          return snap.data();
+        }
+      } catch (error) {
+        console.error("Lỗi load study data:", error);
+      }
+      return { tasks: {}, dailyStats: {} };
+    }
+
+    async function loadFlashcardData() {
+      try {
+        const savedSets = localStorage.getItem('flashcardSets');
+        if (savedSets) {
+          return JSON.parse(savedSets);
+        }
+      } catch (error) {
+        console.error("Lỗi load flashcard data:", error);
+      }
+      return {};
+    }
+
+    function renderStats(studyData, flashcardData) {
+      // Study Time Stats
+      const tasks = studyData.tasks || {};
+      const dailyStats = studyData.dailyStats || {};
+      
+      let totalSeconds = 0;
+      Object.values(tasks).forEach(task => {
+        totalSeconds += task.time || 0;
+      });
+      
+      const hours = Math.floor(totalSeconds / 3600);
+      const mins = Math.floor((totalSeconds % 3600) / 60);
+      document.getElementById('totalStudyTime').textContent = `${hours}h ${mins}m`;
+
+      // Week progress
+      const today = new Date();
+      const weekStart = new Date(today.setDate(today.getDate() - today.getDay()));
+      let weekMinutes = 0;
+      
+      Object.entries(dailyStats).forEach(([date, dayData]) => {
+        const dateObj = new Date(date);
+        if (dateObj >= weekStart) {
+          const daySeconds = Object.values(dayData).reduce((sum, time) => sum + time, 0);
+          weekMinutes += daySeconds / 60;
+        }
+      });
+      
+      const weekGoal = 600; // 10 hours per week
+      const weekPercent = Math.min(100, Math.round((weekMinutes / weekGoal) * 100));
+      document.getElementById('weekProgress').textContent = `${weekPercent}%`;
+      document.getElementById('weekProgressBar').style.width = `${weekPercent}%`;
+
+      // Subjects
+      const subjectList = document.getElementById('subjectList');
+      subjectList.innerHTML = '';
+      
+      const sortedTasks = Object.entries(tasks)
+        .sort((a, b) => (b[1].time || 0) - (a[1].time || 0))
+        .slice(0, 5);
+      
+      if (sortedTasks.length === 0) {
+        subjectList.innerHTML = '<div class="subject-item"><span class="subject-name">Chưa có dữ liệu</span><span class="subject-time">0m</span></div>';
+      } else {
+        sortedTasks.forEach(([key, task]) => {
+          const taskMinutes = Math.floor((task.time || 0) / 60);
+          const div = document.createElement('div');
+          div.className = 'subject-item';
+          div.innerHTML = `
+            <span class="subject-name">${task.displayName || task.name}</span>
+            <span class="subject-time">${taskMinutes}m</span>
+          `;
+          subjectList.appendChild(div);
+        });
+      }
+
+      // Flashcard Stats
+      const now = Date.now();
+      let totalCards = 0, dueCards = 0, masteredCards = 0, totalReviews = 0, successfulReviews = 0;
+
+      Object.values(flashcardData).forEach(set => {
+        if (set.cards) {
+          set.cards.forEach(card => {
+            totalCards++;
+            if (card.dueDate <= now) dueCards++;
+            if (card.state === 'review' && card.interval >= 21) masteredCards++;
+            totalReviews += card.reviewCount || 0;
+            if (card.state === 'review') successfulReviews += card.reviewCount || 0;
+          });
+        }
+      });
+
+      const retention = totalReviews > 0 ? Math.round((successfulReviews / totalReviews) * 100) : 0;
+
+      document.getElementById('totalFlashcards').textContent = totalCards;
+      document.getElementById('dueFlashcards').textContent = dueCards;
+      document.getElementById('masteredFlashcards').textContent = masteredCards;
+      document.getElementById('retentionRate').textContent = `${retention}%`;
+
+      // Activity Stats
+      const activeDays = Object.keys(dailyStats).length;
+      const streak = calculateStreak(dailyStats);
+      const xp = Math.floor(totalSeconds / 60) + (totalCards * 5) + (masteredCards * 20);
+
+      document.getElementById('totalDaysActive').textContent = activeDays;
+      document.getElementById('currentStreak').textContent = streak;
+      document.getElementById('totalXP').textContent = xp;
+    }
+
+    function calculateStreak(dailyStats) {
+      const sortedDates = Object.keys(dailyStats).sort().reverse();
+      if (sortedDates.length === 0) return 0;
+
+      const today = new Date().toISOString().split('T')[0];
+      const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+      
+      if (sortedDates[0] !== today && sortedDates[0] !== yesterday) return 0;
+
+      let streak = 1;
+      for (let i = 1; i < sortedDates.length; i++) {
+        const current = new Date(sortedDates[i-1]);
+        const previous = new Date(sortedDates[i]);
+        const diffDays = Math.round((current - previous) / 86400000);
+        
+        if (diffDays === 1) {
+          streak++;
+        } else {
+          break;
+        }
+      }
+      
+      return streak;
+    }
+
+    function renderActivityCalendar(dailyStats) {
+      const calendar = document.getElementById('activityCalendar');
+      calendar.innerHTML = '';
+      
+      const today = new Date();
+      const dates = [];
+      
+      for (let i = 29; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i);
+        dates.push(date);
+      }
+
+      dates.forEach(date => {
+        const dateStr = date.toISOString().split('T')[0];
+        const hasActivity = dailyStats && dailyStats[dateStr];
+        const isToday = dateStr === new Date().toISOString().split('T')[0];
+        
+        const div = document.createElement('div');
+        div.className = 'calendar-day';
+        if (hasActivity) div.classList.add('active');
+        if (isToday) div.classList.add('today');
+        div.textContent = date.getDate();
+        
+        calendar.appendChild(div);
+      });
+    }
+
+    function renderAchievements(studyData, flashcardData) {
+      const grid = document.getElementById('achievementsGrid');
+      grid.innerHTML = '';
+
+      const tasks = studyData.tasks || {};
+      const dailyStats = studyData.dailyStats || {};
+      
+      let totalSeconds = 0;
+      Object.values(tasks).forEach(task => {
+        totalSeconds += task.time || 0;
+      });
+
+      let totalCards = 0, masteredCards = 0;
+      Object.values(flashcardData).forEach(set => {
+        if (set.cards) {
+          totalCards += set.cards.length;
+          masteredCards += set.cards.filter(c => c.state === 'review' && c.interval >= 21).length;
+        }
+      });
+
+      const achievementData = {
+        totalDays: Object.keys(dailyStats).length,
+        streak: calculateStreak(dailyStats),
+        totalFlashcards: totalCards,
+        totalMinutes: Math.floor(totalSeconds / 60),
+        weeklyStudy: 0,
+        masteredCards: masteredCards
+      };
+
+      achievements.forEach(achievement => {
+        const unlocked = achievement.condition(achievementData);
+        const div = document.createElement('div');
+        div.className = `achievement-badge ${unlocked ? '' : 'locked'}`;
+        div.innerHTML = `
+          <div class="achievement-icon">${achievement.icon}</div>
+          <div class="achievement-name">${achievement.name}</div>
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    // Logout handler
+    document.getElementById('logoutNavBtn')?.addEventListener('click', async () => {
+      try {
+        await signOut(auth);
+        window.location.href = 'index.html';
+      } catch (error) {
+        console.error('Lỗi đăng xuất:', error);
+      }
+    });
+  </script>
+</body>
+</html>
